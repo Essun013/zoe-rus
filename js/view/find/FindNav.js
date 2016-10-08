@@ -5,7 +5,6 @@
 import React, {Component} from 'react'
 import {Navigator, Text, PixelRatio, StatusBar, View, TouchableOpacity} from 'react-native'
 import Find from './Find';
-// import navigationBar from 'HSNavBar'
 
 var NavBar = {
     LeftButton(route, navigator, index, navState) {
