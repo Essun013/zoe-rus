@@ -19,11 +19,9 @@ var NavBar = {
     Title(route, navigator, index, navState) {
         return (
             <View>
-                <StatusBar
-                    backgroundColor='#ff4368'
-                />
+                <StatusBar backgroundColor='#ff4368'/>
                 <Text style={{fontSize: 18, lineHeight: 35, color: 'rgb(255, 255, 255)'}}>
-                    9月28日
+                    {route.title}
                 </Text>
             </View>
         );
@@ -53,7 +51,7 @@ class HomeNav extends Component {
                         routeMapper={NavBar}
                         navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                 }
-                initialRoute={{component: Home, name: 'home'}}
+                initialRoute={{component: Home, title: '9月28日'}}
                 renderScene={this.renderScene.bind(this)}/>
         )
     }

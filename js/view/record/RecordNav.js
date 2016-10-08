@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import {Navigator, Text, PixelRatio, StatusBar, View, TouchableOpacity} from 'react-native';
-import Home from './Record';
+import Record from './Record';
 // import navigationBar from 'HSNavBar'
 
 var NavBar = {
@@ -19,7 +19,7 @@ var NavBar = {
             <View>
                 <StatusBar backgroundColor='#ff4368'/>
                 <Text style={{fontSize: 18, lineHeight: 35, color: 'rgb(255, 255, 255)'}}>
-                    记录
+                    {route.title}
                 </Text>
             </View>
         );
@@ -49,7 +49,7 @@ class RecordNav extends Component {
                         routeMapper={NavBar}
                         navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                 }
-                initialRoute={{component: Home, name: 'home'}}
+                initialRoute={{component: Record, title: '记录'}}
                 renderScene={this.renderScene.bind(this)}/>
         )
     }

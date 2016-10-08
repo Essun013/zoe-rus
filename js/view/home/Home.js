@@ -16,7 +16,7 @@ class Home extends Component {
         return (
             <ScrollView style={{backgroundColor: 'white'}}>
                 <View style={styles.hero}>
-                    <Text>Buttons</Text>
+                    <Text>我是首页</Text>
                 </View>
             </ScrollView>
         )
