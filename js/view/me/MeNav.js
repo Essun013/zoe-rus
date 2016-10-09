@@ -29,7 +29,7 @@ export default class MeNav extends Component {
 
     render() {
         return (
-            <Nav route={{component: Me, title: '我'}} barStyle={{backgroundColor: '#ff4368'}}
+            <Nav route={{component: Me, title: '我'}} barStyle={{backgroundColor: '#ff5680'}}
                  renderScene={this.renderScene.bind(this)} configureScene={this.configureScene.bind(this)}/>
         )
     }
