@@ -3,12 +3,12 @@
  */
 
 import React, {Component} from 'react'
-import {Navigator, Text, StatusBar, View, TouchableOpacity, Alert, StyleSheet} from 'react-native';
+import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 var NavBar = {
     LeftButton(route, navigator, index, navState) {
-        if (index == 0) {
+        if (index > 0) {
             return (
                 <View style={styles.navContainer}>
                     <TouchableOpacity
@@ -20,7 +20,7 @@ var NavBar = {
                         }}>
                         <Icon
                             style={styles.leftNavButtonText}
-                            name='chevron-left' />
+                            name='chevron-left'/>
                     </TouchableOpacity>
                 </View>
             );

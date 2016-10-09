@@ -9,7 +9,7 @@ import {
 
 import {ListItem,List,Text} from '../../components';
 import BasicInfo from './basic-info/BasicInfo';
-import navPush from '../../components/Nav/Nav';
+import {navPush} from '../../components/Nav/Nav';
 
 const log = () => console.log('this is an example method');
 
