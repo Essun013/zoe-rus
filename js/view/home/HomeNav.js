@@ -28,9 +28,9 @@ var NavBar = {
     }
 };
 
-class HomeNav extends Component {
-    constructor() {
-        super();
+export default class HomeNav extends Component {
+    constructor(props) {
+        super(props);
         this.renderScene = this.renderScene.bind(this);
     }
 
@@ -44,37 +44,7 @@ class HomeNav extends Component {
     render() {
         const {toggleSideMenu} = this.props;
         return (
-            <Nav route={{component: Home, title: '9月28日'}} barStyle={{backgroundColor: '#ff4368'}} renderScene={this.renderScene.bind(this)} leftButton={(route, navigator, index, navState) => {
-                if (index == 0) {
-                    return (
-                        <View>
-                            <TouchableOpacity
-                                underlayColor='transparent'
-                                onPress={() => {
-                                    if (index > 0) {
-                                        navigator.pop()
-                                    }
-                                }}>
-                                <Text>
-                                    ←
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    );
-                }
-            }}/>
-
-            // <Navigator
-            //     navigationBar={
-            //         <Navigator.NavigationBar
-            //             style={{backgroundColor: '#ff4368'}}
-            //             routeMapper={NavBar}
-            //             navigationStyles={Navigator.NavigationBar.StylesIOS}/>
-            //     }
-            //     initialRoute={{component: HomeNav, title: '9月28日'}}
-            //     renderScene={this.renderScene.bind(this)}/>
+            <Nav route={{component: Home, title: '9月28日'}} barStyle={{backgroundColor: '#ff4368'}} renderScene={this.renderScene.bind(this)} />
         )
     }
 }
-
-export default HomeNav

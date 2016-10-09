@@ -3,11 +3,12 @@
  */
 
 import React, {Component} from 'react'
-import {Navigator, Text, StatusBar, View, TouchableOpacity, Alert, StyleSheet} from 'react-native'
+import {Navigator, Text, StatusBar, View, TouchableOpacity, Alert, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 var NavBar = {
     LeftButton(route, navigator, index, navState) {
-        if (index > 0) {
+        if (index == 0) {
             return (
                 <View style={styles.navContainer}>
                     <TouchableOpacity
@@ -17,9 +18,9 @@ var NavBar = {
                                 navigator.pop()
                             }
                         }}>
-                        <Text style={[styles.leftNavButtonText]}>
-                            ←
-                        </Text>
+                        <Icon
+                            style={styles.leftNavButtonText}
+                            name='chevron-left' />
                     </TouchableOpacity>
                 </View>
             );
@@ -45,26 +46,16 @@ export default class Nav extends Component {
     }
 
     render() {
-        let leftButtonFn = this.props.leftButton;
-        let titleFn = this.props.title;
-        let rightButtonFn = this.props.rightButtonFn;
+        NavBar.LeftButton = this.props.leftButton || NavBar.LeftButton;
+        NavBar.Title = this.props.title || NavBar.Title;
+        NavBar.RightButton = this.props.rightButtonFn || NavBar.RightButton;
+
         return (
             <Navigator
                 navigationBar={
                     <Navigator.NavigationBar
                         style={this.props.barStyle}
-                        routeMapper={{
-                            LeftButton(route, navigator, index, navState){if (leftButtonFn) return leftButtonFn(route, navigator, index, navState)},
-                            RightButton(route, navigator, index, navState){if (rightButtonFn) return rightButtonFn},
-                            Title(route, navigator, index, navState){return (
-                                <View>
-                                    <StatusBar backgroundColor='#ff4368'/>
-                                    <Text style={styles.navBarTitle}>
-                                        {route.title}
-                                    </Text>
-                                </View>
-                            );}
-                        }}
+                        routeMapper={NavBar}
                         navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                 }
                 initialRoute={this.props.route}
@@ -72,6 +63,12 @@ export default class Nav extends Component {
         )
     }
 }
+
+export var navPush = {
+    push(props, component, title, other) {
+        props.navigator.push({component: component, title: title, ...other});
+    }
+};
 
 const styles = StyleSheet.create({
     // 导航栏
@@ -82,8 +79,7 @@ const styles = StyleSheet.create({
     leftNavButtonText: {
         color: '#ffffff',
         fontSize: 30,
-        paddingLeft: 10,
-        marginTop: -4
+        paddingLeft: 5,
     },
     navBarTitle: {
         fontSize: 18,

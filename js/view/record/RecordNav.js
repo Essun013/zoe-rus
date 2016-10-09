@@ -23,7 +23,7 @@ var NavBar = {
     }
 };
 
-class RecordNav extends Component {
+export default class RecordNav extends Component {
     constructor() {
         super();
         this.renderScene = this.renderScene.bind(this);
@@ -51,5 +51,3 @@ class RecordNav extends Component {
         )
     }
 }
-
-export default RecordNav

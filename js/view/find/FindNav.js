@@ -23,7 +23,7 @@ var NavBar = {
     }
 };
 
-class FindNav extends Component {
+export default class FindNav extends Component {
     constructor() {
         super();
         this.renderScene = this.renderScene.bind(this);
@@ -51,5 +51,3 @@ class FindNav extends Component {
         )
     }
 }
-
-export default FindNav

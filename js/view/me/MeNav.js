@@ -40,7 +40,7 @@ var NavBar = {
     }
 };
 
-class MeNav extends Component {
+export default class MeNav extends Component {
     constructor() {
         super();
         this.renderScene = this.renderScene.bind(this);
@@ -79,5 +79,3 @@ const styles = StyleSheet.create({
         color: '#ffffff',
     }
 });
-
-export default MeNav
