@@ -5,6 +5,7 @@
 import React, {Component} from 'react'
 import {Navigator, Text, PixelRatio, StatusBar, View, TouchableOpacity} from 'react-native'
 import Home from './Home'
+import Nav from '../../components/Nav/Nav';
 
 var NavBar = {
     LeftButton(route, navigator, index, navState) {
@@ -43,15 +44,35 @@ class HomeNav extends Component {
     render() {
         const {toggleSideMenu} = this.props;
         return (
-            <Navigator
-                navigationBar={
-                    <Navigator.NavigationBar
-                        style={{backgroundColor: '#ff4368'}}
-                        routeMapper={NavBar}
-                        navigationStyles={Navigator.NavigationBar.StylesIOS}/>
+            <Nav route={{component: Home, title: '9月28日'}} barStyle={{backgroundColor: '#ff4368'}} renderScene={this.renderScene.bind(this)} leftButton={(route, navigator, index, navState) => {
+                if (index == 0) {
+                    return (
+                        <View>
+                            <TouchableOpacity
+                                underlayColor='transparent'
+                                onPress={() => {
+                                    if (index > 0) {
+                                        navigator.pop()
+                                    }
+                                }}>
+                                <Text>
+                                    ←
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    );
                 }
-                initialRoute={{component: Home, title: '9月28日'}}
-                renderScene={this.renderScene.bind(this)}/>
+            }}/>
+
+            // <Navigator
+            //     navigationBar={
+            //         <Navigator.NavigationBar
+            //             style={{backgroundColor: '#ff4368'}}
+            //             routeMapper={NavBar}
+            //             navigationStyles={Navigator.NavigationBar.StylesIOS}/>
+            //     }
+            //     initialRoute={{component: HomeNav, title: '9月28日'}}
+            //     renderScene={this.renderScene.bind(this)}/>
         )
     }
 }

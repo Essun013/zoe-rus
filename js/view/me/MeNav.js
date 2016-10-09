@@ -25,8 +25,6 @@ var NavBar = {
                 </View>
             );
         }
-
-        return null;
     },
     RightButton(route, navigator, index, navState) {
     },

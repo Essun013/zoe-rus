@@ -11,10 +11,10 @@ import {
     Platform,
 } from 'react-native';
 import {Tabs, Tab} from 'react-native-elements';
-import Home from '../home/HomeNav';
-import Me from '../me/MeNav';
-import Find from '../find/FindNav';
-import Record from '../record/RecordNav';
+import HomeNav from '../home/HomeNav';
+import MeNav from '../me/MeNav';
+import FindNav from '../find/FindNav';
+import RecordNav from '../record/RecordNav';
 
 const {connect} = require('react-redux');
 
@@ -92,7 +92,7 @@ class Main extends Component {
                     renderIcon={this.home}
                     renderSelectedIcon={this.home}
                     onPress={() => this.changeTab('home')}>
-                    <Home />
+                    <HomeNav />
                 </Tab>
                 <Tab
                     tabStyle={styles.tab}
@@ -100,7 +100,7 @@ class Main extends Component {
                     renderIcon={this.record}
                     renderSelectedIcon={this.record}
                     onPress={() => this.changeTab('record')}>
-                    <Record />
+                    <RecordNav />
                 </Tab>
                 <Tab
                     tabStyle={styles.tab}
@@ -108,7 +108,7 @@ class Main extends Component {
                     renderIcon={this.finding}
                     renderSelectedIcon={this.finding}
                     onPress={() => this.changeTab('finding')}>
-                    <Find />
+                    <FindNav />
                 </Tab>
                 <Tab
                     tabStyle={styles.tab}
@@ -116,7 +116,7 @@ class Main extends Component {
                     renderIcon={this.me}
                     renderSelectedIcon={this.me}
                     onPress={() => this.changeTab('me')}>
-                    <Me />
+                    <MeNav />
                 </Tab>
             </Tabs>
         );

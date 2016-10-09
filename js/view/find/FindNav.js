@@ -8,10 +8,8 @@ import Find from './Find';
 
 var NavBar = {
     LeftButton(route, navigator, index, navState) {
-        return null;
     },
     RightButton(route, navigator, index, navState) {
-        return null;
     },
     Title(route, navigator, index, navState) {
         return (
