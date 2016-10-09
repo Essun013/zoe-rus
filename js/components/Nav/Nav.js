@@ -31,7 +31,7 @@ var NavBar = {
     Title(route, navigator, index, navState) {
         return (
             <View>
-                <StatusBar backgroundColor='#ff4368'/>
+                <StatusBar backgroundColor='#ff4971'/>
                 <Text style={styles.navBarTitle}>
                     {route.title}
                 </Text>
@@ -48,7 +48,7 @@ export default class Nav extends Component {
     render() {
         NavBar.LeftButton = this.props.leftButton || NavBar.LeftButton;
         NavBar.Title = this.props.title || NavBar.Title;
-        NavBar.RightButton = this.props.rightButtonFn || NavBar.RightButton;
+        NavBar.RightButton = this.props.rightButton || NavBar.RightButton;
 
         return (
             <Navigator

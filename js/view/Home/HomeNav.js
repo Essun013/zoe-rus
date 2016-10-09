@@ -22,7 +22,7 @@ export default class HomeNav extends Component {
     render() {
         const {toggleSideMenu} = this.props;
         return (
-            <Nav route={{component: Home, title: '9月28日'}} barStyle={{backgroundColor: '#ff4368'}} renderScene={this.renderScene.bind(this)} />
+            <Nav route={{component: Home, title: '9月28日'}} barStyle={{backgroundColor: '#ff4971'}} renderScene={this.renderScene.bind(this)} />
         )
     }
 }
