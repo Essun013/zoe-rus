@@ -10,7 +10,7 @@ import {
 // import todoApp from './reducers/testReducers';
 import {addTodo, toggleTodo, setVisibilityFilter, VisibilityFilters} from './actions/testAction';
 
-import Main from './view/main/main';
+import Main from './view/Main/Main';
 
 const {connect} = require('react-redux');
 // let store = createStore(todoApp);

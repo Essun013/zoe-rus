@@ -59,7 +59,9 @@ export default class Nav extends Component {
                         navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                 }
                 initialRoute={this.props.route}
-                renderScene={this.props.renderScene}/>
+                renderScene={this.props.renderScene}
+                configureScene={this.props.configureScene}
+            />
         )
     }
 }
@@ -73,7 +75,7 @@ export var navPush = {
 const styles = StyleSheet.create({
     // 导航栏
     navContainer: {
-        flex: 2,
+        flex: 1,
     },
     // 左面导航按钮
     leftNavButtonText: {

@@ -11,10 +11,10 @@ import {
     Platform,
 } from 'react-native';
 import {Tabs, Tab} from 'react-native-elements';
-import HomeNav from '../home/HomeNav';
+import HomeNav from '../Home/HomeNav';
 import MeNav from '../me/MeNav';
-import FindNav from '../find/FindNav';
-import RecordNav from '../record/RecordNav';
+import FindNav from '../Find/FindNav';
+import RecordNav from '../Record/RecordNav';
 
 const {connect} = require('react-redux');
 
@@ -42,7 +42,7 @@ class Main extends Component {
     home() {
         let selected = this.state.selectedTab === 'home';
 
-        let source = selected ? require('./image/home_selected.png') : require('./image/home.png');
+        let source = selected ? require('./img/home_selected.png') : require('./img/home.png');
 
         return this.getBottomComp(source, selected, '首页');
     }
@@ -50,7 +50,7 @@ class Main extends Component {
     record() {
         let selected = this.state.selectedTab === 'record';
 
-        let source = selected ? require('./image/record_selected.png') : require('./image/record.png');
+        let source = selected ? require('./img/record_selected.png') : require('./img/record.png');
 
         return this.getBottomComp(source, selected, '记录');
     }
@@ -58,7 +58,7 @@ class Main extends Component {
     finding() {
         let selected = this.state.selectedTab === 'finding';
 
-        let source = selected ? require('./image/find_selected.png') : require('./image/find.png');
+        let source = selected ? require('./img/find_selected.png') : require('./img/find.png');
 
         return this.getBottomComp(source, selected, '发现');
     }
@@ -66,7 +66,7 @@ class Main extends Component {
     me() {
         let selected = this.state.selectedTab === 'me';
 
-        let source = selected ? require('./image/me_selected.png') : require('./image/me.png');
+        let source = selected ? require('./img/me_selected.png') : require('./img/me.png');
 
         return this.getBottomComp(source, selected, '我');
     }

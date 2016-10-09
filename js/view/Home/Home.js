@@ -4,20 +4,14 @@
 
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Platform} from 'react-native'
-
-import {
-    Text,
-} from 'react-native-elements'
+import {ScrollView, View, StyleSheet, Platform, Text} from 'react-native'
+import Top from './Top/Top';
 
 class Home extends Component {
     render() {
-        const {toggleSideMenu} = this.props;
         return (
-            <ScrollView style={{backgroundColor: 'white'}}>
-                <View style={styles.hero}>
-                    <Text>我是首页</Text>
-                </View>
+            <ScrollView contentContainerStyle={[styles.container]}>
+                <Top />
             </ScrollView>
         )
     }
@@ -26,7 +20,7 @@ class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 15
+        alignItems: 'center',
     },
     heading: {
         color: 'white',
