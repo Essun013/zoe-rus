@@ -3,25 +3,9 @@
  */
 
 import React, {Component} from 'react';
-import {Navigator, Text, PixelRatio, StatusBar, View, TouchableOpacity} from 'react-native';
 import Record from './Record';
+import Nav from '../../components/Nav/Nav';
 
-var NavBar = {
-    LeftButton(route, navigator, index, navState) {
-    },
-    RightButton(route, navigator, index, navState) {
-    },
-    Title(route, navigator, index, navState) {
-        return (
-            <View>
-                <StatusBar backgroundColor='#ff4368'/>
-                <Text style={{fontSize: 18, lineHeight: 35, color: 'rgb(255, 255, 255)'}}>
-                    {route.title}
-                </Text>
-            </View>
-        );
-    }
-};
 
 export default class RecordNav extends Component {
     constructor() {
@@ -39,15 +23,8 @@ export default class RecordNav extends Component {
     render() {
         const {toggleSideMenu} = this.props;
         return (
-            <Navigator
-                navigationBar={
-                    <Navigator.NavigationBar
-                        style={{backgroundColor: '#ff4368'}}
-                        routeMapper={NavBar}
-                        navigationStyles={Navigator.NavigationBar.StylesIOS}/>
-                }
-                initialRoute={{component: Record, title: '记录'}}
-                renderScene={this.renderScene.bind(this)}/>
+            <Nav route={{component: Record, title: '记录'}} barStyle={{backgroundColor: '#ff4368'}}
+                 renderScene={this.renderScene.bind(this)}/>
         )
     }
 }
