@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, ListView, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import device from '../../../common/util/device';
 
 class Mom extends Component {

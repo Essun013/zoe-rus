@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, ListView, TouchableOpacity, ScrollView} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import device from '../../../common/util/device';
 
 class Box extends Component {
@@ -15,11 +15,11 @@ class Box extends Component {
         return <View style={styles.container}>
             <View style={styles.title}>
                 <View>
-                    <Text style={[styles.titleText, {color: 'rgb(255,122,162)'}]}>百宝箱</Text>
+                    <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
                 </View>
                 <View style={styles.titleBotton}>
                     <TouchableOpacity>
-                        <Text style={[styles.titleText, {color: 'rgb(146,146,146)'}]}>添加</Text>
+                        <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>添加</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     titleText: {
-        fontSize: 13,
         fontFamily: 'PingFang SC',
         lineHeight: 20,
     },

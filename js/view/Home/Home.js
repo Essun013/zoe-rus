@@ -4,18 +4,20 @@
 
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Platform, Text} from 'react-native'
+import {ScrollView, View, StyleSheet} from 'react-native'
 import {Top} from './Top';
 import {Mom} from './Mom';
 import {Box} from './Box';
+import {Check} from './Check';
 
 class Home extends Component {
     render() {
         return <View style={{flex: 1}}>
-            <Top/>
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+                <Top/>
                 <Mom/>
                 <Box/>
+                <Check/>
             </ScrollView>
         </View>
     }
