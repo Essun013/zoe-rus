@@ -7,6 +7,7 @@ import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Platform, Text} from 'react-native'
 import {Top} from './Top';
 import {Mom} from './Mom';
+import {Box} from './Box';
 
 class Home extends Component {
     render() {
@@ -14,6 +15,7 @@ class Home extends Component {
             <Top/>
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
                 <Mom/>
+                <Box/>
             </ScrollView>
         </View>
     }
