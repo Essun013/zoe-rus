@@ -14,8 +14,8 @@ List.propTypes = {}
 styles = StyleSheet.create({
   listContainer: {
     marginTop: 20,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
+    /*borderTopWidth: 1,
+    borderBottomWidth: 1,*/
     borderColor: colors.greyOutline
   }
 })
