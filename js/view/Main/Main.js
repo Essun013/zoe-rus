@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {Tabs, Tab} from 'react-native-elements';
 import HomeNav from '../Home/HomeNav';
-import MeNav from '../me/MeNav';
+import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 
