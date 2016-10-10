@@ -1,8 +1,9 @@
 /**
  * Created by fhc on 16/10/8.
  */
+
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Platform, Image, PixelRatio} from 'react-native'
+import {ScrollView, View, StyleSheet, Image} from 'react-native'
 
 import {ListItem, List, Text, SocialIcon} from '../../components';
 import BasicInfo from './basic-info/BasicInfo';
@@ -13,7 +14,7 @@ const log = () => console.log('this is an example method');
 
 export default class Me extends Component {
     onPress() {
-        navPush.push(this.props, BasicInfo, '基本信息', {});
+        navPush.push(this.props, BasicInfo, '基本信息');
     }
 
     render() {
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5'
     },
     header: {
-        marginTop: 64,
+        marginTop: 2,
         alignItems: 'center',
     },
     headerTxt:{

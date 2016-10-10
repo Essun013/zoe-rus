@@ -3,34 +3,19 @@
  */
 
 import React, {Component} from 'react';
-import {
-    Navigator,
-} from 'react-native';
 import Me from './Me';
 import Nav from '../../components/Nav/Nav';
 
 export default class MeNav extends Component {
-    constructor() {
-        super();
-        this.renderScene = this.renderScene.bind(this);
-        this.configureScene = this.configureScene.bind(this);
+    constructor(props) {
+        super(props);
     }
 
     renderScene(route, navigator) {
-        const {toggleSideMenu} = this.props;
-        return (
-            <route.component navigator={navigator} {...route.passProps} />
-        )
-    }
-
-    configureScene(route, routeStack) {
-        return Navigator.SceneConfigs.VerticalDownSwipeJump;
+        return <route.component navigator={navigator} {...route.passProps} />
     }
 
     render() {
-        return (
-            <Nav route={{component: Me, title: '我'}} barStyle={{backgroundColor: '#ff5680'}}
-                 renderScene={this.renderScene.bind(this)} configureScene={this.configureScene.bind(this)}/>
-        )
+        return <Nav route={{component: Me, title: '我'}} barStyle={{backgroundColor: '#ff5680'}} renderScene={this.renderScene.bind(this)}/>
     }
 }

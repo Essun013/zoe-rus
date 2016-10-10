@@ -19,8 +19,8 @@ import RecordNav from '../Record/RecordNav';
 const {connect} = require('react-redux');
 
 class Main extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             selectedTab: 'home'
@@ -36,7 +36,7 @@ class Main extends Component {
     changeTab(selectedTab) {
         this.setState({
             selectedTab
-        })
+        });
     }
 
     home() {
@@ -147,7 +147,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f6f6f8',
     },
     tabsShadow: {
-        backgroundColor: '#abaab0'
+        backgroundColor: '#abaab0',
+        height: 1
     },
     tab: {
         marginBottom: -8

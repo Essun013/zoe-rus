@@ -5,44 +5,23 @@
 
 import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Platform, Text} from 'react-native'
-import Top from './Top/Top';
+import {Top} from './Top';
+import {Mom} from './Mom';
 
 class Home extends Component {
     render() {
-        return (
-            <ScrollView contentContainerStyle={[styles.container]}>
-                <Top />
+        return <View style={{flex: 1}}>
+            <Top/>
+            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+                <Mom/>
             </ScrollView>
-        )
+        </View>
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    heading: {
-        color: 'white',
-        marginTop: 10,
-        fontSize: 22
-    },
-    hero: {
-        marginTop: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 40,
-    },
-    titleContainer: {},
-    button: {
-        marginTop: 15
-    },
-    title: {
-        textAlign: 'center',
-        ...Platform.select({
-            ios: {
-            }
-        })
+        backgroundColor: '#f5f5f5',
     }
 })
 

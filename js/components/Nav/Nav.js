@@ -54,20 +54,21 @@ export default class Nav extends Component {
             <Navigator
                 navigationBar={
                     <Navigator.NavigationBar
-                        style={this.props.barStyle}
+                        style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62, }}
                         routeMapper={NavBar}
                         navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                 }
                 initialRoute={this.props.route}
                 renderScene={this.props.renderScene}
                 configureScene={this.props.configureScene}
+                style={[styles.navContainer,{paddingTop: 62}]}
             />
         )
     }
 }
 
 export var navPush = {
-    push(props, component, title, other) {
+    push(props, component, title, other?: Object) {
         props.navigator.push({component: component, title: title, ...other});
     }
 };
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     navBarTitle: {
         fontSize: 18,
         lineHeight: 35,
-        color: 'rgb(255, 255, 255)'
+        color: 'rgb(255, 255, 255)',
+        fontFamily: 'PingFang SC'
     }
 });

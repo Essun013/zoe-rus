@@ -8,23 +8,15 @@ import Nav from '../../components/Nav/Nav';
 
 
 export default class RecordNav extends Component {
-    constructor() {
-        super();
-        this.renderScene = this.renderScene.bind(this);
+    constructor(props) {
+        super(props);
     }
 
     renderScene(route, navigator) {
-        const {toggleSideMenu} = this.props;
-        return (
-            <route.component toggleSideMenu={toggleSideMenu} navigator={navigator} {...route.passProps} />
-        )
+        return <route.component navigator={navigator} {...route.passProps} />
     }
 
     render() {
-        const {toggleSideMenu} = this.props;
-        return (
-            <Nav route={{component: Record, title: '记录'}} barStyle={{backgroundColor: '#ff4368'}}
-                 renderScene={this.renderScene.bind(this)}/>
-        )
+        return <Nav route={{component: Record, title: '记录'}} renderScene={this.renderScene.bind(this)}/>
     }
 }
