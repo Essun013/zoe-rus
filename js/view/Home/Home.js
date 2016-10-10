@@ -9,6 +9,7 @@ import {Top} from './Top';
 import {Mom} from './Mom';
 import {Box} from './Box';
 import {Check} from './Check';
+import {Clazz} from './Clazz';
 
 class Home extends Component {
     render() {
@@ -18,6 +19,7 @@ class Home extends Component {
                 <Mom/>
                 <Box/>
                 <Check/>
+                <Clazz/>
             </ScrollView>
         </View>
     }
