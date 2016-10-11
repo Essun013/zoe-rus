@@ -77,8 +77,7 @@ class Main extends Component {
         if (selected)
             textStyle.push(styles.tabSelected);
 
-        return <View><Image source={imageSource} style={styles.menuIcon}></Image><Text
-            style={textStyle}>{textValue}</Text></View>
+        return <Image source={imageSource} style={styles.menuIcon}></Image>
     }
 
     render() {
@@ -87,7 +86,10 @@ class Main extends Component {
         return (
             <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow}>
                 <Tab
+                    titleStyle={[styles.menuIconFont]}
+                    selectedTitleStyle={styles.tabSelected}
                     tabStyle={styles.tab}
+                    title={'首页'}
                     selected={selectedTab === 'home'}
                     renderIcon={this.home}
                     renderSelectedIcon={this.home}
@@ -95,6 +97,9 @@ class Main extends Component {
                     <HomeNav />
                 </Tab>
                 <Tab
+                    titleStyle={[styles.menuIconFont]}
+                    selectedTitleStyle={styles.tabSelected}
+                    title={'记录'}
                     tabStyle={styles.tab}
                     selected={selectedTab === 'record'}
                     renderIcon={this.record}
@@ -103,6 +108,9 @@ class Main extends Component {
                     <RecordNav />
                 </Tab>
                 <Tab
+                    titleStyle={[styles.menuIconFont]}
+                    selectedTitleStyle={styles.tabSelected}
+                    title={'发现'}
                     tabStyle={styles.tab}
                     selected={selectedTab === 'finding'}
                     renderIcon={this.finding}
@@ -111,6 +119,9 @@ class Main extends Component {
                     <FindNav />
                 </Tab>
                 <Tab
+                    titleStyle={[styles.menuIconFont]}
+                    selectedTitleStyle={styles.tabSelected}
+                    title={'我'}
                     tabStyle={styles.tab}
                     selected={selectedTab === 'me'}
                     renderIcon={this.me}
@@ -130,20 +141,14 @@ const styles = StyleSheet.create({
     },
     menuIconFont: {
         fontSize: 13,
-        textAlign: 'center',
         ...Platform.select({
-            android: {
-                lineHeight: 37,
-            },
             ios: {
-                lineHeight: 14,
+                marginTop: 2
             }
         })
     },
     tabs: {
         height: 49,
-        paddingLeft: 15,
-        paddingRight: 15,
         backgroundColor: '#f6f6f8',
     },
     tabsShadow: {
@@ -151,7 +156,11 @@ const styles = StyleSheet.create({
         height: 1
     },
     tab: {
-        marginBottom: -8
+        ...Platform.select({
+            ios: {
+                marginBottom: 2
+            }
+        })
     },
     tabSelected: {
         color: '#ff7ba3'

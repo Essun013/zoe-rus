@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react'
-import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, PixelRatio} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 var NavBar = {
