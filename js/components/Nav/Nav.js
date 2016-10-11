@@ -70,7 +70,10 @@ export default class Nav extends Component {
 export var navPush = {
     push(props, component, title, other?: Object) {
         props.navigator.push({component: component, title: title, ...other});
-    }
+    },
+    pop(props) {
+        props.navigator.pop();
+    },
 };
 
 const styles = StyleSheet.create({
