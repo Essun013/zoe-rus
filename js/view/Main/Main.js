@@ -144,6 +144,10 @@ const styles = StyleSheet.create({
         ...Platform.select({
             ios: {
                 marginTop: 2
+            },
+            android: {
+                marginTop: 0,
+                marginBottom: 3
             }
         })
     },
@@ -153,12 +157,19 @@ const styles = StyleSheet.create({
     },
     tabsShadow: {
         backgroundColor: '#abaab0',
-        height: 1
+        ...Platform.select({
+            android: {
+                height: 1,
+            }
+        })
     },
     tab: {
         ...Platform.select({
             ios: {
                 marginBottom: 2
+            },
+            android: {
+                marginBottom: -2
             }
         })
     },

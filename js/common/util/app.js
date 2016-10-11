@@ -5,7 +5,7 @@
 
 var app = {
     version: 0,
-    apiUrl: '',
+    apiUrl: ''
 };
 
 module.exports = app;
