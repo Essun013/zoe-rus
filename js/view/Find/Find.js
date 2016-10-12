@@ -4,6 +4,8 @@
 
 import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Platform} from 'react-native'
+import {Box} from './Box';
+import {Topic} from './Topic';
 
 import {
     Text,
@@ -13,40 +15,19 @@ export default class Find extends Component {
     render() {
         const {toggleSideMenu} = this.props;
         return (
-            <ScrollView style={{backgroundColor: 'white'}}>
-                <View style={styles.hero}>
-                    <Text>Find</Text>
-                </View>
+            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+                <Box/>
+                <Topic/>
             </ScrollView>
         )
     }
 }
 
+
+
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        margin: 15
-    },
-    heading: {
-        color: 'white',
-        marginTop: 10,
-        fontSize: 22
-    },
-    hero: {
-        marginTop: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 40,
-    },
-    titleContainer: {},
-    button: {
-        marginTop: 15
-    },
-    title: {
-        textAlign: 'center',
-        ...Platform.select({
-            ios: {
-            }
-        })
+        backgroundColor: '#f5f5f5'
     }
 })
