@@ -5,8 +5,6 @@
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    Text,
-    View,
     Image,
     Platform,
 } from 'react-native';
@@ -15,6 +13,7 @@ import HomeNav from '../Home/HomeNav';
 import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
+import StatusNav from '../Status/StatusNav';
 
 const {connect} = require('react-redux');
 
@@ -31,7 +30,8 @@ class Main extends Component {
         this.record = this.record.bind(this);
         this.finding = this.finding.bind(this);
         this.me = this.me.bind(this);
-    }
+        this.renderMain = this.renderMain.bind(this);
+    };
 
     changeTab(selectedTab) {
         this.setState({
@@ -81,6 +81,15 @@ class Main extends Component {
     }
 
     render() {
+        if (true) return this.renderStatus();
+        else return this.renderMain();
+    }
+
+    renderStatus() {
+        return <StatusNav/>
+    }
+
+    renderMain() {
         const {selectedTab} = this.state;
 
         return (

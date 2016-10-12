@@ -2,8 +2,8 @@
  * Created by ianchen on 16/10/9.
  */
 
-import React, {Component} from 'react'
-import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, PixelRatio} from 'react-native';
+import React, {Component, PropTypes} from 'react'
+import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 var NavBar = {
@@ -29,20 +29,38 @@ var NavBar = {
     RightButton(route, navigator, index, navState) {
     },
     Title(route, navigator, index, navState) {
-        return (
-            <View>
-                <StatusBar backgroundColor='#ff4971'/>
-                <Text style={styles.navBarTitle}>
-                    {route.title}
-                </Text>
-            </View>
-        );
+        if (typeof(route.title) == 'string') {
+            return (
+                <View>
+                    <StatusBar backgroundColor='#ff4971'/>
+                    <Text style={styles.navBarTitle}>
+                        {route.title}
+                    </Text>
+                </View>
+            );
+        }
+
+        return route.title();
     }
 };
 
 export default class Nav extends Component {
+    static propTypes = {
+        route: PropTypes.object.isRequired,
+        renderScene: PropTypes.func,
+        configureScene: PropTypes.func,
+        leftButton: PropTypes.func,
+        title: PropTypes.func,
+        rightButton: PropTypes.func,
+        barStyle: PropTypes.object,
+    };
+
     constructor(props) {
         super(props);
+    }
+
+    renderScene(route, navigator) {
+        return <route.component navigator={navigator} {...route.passProps} />
     }
 
     render() {
@@ -54,27 +72,36 @@ export default class Nav extends Component {
             <Navigator
                 navigationBar={
                     <Navigator.NavigationBar
-                        style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62, }}
+                        style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62,}}
                         routeMapper={NavBar}
                         navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                 }
                 initialRoute={this.props.route}
-                renderScene={this.props.renderScene}
+                renderScene={this.props.renderScene || this.renderScene.bind(this)}
                 configureScene={this.props.configureScene}
-                style={[styles.navContainer,{paddingTop: 62}]}
+                style={[styles.navContainer, {paddingTop: 62}]}
             />
         )
     }
 }
 
 export var navPush = {
-    push(props, component, title, other?: Object) {
-        props.navigator.push({component: component, title: title, ...other});
-    },
-    pop(props) {
+    push(props, component, title, other ? : Object
+)
+{
+    props.navigator.push({component: component, title: title, ...other});
+}
+,
+pop(props, n ? : number)
+{
+    if (number)
+        props.navigator.popN(n);
+    else
         props.navigator.pop();
-    },
-};
+}
+,
+}
+;
 
 const styles = StyleSheet.create({
     // 导航栏
