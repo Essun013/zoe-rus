@@ -81,7 +81,7 @@ class Main extends Component {
     }
 
     render() {
-        if (true) return this.renderStatus();
+        if (false) return this.renderStatus();
         else return this.renderMain();
     }
 
