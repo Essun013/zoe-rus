@@ -8,6 +8,6 @@ import Nav from '../../components/Nav/Nav';
 
 export default class MeNav extends Component {
     render() {
-        return <Nav route={{component: Me, title: '我'}} barStyle={{backgroundColor: '#ff5680'}}/>
+        return <Nav route={{component: Me, title: '我'}} />
     }
 }
