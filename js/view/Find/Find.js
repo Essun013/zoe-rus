@@ -13,7 +13,6 @@ import {
 
 export default class Find extends Component {
     render() {
-        const {toggleSideMenu} = this.props;
         return (
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
                 <Box/>

@@ -6,12 +6,10 @@ import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio} from '
 import {ImgButton} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
-import {BasicInfo} from './BasicInfo'
-
-const log = () => console.log('this is an example method')
 
 
-class PhoneSetting extends Component {
+
+class NicknameSetting extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +24,7 @@ class PhoneSetting extends Component {
             <ScrollView style={styles.mainContainer}>
                 <View style={styles.container}>
                     <View style={styles.listView}>
-                        <Text style={styles.title}>手机号</Text>
+                        <Text style={styles.title}>昵称</Text>
                         <View style={styles.textInput}>
                             <TextInput
                                 style={{height: 40, fontSize: 15}}
@@ -79,4 +77,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
-export default PhoneSetting
+export default NicknameSetting

@@ -2,20 +2,19 @@
  * Created by sea35 on 2016/10/10.
  */
 import React, {Component} from 'react'
-import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio} from 'react-native'
+import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio,Picker} from 'react-native'
 import {ImgButton} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
-import {BasicInfo} from './BasicInfo'
-
-const log = () => console.log('this is an example method')
 
 
-class PhoneSetting extends Component {
+
+class SexSetting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: ''
+            value: '',
+            label: '',
         }
     }
     onBasicInfoPress() {
@@ -26,12 +25,16 @@ class PhoneSetting extends Component {
             <ScrollView style={styles.mainContainer}>
                 <View style={styles.container}>
                     <View style={styles.listView}>
-                        <Text style={styles.title}>手机号</Text>
+                        <Text style={styles.title}>性别</Text>
                         <View style={styles.textInput}>
-                            <TextInput
-                                style={{height: 40, fontSize: 15}}
-                                onChangeText={(text) => this.setState({text})}
-                                value={this.state.text}/>
+                            <Picker
+                                style={{width:200}}
+                                selectedValue={this.state.value}
+                                onValueChange={(value,label) => this.setState({value: value,label:label})}>
+                                <Picker.Item label="男" value="1" />
+                                <Picker.Item label="女" value="2" />
+                            </Picker>
+                            <Text style={{height: 40, fontSize: 15}}> {this.state.label}</Text>
                         </View>
                     </View>
                 </View>
@@ -79,4 +82,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
-export default PhoneSetting
+export default SexSetting

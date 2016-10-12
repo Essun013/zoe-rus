@@ -3,46 +3,55 @@
  */
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Image} from 'react-native'
+import {ScrollView, View, StyleSheet, Image,TouchableOpacity} from 'react-native'
 
-import {ListItem, List, Text, SocialIcon} from '../../components';
+import {ListItem, List, Text} from '../../components';
 import BasicInfo from './basic-info/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
-
+import Login from './Login';
+/*import Register from './Register';*/
 const log = () => console.log('this is an example method');
 
 export default class Me extends Component {
-    onPress() {
+    onBasicInfoPress() {
         navPush.push(this.props, BasicInfo, '基本信息');
     }
-
+    onLoginSys(){
+        navPush.push(this.props, Login, '登录');
+    }
     render() {
         return (
             <View style={{flex: 1}}>
                 <View style={styles.header}>
                     <Image source={require('./img/background.png')} style={styles.backgroundImage1}
                            resizeMode='stretch'>
-                        <View style={{ alignItems: 'center'}}>
-                            <Image style={styles.photo} source={require('./img/photo-background.png')} resizeMode='cover'/>
-                            <SocialIcon  style={styles.loginBut} button light   type='instagram'  title="立即登录" />
-                            <Text style={styles.headerTxt}>怀孕8周+1天 | 厦门</Text>
-                        </View>
+                        <Image source={require('./img/background0.png')} style={styles.backgroundImage2}
+                               resizeMode='stretch'>
+                            <View style={{alignItems: 'center'}}>
+                                <Image style={styles.photoBackground} source={require('./img/photo-background.png')}
+                                       resizeMode='cover'>
+                                    <Image style={styles.photo} source={require('./img/photo.png')}
+                                           resizeMode='cover'>
+                                    </Image>
+                                </Image>
+                                <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
+                                    <Image style={styles.loginBut} source={require('./img/but-login.png')}
+                                           resizeMode='cover'>
+                                        <Text style={styles.loginText}>立即登录</Text>
+                                    </Image>
+                                </TouchableOpacity>
+                                <Text style={styles.headerTxt}>怀孕8周+1天 | 厦门</Text>
+                            </View>
+                        </Image>
                     </Image>
-                   {/* <Image source={require('./img/background-2.png')} style={styles.backgroundImage2}
-                           resizeMode='stretch'>
-                        <View style={{ alignItems: 'center',justifyContent:'center'}}>
-                            <SocialIcon  style={styles.loginBut} button light   type='instagram'  />
-                            <Text style={styles.heading}>Searchbar & List</Text>
-                        </View>
-                    </Image>*/}
                 </View>
                 <ScrollView contentContainerStyle={styles.mainContainer}>
-                    <List >
+                    <List containerStyle={{marginTop: 10}}>
                         <ListItem
                             imgSource={require('./img/basic-info.png')}
                             title={"基本信息"}
-                            onPress={this.onPress.bind(this)}
+                            onPress={this.onBasicInfoPress.bind(this)}
                         />
                         <ListItem
                             imgSource={require('./img/baby-files.png')}
@@ -57,11 +66,11 @@ export default class Me extends Component {
                             title={"我的收藏"}
                         />
                     </List>
-                    <List>
+                    <List containerStyle={{marginTop: 10}}>
                         <ListItem
                             imgSource={require('./img/reminder-settings.png')}
                             title={"我的提醒"}
-                            onPress={this.onPress.bind(this)}
+                            onPress={this.onBasicInfoPress.bind(this)}
                         />
                     </List>
                 </ScrollView>
@@ -72,27 +81,44 @@ export default class Me extends Component {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        backgroundColor: '#f5f5f5'
+        backgroundColor: '#f5f5f5',
+        flex: 1
     },
     header: {
-        marginTop: 2,
         alignItems: 'center',
     },
-    headerTxt:{
-       color:'#ffffff'
+    headerTxt: {
+        color: '#ffffff'
     },
     backgroundImage1: {
-        height: 160,
-        width: device.width()
+        height: 170,
+        width: device.width(),
+
     },
     backgroundImage2: {
-        height: 10,
-        width: device.width()
+        height: 170,
+        width: device.width(),
+        justifyContent: 'center',
+
     },
-    photo:{
-        width: 80, height: 80
+    photo: {
+        width: 72,
+        height: 72,
+
     },
-    loginBut:{
-        width: 80, height: 30
+    photoBackground: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 80, height: 80,
+        marginBottom: 10
+    },
+    loginBut: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 85, height: 25,
+        marginBottom: 10
+    },
+    loginText: {
+        color: '#ff4969'
     }
 })

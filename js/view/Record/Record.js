@@ -11,7 +11,6 @@ import {
 
 export default class Record extends Component {
     render() {
-        const {toggleSideMenu} = this.props;
         return (
             <ScrollView style={{backgroundColor: 'white'}}>
                 <View style={styles.hero}>
