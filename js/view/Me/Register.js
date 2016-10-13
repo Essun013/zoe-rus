@@ -22,7 +22,7 @@ class Register extends Component {
     }
     onBasicInfoPress() {
 
-        navPush.pop(this.props);
+        navPush.pop(this.props,2);
 
     }
     render() {

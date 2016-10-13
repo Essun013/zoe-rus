@@ -9,7 +9,7 @@ import {ListItem, List, Text} from '../../components';
 import BasicInfo from './basic-info/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
-import Login from './Login';
+import LoginSys from './LoginSys';
 /*import Register from './Register';*/
 const log = () => console.log('this is an example method');
 
@@ -19,7 +19,7 @@ export default class Me extends Component {
     }
     onLoginSys(){
 
-        navPush.push(this.props, Login, '登录',true);
+        navPush.push(this.props, LoginSys, '登录');
     }
     render() {
         return (

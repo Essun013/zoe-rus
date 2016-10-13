@@ -23,14 +23,14 @@ class Login extends Component {
     render() {
         return (
             <ScrollableTabView
-                renderTabBar={() => <ScrollableTabBar />}
+                renderTabBar={() => <ScrollableTabBar tabStyle={{height:61,paddingTop:10}} style={{height:62}}/>}
                 tabBarUnderlineStyle={{backgroundColor:'#ff4971',borderWidth:1,borderColor:'#ff4971',borderBottomColor:'#f5f5f5'}}
                 tabBarBackgroundColor='#ff4971'
                 tabBarActiveTextColor='#ffffff'
                 tabBarInactiveTextColor='#ffffff'
-                tabBarTextStyle={{fontSize: 15}}>
-                <LoginSys tabLabel='登录'/>
-                <Register tabLabel='注册'/>
+                tabBarTextStyle={{fontSize: 18}}>
+                <LoginSys tabLabel='登录' fatherProps={this.props}/>
+                <Register tabLabel='注册' fatherProps={this.props}/>
             </ScrollableTabView>
         )
     }

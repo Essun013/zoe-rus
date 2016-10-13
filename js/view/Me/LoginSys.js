@@ -1,15 +1,17 @@
 /**
  * Created by sea35 on 2016/10/12.
  */
-import React, {Component} from 'react'
-import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio} from 'react-native'
+import React, {Component,PropTypes} from 'react'
+import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio,TouchableOpacity} from 'react-native'
 import {ImgButton} from '../../components'
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
-
-
+import Register from './Register';
 
 class LoginSys extends Component {
+    static propTypes = {
+        fatherProps: PropTypes.object
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -18,6 +20,9 @@ class LoginSys extends Component {
     }
     onBasicInfoPress() {
         navPush.pop(this.props);
+    }
+    onRegisterPress(){
+        navPush.push(this.props, Register, '注册');
     }
     render() {
         return (
@@ -47,6 +52,11 @@ class LoginSys extends Component {
                 </View>
                 <View style={styles.submitBut}>
                     <ImgButton text="登录" onClick={this.onBasicInfoPress.bind(this)}></ImgButton>
+                </View>
+                <View style={[styles.submitBut,{marginTop:20}]}>
+                    <TouchableOpacity onPress={this.onRegisterPress.bind(this)}>
+                        <Text style={{fontSize: 13,color: '#bbbbbb'}}>我没有帐户，我要注册</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.thirdLogin}>
                     <View style={styles.thirdLoginRow}>
