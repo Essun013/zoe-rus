@@ -15,10 +15,11 @@ class LoginSys extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: ''
+            phone: ''
         }
     }
     onBasicInfoPress() {
+
         navPush.pop(this.props);
     }
     onRegisterPress(){
@@ -33,8 +34,8 @@ class LoginSys extends Component {
                         <View style={styles.textInput}>
                             <TextInput
                                 style={{height: 40, fontSize: 15}}
-                                onChangeText={(text) => this.setState({text})}
-                                value={this.state.text}/>
+                                onChangeText={(phone) => this.setState({phone:phone})}
+                                value={this.state.phone}/>
                         </View>
                     </View>
                     <View style={styles.listView}>

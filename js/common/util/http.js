@@ -21,7 +21,7 @@ var http = {
         handleHttp('GET', uri, params, suc, err);
     },
 
-    apiPost(uri, params, suc: (o: Object), err?: (err: Error) => void) {
+    apiPost(uri, params, suc, err?: (err: Error) => void) {
         handleHttp('POST', getUrl(uri), params, suc, err);
     },
 };

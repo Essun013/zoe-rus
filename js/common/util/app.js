@@ -5,7 +5,7 @@
 
 var app = {
     version: 0,
-    apiUrl: ''
+    apiUrl: 'http://172.16.34.41:8080/'
 };
 
 module.exports = app;

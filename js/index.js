@@ -6,7 +6,8 @@ import { app } from './modules'
 
 import createStore from './createStore'
 
-const store = createStore()
+//const store = createStore()
+const store = createStore();
 
 const Main = () => {
   return (

@@ -1,14 +1,12 @@
 /**
  * Created by sea35 on 2016/10/12.
  */
-/**
- * Created by sea35 on 2016/10/12.
- */
 import React, {Component} from 'react'
-import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio} from 'react-native'
+import {ScrollView, StyleSheet, Image,  Alert,TextInput, View, Text, PixelRatio} from 'react-native'
 import {ImgButton} from '../../components'
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
+import apiHttp from '../../common/util/http';
 
 
 
@@ -21,8 +19,18 @@ class Register extends Component {
         }
     }
     onBasicInfoPress() {
-
-        navPush.pop(this.props,2);
+        let params={
+            username:this.state.phone,
+            captcha:this.state.verification
+        }
+        apiHttp.apiPost('/uc/user/signUp',params,(obj)=>{
+            Alert.alert("系统提示","注册成功");
+            navPush.pop(this.props,2);
+        },(err)=> {
+            Alert.alert("系统提示",err);
+            }
+        )
+        // navPush.pop(this.props,2);
 
     }
     render() {
@@ -35,7 +43,7 @@ class Register extends Component {
                             <TextInput
                                 style={{height: 40, fontSize: 15}}
                                 onChangeText={(phone) => this.setState({phone:phone})}
-                                value={this.state.verification}/>
+                                value={this.state.phone}/>
                         </View>
                     </View>
                     <View style={styles.listView}>
