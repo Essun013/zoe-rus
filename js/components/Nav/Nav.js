@@ -92,7 +92,7 @@ export var navPush = {
     },
     pop(props, n?: number)
     {
-        if (number)
+        if (n)
             props.navigator.popN(n);
         else
             props.navigator.pop();
