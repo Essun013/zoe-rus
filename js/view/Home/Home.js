@@ -15,11 +15,11 @@ class Home extends Component {
     render() {
         return <View style={{flex: 1}}>
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                <Top/>
-                <Mom/>
-                <Box/>
-                <Check/>
-                <Clazz/>
+                <Top navigator={this.props.navigator}/>
+                <Mom navigator={this.props.navigator}/>
+                <Box navigator={this.props.navigator}/>
+                <Check navigator={this.props.navigator}/>
+                <Clazz navigator={this.props.navigator}/>
             </ScrollView>
         </View>
     }

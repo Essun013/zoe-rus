@@ -6,11 +6,12 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
+import BabyGrow from '../../Find/BabyGrow/BabyGrow';
+import MomKonw from '../../Find/MomKnow/MomKnow';
 
 class Mom extends Component {
     constructor(props) {
         super(props);
-
         this.babyGrow = this.babyGrow.bind(this);
         this.momKnow = this.momKnow.bind(this);
     }
@@ -20,11 +21,11 @@ class Mom extends Component {
     }
 
     babyGrow() {
-        navPush.push(this.props, null, '');
+        navPush.push(this.props, BabyGrow, '');
     }
 
     momKnow() {
-        navPush.push(this.props, null, '');
+        navPush.push(this.props, MomKonw, '');
     }
 
     renderMom() {

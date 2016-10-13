@@ -4,13 +4,18 @@
 
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
+import MomKonw from '../../Find/MomKnow/MomKnow';
 
 class Box extends Component {
     constructor(props) {
         super(props);
+        this.momKnow = this.momKnow.bind(this);
     }
-
+    momKnow() {
+        navPush.push(this.props, MomKonw, '');
+    }
     render() {
         return <View style={styles.container}>
             <View style={styles.title}>
@@ -26,7 +31,7 @@ class Box extends Component {
             <View style={styles.body}>
                 <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
+                        <TouchableOpacity style={styles.buttonTextCenter} onPress={this.momKnow}>
                             <Image source={require('../img/yinshi.png')} style={styles.buttonImgSize}/>
                             <Text style={[styles.titleText]}>孕妈饮食</Text>
                         </TouchableOpacity>
