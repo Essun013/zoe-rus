@@ -96,6 +96,10 @@ export var navPush = {
             props.navigator.popN(n);
         else
             props.navigator.pop();
+    },
+    popToTop(props)
+    {
+        props.navigator.popToTop();
     }
 };
 
