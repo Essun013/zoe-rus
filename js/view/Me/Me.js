@@ -18,7 +18,8 @@ export default class Me extends Component {
         navPush.push(this.props, BasicInfo, '基本信息');
     }
     onLoginSys(){
-        navPush.push(this.props, Login, '登录');
+
+        navPush.push(this.props, Login, '登录',true);
     }
     render() {
         return (

@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
     alignItems: 'center',
     justifyContent: 'center',
-
     margin: 5
   }
 });

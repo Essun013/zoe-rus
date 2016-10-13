@@ -6,6 +6,7 @@ import React, {Component, PropTypes} from 'react'
 import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+
 var NavBar = {
     LeftButton(route, navigator, index, navState) {
         if (index > 0) {
@@ -41,7 +42,11 @@ var NavBar = {
         }
 
         return route.title();
-    }
+    },
+    GetTitleHide(route, navigator, index, navState) {
+        alert(route.titleHide);
+        return route.titleHide;
+    },
 };
 
 export default class Nav extends Component {
@@ -52,7 +57,7 @@ export default class Nav extends Component {
         leftButton: PropTypes.func,
         title: PropTypes.func,
         rightButton: PropTypes.func,
-        barStyle: PropTypes.object,
+        barStyle: PropTypes.object
     };
 
     constructor(props) {
@@ -67,28 +72,40 @@ export default class Nav extends Component {
         NavBar.LeftButton = this.props.leftButton || NavBar.LeftButton;
         NavBar.Title = this.props.title || NavBar.Title;
         NavBar.RightButton = this.props.rightButton || NavBar.RightButton;
+        let titleHide =  false;
 
-        return (
-            <Navigator
-                navigationBar={
-                    <Navigator.NavigationBar
-                        style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62,}}
-                        routeMapper={NavBar}
-                        navigationStyles={Navigator.NavigationBar.StylesIOS}/>
-                }
-                initialRoute={this.props.route}
-                renderScene={this.props.renderScene || this.renderScene.bind(this)}
-                configureScene={this.props.configureScene}
-                style={[styles.navContainer, {paddingTop: 62}]}
-            />
-        )
+        if(!titleHide){
+            return(
+                <Navigator
+                    navigationBar={
+                        <Navigator.NavigationBar
+                            style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62,}}
+                            routeMapper={NavBar}
+                            navigationStyles={Navigator.NavigationBar.StylesIOS}/>
+                    }
+                    initialRoute={this.props.route}
+                    renderScene={this.props.renderScene || this.renderScene.bind(this)}
+                    configureScene={this.props.configureScene}
+                    style={[styles.navContainer, {paddingTop: 62}]}
+                />
+            );
+        }else{
+            return(
+                <Navigator
+                    initialRoute={this.props.route}
+                    renderScene={this.props.renderScene || this.renderScene.bind(this)}
+                    configureScene={this.props.configureScene}
+                    style={[styles.navContainer]}
+                />
+            )
+        }
     }
 }
 
 export var navPush = {
-    push(props, component, title, other?: Object)
+    push(props, component, title,titleHide, other?: Object)
     {
-        props.navigator.push({component: component, title: title, ...other});
+        props.navigator.push({component: component, title: title,titleHide:titleHide, ...other});
     },
     pop(props, n?: number)
     {
