@@ -5,14 +5,26 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
 import device from '../../../common/util/device';
+import {navPush} from '../../../components/Nav/Nav';
 
 class Mom extends Component {
     constructor(props) {
         super(props);
+
+        this.babyGrow = this.babyGrow.bind(this);
+        this.momKnow = this.momKnow.bind(this);
     }
 
     render() {
         return <View>{this.renderMom()}</View>;
+    }
+
+    babyGrow() {
+        navPush.push(this.props, null, '');
+    }
+
+    momKnow() {
+        navPush.push(this.props, null, '');
     }
 
     renderMom() {
@@ -21,17 +33,19 @@ class Mom extends Component {
                 source: require('../img/mom_know_1.png'),
                 title: '宝宝发育',
                 content: '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
+                onPress: this.babyGrow
             },
             {
                 source: require('../img/mom_know_2.png'),
                 title: '孕妈早知道',
                 content: '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
+                onPress: this.momKnow
             }
         ];
 
         return <View>{list.map((ele, index) => {
             return <View key={index}>
-                <TouchableOpacity style={[styles.listItem, index ? {marginTop: 1} : null]}>
+                <TouchableOpacity style={[styles.listItem, index ? {marginTop: 1} : null]} onPress={ele.onPress}>
                     <Image source={ele.source} style={styles.img}/>
                     <View style={[styles.listView]}>
                         <Text style={styles.listTitle}>{ele.title}</Text>

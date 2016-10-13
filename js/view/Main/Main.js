@@ -13,7 +13,7 @@ import HomeNav from '../Home/HomeNav';
 import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
-import StatusNav from '../Status/StatusNav';
+// import StatusNav from '../Status/StatusNav';
 
 const {connect} = require('react-redux');
 
@@ -81,8 +81,8 @@ class Main extends Component {
     }
 
     render() {
-        if (false) return this.renderStatus();
-        else return this.renderMain();
+        /*if (false) return this.renderStatus();
+        else */return this.renderMain();
     }
 
     renderStatus() {
