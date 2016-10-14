@@ -8,7 +8,6 @@ import device from '../../../common/util/device';
 import Login from '../../Me/LoginSys';
 import {navPush} from '../../../components/Nav/Nav';
 import {addTodo} from '../../../actions/actions';
-// import {reduxcomp} from '../../../common/util'
 
 class Mom extends Component {
     constructor(props) {

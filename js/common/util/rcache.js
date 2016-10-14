@@ -18,9 +18,9 @@ var RCache = {
 
     get(key: String, callback: (err: ?Error, result: String) => void) {
         AsyncStorage.getItem(key).then((result) => {
-            callbacl(null, result);
+            callback(null, result);
         }).catch((err) => {
-            callbacl(err, null);
+            callback(err, null);
         });
     },
 
