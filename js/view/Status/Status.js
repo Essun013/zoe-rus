@@ -7,8 +7,9 @@ import {View, StyleSheet, Platform, Image, Text, TouchableOpacity, Alert, Scroll
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
 import Mom from './Mom/Mom';
+import Baby from './Baby/Baby';
 
-export default class Find extends Component {
+class Status extends Component {
     constructor(props) {
         super(props);
 
@@ -19,7 +20,7 @@ export default class Find extends Component {
     }
 
     readyPreg() {
-        Alert.alert('请耐心等待', '这个功能还没实现呢〜');
+        Alert.alert('(ง •̀_•́)ง', '被你发现了');
     }
 
     goMom() {
@@ -27,11 +28,11 @@ export default class Find extends Component {
     }
 
     goBaby() {
-        Alert.alert('请耐心等待', '这个功能还没实现呢〜');
+        navPush.push(this.props, Baby, '家有萌宝');
     }
 
     goDady() {
-        Alert.alert('请耐心等待', '这个功能还没实现呢〜');
+        Alert.alert('(ง •̀_•́)ง', '被你发现了');
     }
 
     render() {
@@ -105,4 +106,8 @@ const styles = StyleSheet.create({
     bottomTextCenter: {
         alignItems: 'center'
     }
-})
+});
+
+const {connect} = require('react-redux');
+
+module.exports = connect()(Status);

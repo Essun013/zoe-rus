@@ -3,15 +3,9 @@
  */
 'use strict';
 
-import React, {Component} from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    AlertIOS
-} from 'react-native';
+import React from 'react';
 import {combineReducers} from 'redux';
-import {ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from '../actions/testAction';
+import {ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from '../actions/actions';
 const {SHOW_ALL} = VisibilityFilters;
 
 function visibilityFilter(state = SHOW_ALL, action) {
@@ -23,17 +17,14 @@ function visibilityFilter(state = SHOW_ALL, action) {
     }
 }
 
-function todos(state = [], action) {
+function todos(state = {goToMain: false}, action) {
     switch (action.type) {
         case ADD_TODO:
-            AlertIOS.alert('hello', 'hello ha! :' + JSON.stringify(action));
-            return [
-                ...state,
-                {
-                    text: action.text,
-                    completed: false
-                }
-            ]
+            return {
+                reduxArgs: {
+                    goToMain: action.goToMain
+                },
+            }
         case TOGGLE_TODO:
             return state.map((todo, index) => {
                 if (index === action.index) {
@@ -44,7 +35,11 @@ function todos(state = [], action) {
                 return todo
             })
         default:
-            return state
+            return {
+                reduxArgs: {
+                    ...state
+                },
+            }
     }
 }
 

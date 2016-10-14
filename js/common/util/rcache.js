@@ -3,7 +3,7 @@
  */
 'use strict';
 
-import {AsyncStorage, AlertIOS} from 'react-native';
+import {AsyncStorage} from 'react-native';
 
 var RCache = {
     put(key: String, value: String, callback?: (err: ?Error) => void) {
