@@ -44,7 +44,7 @@ function handleHttp(method: string, uri: string, params, suc, err?: (err: Error)
     var header = Object.assign({}, httpHeader, {method: method});
     
     if (params)
-        header.body = JSON.stringify(params);
+        header.body = params;
 
     fetch(uri, header)
         .then((resp) => {
