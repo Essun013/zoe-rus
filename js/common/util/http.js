@@ -8,8 +8,7 @@ const localApp = require('./app');
 const httpHeader = {
     headers: {
         'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
-    },
-    timeout: 0
+    }
 };
 
 var http = {
@@ -22,7 +21,7 @@ var http = {
     },
 
     apiPost(uri, params, suc: (o: Object), err?: (err: Error) => void) {
-        handleHttp('POST', getUrl(uri), params, suc, err);
+        handleHttp('POST', getUrl(uri), procArgs(params), suc, err);
     },
 };
 
@@ -31,6 +30,14 @@ function getUrl(uri) {
         uri = uri.substr(1);
 
     return localApp.apiUrl + uri;
+}
+
+function procArgs(params) {
+    let argsArray = [];
+    for (var k in params)
+        argsArray.push(k + '=' + params[k])
+
+    return argsArray.join('&');
 }
 
 function handleHttp(method: string, uri: string, params, suc, err?: (err: Error) => void) {
