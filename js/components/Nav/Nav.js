@@ -117,7 +117,7 @@ export var navPush = {
     popToTop(props)
     {
         props.navigator.popToTop();
-    }
+    },
 };
 
 const styles = StyleSheet.create({

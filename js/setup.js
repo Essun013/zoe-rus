@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 // import { createStore } from 'redux';
 // import todoApp from './reducers/testReducers';
-import {addTodo, toggleTodo, setVisibilityFilter, VisibilityFilters} from './actions/testAction';
+import {addTodo, toggleTodo, setVisibilityFilter, VisibilityFilters} from './actions/actions';
 
 import Main from './view/Main/Main';
 

@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Alert } from 'react-native'
 import { connect } from 'react-redux'
 
-import { Counters, Counter } from './../../components'
+import { Counters, Counter } from '../../components'
 import * as actions from './actions'
 
 const styles = StyleSheet.create({
@@ -13,50 +13,38 @@ const styles = StyleSheet.create({
   }
 })
 
-const renderCounters = (counters, decrement, increment, incrementWithDelay) => {
-  return Object.keys(counters).map((id) => {
-    const value = counters[id]
-    return (
-      <Counter
-        key={id}
-        decrementFn={() => decrement(id)}
-        incrementFn={() => increment(id)}
-        incrementWithDelayFn={() => incrementWithDelay(id)}>
-        {value}
-      </Counter>
-    )
-  })
+const renderCounters = (counters, props) => {
+  Alert.alert('title', JSON.stringify(counters));
+  return <Counter
+      key={1}
+      decrementFn={() => props.dispatch(actions.decrement(1))}
+      incrementFn={() => props.dispatch(actions.increment(1))}
+      incrementWithDelayFn={() => props.dispatch(actions.incrementWithDelay(1))}>
+    {counters[1]}
+  </Counter>
 }
 
 const App = (props) => {
   const {
-    addNewCounter,
-    counters,
-    decrement,
-    increment,
-    incrementWithDelay
+    counters
   } = props
 
   return (
     <View style={styles.container}>
-      <Counters addFn={addNewCounter}>
-        {renderCounters(counters, decrement, increment, incrementWithDelay)}
+      <Counters addFn={() => props.dispatch(actions.newCounter())}>
+        {renderCounters(counters, props)}
       </Counters>
     </View>
   )
 }
 
-App.displayName = 'App'
+// App.displayName = 'App'
 
 //it is a good practice to always indicate what type of props does your component
 //receive. This is really good for documenting and prevent you from a lot of bug during
 //development mode. Remember, all of these will be ignored once you set it to production.
 App.propTypes = {
-  addNewCounter: PropTypes.func.isRequired,
   counters: PropTypes.object.isRequired,
-  increment: PropTypes.func.isRequired,
-  decrement: PropTypes.func.isRequired,
-  incrementWithDelay: PropTypes.func.isRequired
 }
 
 //Here's the most complex part of our app. connect is a function which selects,
@@ -67,11 +55,5 @@ App.propTypes = {
 export default connect(
   (state) => ({
     counters: state.app.counters
-  }),
-  (dispatch) => ({
-    addNewCounter: () => dispatch(actions.newCounter()),
-    increment: (id) => dispatch(actions.increment(id)),
-    decrement: (id) => dispatch(actions.decrement(id)),
-    incrementWithDelay: (id) => dispatch(actions.incrementWithDelay(id))
   })
 )(App)

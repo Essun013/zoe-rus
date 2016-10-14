@@ -2,27 +2,27 @@
  * Created by ianchen on 16/10/8.
  */
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {
     StyleSheet,
     Image,
-    Platform,
+    Platform
 } from 'react-native';
 import {Tabs, Tab} from 'react-native-elements';
 import HomeNav from '../Home/HomeNav';
 import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
-// import StatusNav from '../Status/StatusNav';
-
-const {connect} = require('react-redux');
+import StatusNav from '../Status/StatusNav';
+import {rcache} from '/common/util';
 
 class Main extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedTab: 'home'
+            selectedTab: 'home',
+            toMain: false
         };
 
         this.changeTab = this.changeTab.bind(this);
@@ -31,7 +31,18 @@ class Main extends Component {
         this.finding = this.finding.bind(this);
         this.me = this.me.bind(this);
         this.renderMain = this.renderMain.bind(this);
-    };
+    }
+
+    goToMain() {
+        let self = this;
+        setTimeout(()=>{
+            self.setState({toMain: true});
+        }, 200);
+    }
+
+    componentDidMount() {
+        // rcache.get('firstChoose', (err, result) => {});
+    }
 
     changeTab(selectedTab) {
         this.setState({
@@ -81,8 +92,13 @@ class Main extends Component {
     }
 
     render() {
-        /*if (false) return this.renderStatus();
-        else */return this.renderMain();
+        const {toMain} = this.state;
+        var reduxArgs = this.props.reduxArgs;
+        if (reduxArgs.goToMain && !toMain)
+            this.goToMain();
+
+        if (!toMain) return this.renderStatus();
+        else return this.renderMain();
     }
 
     renderStatus() {
@@ -93,7 +109,7 @@ class Main extends Component {
         const {selectedTab} = this.state;
 
         return (
-            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow}>
+            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow} hidesTabTouch={true}>
                 <Tab
                     titleStyle={[styles.menuIconFont]}
                     selectedTitleStyle={styles.tabSelected}
@@ -187,4 +203,12 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = connect()(Main);
+const {connect} = require('react-redux');
+
+function select(state) {
+    return {
+        reduxArgs : state.todos.reduxArgs
+    }
+}
+
+module.exports = connect(select)(Main);
