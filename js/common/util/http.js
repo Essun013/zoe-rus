@@ -20,7 +20,7 @@ var http = {
         handleHttp('GET', uri, params, suc, err);
     },
 
-    apiPost(uri, params, suc: (o: Object), err?: (err: Error) => void) {
+    apiPost(uri, params, suc, err?: (err: Error) => void) {
         handleHttp('POST', getUrl(uri), procArgs(params), suc, err);
     },
 };
@@ -47,8 +47,9 @@ function handleHttp(method: string, uri: string, params, suc, err?: (err: Error)
         header.body = params;
 
     fetch(uri, header)
+        .then((resp) => resp.json())
         .then((resp) => {
-            suc(JSON.parse(resp._bodyText));
+            suc(resp);
         })
         .catch((error) => {
             if (err)
