@@ -14,7 +14,7 @@ import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
-import {rcache} from '/common/util';
+import {rcache} from '../../common/util';
 
 class Main extends Component {
     constructor(props) {
