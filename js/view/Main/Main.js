@@ -2,11 +2,11 @@
  * Created by ianchen on 16/10/8.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     Image,
-    Platform
+    Platform,
 } from 'react-native';
 import {Tabs, Tab} from 'react-native-elements';
 import HomeNav from '../Home/HomeNav';
@@ -20,10 +20,22 @@ class Main extends Component {
     constructor(props) {
         super(props);
 
+        let self = this;
+
         this.state = {
             selectedTab: 'home',
-            toMain: false
+            toMain: false,
+            component: null,
         };
+
+        rcache.get('firstChoose', (err, result) => {
+            if (!result) {
+                rcache.put('firstChoose', 'yes');
+                self.setState({component: self.renderStatus()});
+            } else if (result === 'no'){
+                self.setState({component: self.renderMain()});
+            }
+        });
 
         this.changeTab = this.changeTab.bind(this);
         this.home = this.home.bind(this);
@@ -36,12 +48,9 @@ class Main extends Component {
     goToMain() {
         let self = this;
         setTimeout(()=>{
-            self.setState({toMain: true});
+            self.setState({component: self.renderMain()});
+            rcache.put('firstChoose', 'no');
         }, 200);
-    }
-
-    componentDidMount() {
-        // rcache.get('firstChoose', (err, result) => {});
     }
 
     changeTab(selectedTab) {
@@ -92,13 +101,12 @@ class Main extends Component {
     }
 
     render() {
-        const {toMain} = this.state;
+        const {toMain, component} = this.state;
         var reduxArgs = this.props.reduxArgs;
         if (reduxArgs.goToMain && !toMain)
             this.goToMain();
 
-        if (!toMain) return this.renderStatus();
-        else return this.renderMain();
+        return component;
     }
 
     renderStatus() {
