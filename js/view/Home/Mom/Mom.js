@@ -21,11 +21,11 @@ class Mom extends Component {
     }
 
     babyGrow() {
-        navPush.push(this.props, BabyGrow, '');
+        navPush.push(this.props, BabyGrow, '宝宝成长');
     }
 
     momKnow() {
-        navPush.push(this.props, MomKonw, '');
+        navPush.push(this.props, MomKonw, '妈妈早知道');
     }
 
     renderMom() {
