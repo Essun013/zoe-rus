@@ -3,16 +3,20 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView, Image, Text, TouchableOpacity, Alert} from 'react-native';
-import device from '../../../common/util/device';
+import {StyleSheet, ScrollView} from 'react-native';
 import ScrollTabBar from '../ScrollTabBar/ScrollTabBar'
 import Content from './Content/Content'
+import {hideMenu} from '../../../actions/actions';
 
 class BabyGrow extends Component {
 
     constructor(props) {
         super(props);
 
+    }
+
+    componentWillMount() {
+        this.props.dispatch(hideMenu(true));
     }
 
     render() {
@@ -32,4 +36,6 @@ const styles = StyleSheet.create({
     }
 })
 
-module.exports = BabyGrow;
+const {connect} = require('react-redux');
+
+module.exports = connect()(BabyGrow);

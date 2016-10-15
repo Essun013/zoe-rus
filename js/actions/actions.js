@@ -6,6 +6,7 @@
 export const ADD_TODO = 'ADD_TODO';
 export const TOGGLE_TODO = 'TOGGLE_TODO'
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
+export const HIDE_MENU = 'HIDE_MENU'
 
 /*
  * 其它的常量
@@ -21,8 +22,8 @@ export const VisibilityFilters = {
  * action 创建函数
  */
 
-export function addTodo(goToMain) {
-    return { type: ADD_TODO, goToMain }
+export function addTodo(goHome) {
+    return { type: ADD_TODO, goHome }
 }
 
 export function toggleTodo(index) {
@@ -31,4 +32,8 @@ export function toggleTodo(index) {
 
 export function setVisibilityFilter(filter) {
     return { type: SET_VISIBILITY_FILTER, filter }
+}
+
+export function hideMenu(hideMenu) {
+    return { type: HIDE_MENU, hideMenu }
 }

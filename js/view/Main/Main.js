@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Image,
     Platform,
+    Alert
 } from 'react-native';
 import {Tabs, Tab} from 'react-native-elements';
 import HomeNav from '../Home/HomeNav';
@@ -15,6 +16,8 @@ import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
 import {rcache} from '../../common/util';
+import {homeSwitch} from '../../actions/actions';
+
 
 class Main extends Component {
     constructor(props) {
@@ -24,16 +27,17 @@ class Main extends Component {
 
         this.state = {
             selectedTab: 'home',
-            toMain: false,
+            goHome: false,
             component: null,
+            hideMenuBar: false
         };
 
         rcache.get('firstChoose', (err, result) => {
-            if (!result) {
+            if (!result || result === 'yes') {
                 rcache.put('firstChoose', 'yes');
-                self.setState({component: self.renderStatus()});
-            } else if (result === 'no'){
-                self.setState({component: self.renderMain()});
+                self.setState({component: self.renderStatus});
+            } else if (result === 'no') {
+                self.setState({component: self.renderMain});
             }
         });
 
@@ -45,10 +49,10 @@ class Main extends Component {
         this.renderMain = this.renderMain.bind(this);
     }
 
-    goToMain() {
+    goHome() {
         let self = this;
         setTimeout(()=>{
-            self.setState({component: self.renderMain()});
+            self.setState({component: self.renderMain});
             rcache.put('firstChoose', 'no');
         }, 200);
     }
@@ -64,7 +68,7 @@ class Main extends Component {
 
         let source = selected ? require('./img/home_selected.png') : require('./img/home.png');
 
-        return this.getBottomComp(source, selected, '首页');
+        return this.getBottomComp(source, selected);
     }
 
     record() {
@@ -72,7 +76,7 @@ class Main extends Component {
 
         let source = selected ? require('./img/record_selected.png') : require('./img/record.png');
 
-        return this.getBottomComp(source, selected, '记录');
+        return this.getBottomComp(source, selected);
     }
 
     finding() {
@@ -80,7 +84,7 @@ class Main extends Component {
 
         let source = selected ? require('./img/find_selected.png') : require('./img/find.png');
 
-        return this.getBottomComp(source, selected, '发现');
+        return this.getBottomComp(source, selected);
     }
 
     me() {
@@ -88,10 +92,17 @@ class Main extends Component {
 
         let source = selected ? require('./img/me_selected.png') : require('./img/me.png');
 
-        return this.getBottomComp(source, selected, '我');
+        return this.getBottomComp(source, selected);
     }
 
-    getBottomComp(imageSource, selected, textValue) {
+    hideMenu() {
+        let self = this;
+        setTimeout(()=>{
+            self.setState({hideMenuBar: true});
+        }, 1);
+    }
+
+    getBottomComp(imageSource, selected) {
         let textStyle = [styles.menuIconFont];
 
         if (selected)
@@ -101,12 +112,17 @@ class Main extends Component {
     }
 
     render() {
-        const {toMain, component} = this.state;
-        var reduxArgs = this.props.reduxArgs;
-        if (reduxArgs.goToMain && !toMain)
-            this.goToMain();
+        const {goHome, component, hideMenuBar} = this.state;
 
-        return component;
+        var reduxArgs = this.props.reduxArgs;
+
+        if (reduxArgs.goHome && !goHome)
+            this.goHome();
+
+        if (reduxArgs.hideMenu && !hideMenuBar)
+            this.hideMenu();
+
+        return typeof(component) == 'function' ? component() : null;
     }
 
     renderStatus() {
@@ -114,10 +130,14 @@ class Main extends Component {
     }
 
     renderMain() {
-        const {selectedTab} = this.state;
+        var {selectedTab, hideMenuBar} = this.state;
+
+        let tabsStyle = [];
+        if (hideMenuBar)
+            tabsStyle.push({marginBottom: -50});
 
         return (
-            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow} hidesTabTouch={true}>
+            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow} style={tabsStyle}>
                 <Tab
                     titleStyle={[styles.menuIconFont]}
                     selectedTitleStyle={styles.tabSelected}

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {combineReducers} from 'redux';
-import {ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from '../actions/actions';
+import {ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters, HIDE_MENU} from '../actions/actions';
 const {SHOW_ALL} = VisibilityFilters;
 
 function visibilityFilter(state = SHOW_ALL, action) {
@@ -17,12 +17,12 @@ function visibilityFilter(state = SHOW_ALL, action) {
     }
 }
 
-function todos(state = {goToMain: false}, action) {
+function todos(state = {goHome: false}, action) {
     switch (action.type) {
         case ADD_TODO:
             return {
                 reduxArgs: {
-                    goToMain: action.goToMain
+                    goHome: action.goHome
                 },
             }
         case TOGGLE_TODO:
@@ -34,6 +34,13 @@ function todos(state = {goToMain: false}, action) {
                 }
                 return todo
             })
+        case HIDE_MENU:
+            return {
+                reduxArgs: {
+                    ...state,
+                    hideMenu: action.hideMenu
+                },
+            }
         default:
             return {
                 reduxArgs: {
