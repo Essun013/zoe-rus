@@ -7,49 +7,6 @@ import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert} f
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
-var NavBar = {
-    LeftButton(route, navigator, index, navState) {
-        if (index > 0) {
-            return (
-                <View style={styles.navContainer}>
-                    <TouchableOpacity
-                        underlayColor='transparent'
-                        onPress={() => {
-                            if (index > 0) {
-                                navigator.pop()
-                            }
-                        }}
-                    >
-                        <Icon
-                            style={styles.leftNavButtonText}
-                            name='chevron-left'/>
-                    </TouchableOpacity>
-                </View>
-            );
-        }
-    },
-    RightButton(route, navigator, index, navState) {
-    },
-    Title(route, navigator, index, navState) {
-        if (typeof(route.title) == 'string') {
-            return (
-                <View style={{flex: 1, justifyContent: 'center'}}>
-                    <StatusBar backgroundColor='#ff4971'/>
-                    <Text style={styles.navBarTitle}>
-                        {route.title}
-                    </Text>
-                </View>
-            );
-        }
-
-        return route.title();
-    },
-    GetTitleHide(route, navigator, index, navState) {
-        alert(route.titleHide);
-        return route.titleHide;
-    },
-};
-
 export default class Nav extends Component {
     static propTypes = {
         route: PropTypes.object.isRequired,
@@ -69,10 +26,54 @@ export default class Nav extends Component {
         return <route.component navigator={navigator} {...route.passProps} />
     }
 
+    LeftButton(route, navigator, index, navState) {
+        if (index > 0) {
+            return (
+                <View style={styles.navContainer}>
+                    <TouchableOpacity
+                        underlayColor='transparent'
+                        onPress={() => {
+                            if (index > 0) {
+                                navigator.pop()
+                            }
+                        }}
+                    >
+                        <Icon
+                            style={styles.leftNavButtonText}
+                            name='chevron-left'/>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+    }
+
+    RightButton(route, navigator, index, navState) {
+    }
+
+    Title(route, navigator, index, navState) {
+        if (typeof(route.title) == 'string') {
+            return (
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                    <StatusBar backgroundColor='#ff4971'/>
+                    <Text style={styles.navBarTitle}>
+                        {route.title}
+                    </Text>
+                </View>
+            );
+        }
+
+        return route.title();
+    }
+
     render() {
-        NavBar.LeftButton = this.props.leftButton || NavBar.LeftButton;
-        NavBar.Title = this.props.title || NavBar.Title;
-        NavBar.RightButton = this.props.rightButton || NavBar.RightButton;
+        var navBar = {
+            LeftButton: this.LeftButton,
+            RightButton: this.RightButton,
+            Title: this.Title
+        };
+        navBar.LeftButton = this.props.leftButton || navBar.LeftButton;
+        navBar.Title = this.props.title || navBar.Title;
+        navBar.RightButton = this.props.rightButton || navBar.RightButton;
         let titleHide =  false;
 
         if(!titleHide){
@@ -81,7 +82,7 @@ export default class Nav extends Component {
                     navigationBar={
                         <Navigator.NavigationBar
                             style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62,}}
-                            routeMapper={NavBar}
+                            routeMapper={navBar}
                             navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                     }
                     initialRoute={this.props.route}
