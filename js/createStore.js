@@ -1,16 +1,15 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 
-// import {app} from './modules';
-
-import todoApp from './reducers/reducers';
+// import todoApp from './reducers/home/reducers';
+import store from './reducers'
 
 const middleware = applyMiddleware(thunk);
 
 export default (data = {}) => {
-    // const rootReducer = combineReducers({
-    //     [app.NAME]: app.reducer
-    // })
+    const rootReducer = combineReducers({
+        ...store
+    })
 
-    return createStore(todoApp, data, middleware)
+    return createStore(rootReducer, data, middleware)
 }

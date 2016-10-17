@@ -16,7 +16,7 @@ import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
 import {rcache} from '../../common/util';
-import {homeSwitch} from '../../actions/actions';
+import {homeSwitch} from '../../actions/home/actions';
 
 
 class Main extends Component {
@@ -28,8 +28,7 @@ class Main extends Component {
         this.state = {
             selectedTab: 'home',
             goHome: false,
-            component: null,
-            hideMenuBar: false
+            component: null
         };
 
         rcache.get('firstChoose', (err, result) => {
@@ -95,13 +94,6 @@ class Main extends Component {
         return this.getBottomComp(source, selected);
     }
 
-    hideMenu() {
-        let self = this;
-        setTimeout(()=>{
-            self.setState({hideMenuBar: true});
-        }, 1);
-    }
-
     getBottomComp(imageSource, selected) {
         let textStyle = [styles.menuIconFont];
 
@@ -112,15 +104,12 @@ class Main extends Component {
     }
 
     render() {
-        const {goHome, component, hideMenuBar} = this.state;
+        const {goHome, component} = this.state;
 
         var reduxArgs = this.props.reduxArgs;
 
         if (reduxArgs.goHome && !goHome)
             this.goHome();
-
-        if (reduxArgs.hideMenu && !hideMenuBar)
-            this.hideMenu();
 
         return typeof(component) == 'function' ? component() : null;
     }
@@ -130,10 +119,12 @@ class Main extends Component {
     }
 
     renderMain() {
-        var {selectedTab, hideMenuBar} = this.state;
+        var {selectedTab} = this.state;
+        var reduxArgs = this.props.reduxArgs;
 
         let tabsStyle = [];
-        if (hideMenuBar)
+
+        if (reduxArgs.hideMenu)
             tabsStyle.push({marginBottom: -50});
 
         return (

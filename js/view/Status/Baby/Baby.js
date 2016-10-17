@@ -7,7 +7,7 @@ import {View, StyleSheet, Platform, Image, Text, TouchableOpacity, TextInput, Sc
 import device from '../../../common/util/device';
 import Login from '../../Me/LoginSys';
 import {navPush} from '../../../components/Nav/Nav';
-import {addTodo} from '../../../actions/actions';
+import {goHome} from '../../../actions/home/actions';
 
 export default class Baby extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ export default class Baby extends Component {
     }
 
     pushMain() {
-        this.props.dispatch(addTodo(true));
+        this.props.dispatch(goHome(true));
     }
 
     pushLogin() {
