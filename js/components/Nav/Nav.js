@@ -48,6 +48,7 @@ export default class Nav extends Component {
     }
 
     RightButton(route, navigator, index, navState) {
+        navigator.SceneConfigs
     }
 
     Title(route, navigator, index, navState) {
@@ -63,6 +64,10 @@ export default class Nav extends Component {
         }
 
         return route.title();
+    }
+
+    configureScene(route, routeStack) {
+        return Object.assign(Navigator.SceneConfigs.PushFromRight, {defaultTransitionVelocity:20,});
     }
 
     render() {
@@ -87,7 +92,7 @@ export default class Nav extends Component {
                     }
                     initialRoute={this.props.route}
                     renderScene={this.props.renderScene || this.renderScene.bind(this)}
-                    configureScene={this.props.configureScene}
+                    configureScene={this.props.configureScene || this.configureScene.bind(this)}
                     style={[styles.navContainer, {paddingTop: 62}]}
                 />
             );
