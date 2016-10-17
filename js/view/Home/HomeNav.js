@@ -71,6 +71,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginLeft: 20,
     },
+    // 导航栏
+    navContainer: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    // 左面导航按钮
+    leftNavButtonText: {
+        color: '#ffffff',
+        fontSize: 33,
+        paddingLeft: 5,
+        justifyContent: 'center',
+    },
     rightContainer: {
         flex: 1,
         justifyContent: 'center',
