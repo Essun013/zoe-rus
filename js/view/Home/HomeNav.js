@@ -25,6 +25,25 @@ export default class HomeNav extends Component {
                 </TouchableOpacity>
             </View>
         }
+
+        if (index > 0) {
+            return (
+                <View style={styles.navContainer}>
+                    <TouchableOpacity
+                        underlayColor='transparent'
+                        onPress={() => {
+                            if (index > 0) {
+                                navigator.pop()
+                            }
+                        }}
+                    >
+                        <Icon
+                            style={styles.leftNavButtonText}
+                            name='chevron-left'/>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
     }
 
     navBarRightBottom(route, navigator, index, navState) {
