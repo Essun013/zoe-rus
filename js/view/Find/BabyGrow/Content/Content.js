@@ -74,6 +74,7 @@ class Content extends Component {
 const styles = StyleSheet.create({
     container: {
         width: device.width(),
+        height: device.height()
     },
     weekSelImg: {
         width: 68,
