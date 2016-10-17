@@ -18,7 +18,8 @@ var NavBar = {
                             if (index > 0) {
                                 navigator.pop()
                             }
-                        }}>
+                        }}
+                    >
                         <Icon
                             style={styles.leftNavButtonText}
                             name='chevron-left'/>
@@ -32,7 +33,7 @@ var NavBar = {
     Title(route, navigator, index, navState) {
         if (typeof(route.title) == 'string') {
             return (
-                <View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
                     <StatusBar backgroundColor='#ff4971'/>
                     <Text style={styles.navBarTitle}>
                         {route.title}
@@ -124,12 +125,14 @@ const styles = StyleSheet.create({
     // 导航栏
     navContainer: {
         flex: 1,
+        justifyContent: 'center'
     },
     // 左面导航按钮
     leftNavButtonText: {
         color: '#ffffff',
-        fontSize: 30,
+        fontSize: 33,
         paddingLeft: 5,
+        justifyContent: 'center',
     },
     navBarTitle: {
         fontSize: 18,

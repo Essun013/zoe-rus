@@ -38,7 +38,7 @@ class Mom extends Component {
                             <Text style={styles.inputTitle}>预产期</Text>
                         </View>
                         <View style={styles.flex}>
-                            <TextInput placeholder={'预产期是哪一天呢'} placeholderTextColor={'#ffec93'} style={styles.input}/>
+                            <TextInput placeholder={'预产期是哪一天呢'} placeholderTextColor={'#ffec93'} style={styles.input} underlineColorAndroid={'rgba(255,255,255,0)'}/>
                         </View>
                     </View>
                     <View>
