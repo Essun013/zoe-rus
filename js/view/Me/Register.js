@@ -29,6 +29,7 @@ class Register extends Component {
         apiHttp.apiPost('/uc/user/sign-up', params, (data)=> {
                 if (data.code == 0) {
                     Alert.alert("系统提示", "注册成功");
+
                     navPush.pop(this.props, 2);
                 } else {
                     Alert.alert("系统提示", "注册失败,失败原因" + data.message);

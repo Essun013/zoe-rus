@@ -67,7 +67,7 @@ export default class Nav extends Component {
     }
 
     configureScene(route, routeStack) {
-        return Object.assign(Navigator.SceneConfigs.PushFromRight, {defaultTransitionVelocity:20,});
+        return Object.assign(Navigator.SceneConfigs.PushFromRight, {defaultTransitionVelocity:1.5,});
     }
 
     render() {
@@ -79,33 +79,21 @@ export default class Nav extends Component {
         navBar.LeftButton = this.props.leftButton || navBar.LeftButton;
         navBar.Title = this.props.title || navBar.Title;
         navBar.RightButton = this.props.rightButton || navBar.RightButton;
-        let titleHide =  false;
 
-        if(!titleHide){
-            return(
-                <Navigator
-                    navigationBar={
-                        <Navigator.NavigationBar
-                            style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62,}}
-                            routeMapper={navBar}
-                            navigationStyles={Navigator.NavigationBar.StylesIOS}/>
-                    }
-                    initialRoute={this.props.route}
-                    renderScene={this.props.renderScene || this.renderScene.bind(this)}
-                    configureScene={this.props.configureScene || this.configureScene.bind(this)}
-                    style={[styles.navContainer, {paddingTop: 62}]}
-                />
-            );
-        }else{
-            return(
-                <Navigator
-                    initialRoute={this.props.route}
-                    renderScene={this.props.renderScene || this.renderScene.bind(this)}
-                    configureScene={this.props.configureScene}
-                    style={[styles.navContainer]}
-                />
-            )
-        }
+        return(
+            <Navigator
+                navigationBar={
+                    <Navigator.NavigationBar
+                        style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62,}}
+                        routeMapper={navBar}
+                        navigationStyles={Navigator.NavigationBar.StylesIOS}/>
+                }
+                initialRoute={this.props.route}
+                renderScene={this.props.renderScene || this.renderScene.bind(this)}
+                configureScene={this.props.configureScene }
+                style={[styles.navContainer, {paddingTop: 62}]}
+            />
+        );
     }
 }
 

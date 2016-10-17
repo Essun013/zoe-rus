@@ -38,9 +38,9 @@ class BabyGrow extends Component {
     render() {
         return (
             <View>
-                <View>
-                    <ScrollTabBar/>
-                </View>
+                {/*<View>*/}
+                    {/*<ScrollTabBar/>*/}
+                {/*</View>*/}
                 <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} style={{marginTop: -14}}>
                     <Content/>
                 </ScrollView>

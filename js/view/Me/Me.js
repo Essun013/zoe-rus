@@ -12,7 +12,7 @@ import device from '../../common/util/device';
 import LoginSys from './LoginSys';
 import { Provider, connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import meActions from '../../actions/me/me';
+import * as meActions from '../../actions/me/me';
 /*import Register from './Register';*/
 const log = () => console.log('this is an example method');
 
