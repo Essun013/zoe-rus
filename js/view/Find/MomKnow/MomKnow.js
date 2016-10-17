@@ -14,10 +14,16 @@ class MomKnow extends Component {
     }
 
     render() {
-        return <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-            <ScrollTabBar/>
-            <Content/>
-        </ScrollView>
+        return (
+            <View>
+                <View>
+                    <ScrollTabBar/>
+                </View>
+                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+                    <Content/>
+                </ScrollView>
+            </View>
+        )
 
     }
 }

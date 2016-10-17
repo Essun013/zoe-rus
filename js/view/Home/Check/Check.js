@@ -4,12 +4,22 @@
 
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
+import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
 
 class Check extends Component {
+
     constructor(props) {
         super(props);
+        this.pregnancyCheck = this.pregnancyCheck.bind(this);
     }
+
+
+    pregnancyCheck() {
+        navPush.push(this.props, PregnancyCheck, '产检小助手');
+    }
+
 
     render() {
         return <View style={styles.container}>
@@ -38,7 +48,7 @@ class Check extends Component {
                         <View style={{flexDirection: 'row'}}>
                             <Text>随身物品</Text>
                             <View style={styles.oddsPlusButton}>
-                                <TouchableOpacity style={{}}>
+                                <TouchableOpacity style={{}} onPress={this.pregnancyCheck} >
                                     <Image source={require('../img/plus.png')} style={{width: 16, height: 16}}/>
                                 </TouchableOpacity>
                             </View>

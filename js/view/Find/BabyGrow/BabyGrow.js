@@ -3,32 +3,47 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, Alert} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import ScrollTabBar from '../ScrollTabBar/ScrollTabBar'
 import Content from './Content/Content'
-import {home} from '../../../actions';
+import {home, find} from '../../../actions';
 
 class BabyGrow extends Component {
 
     constructor(props) {
         super(props);
-
     }
 
     componentDidMount() {
         this.props.dispatch(home.hideMenu(true));
     }
 
+    componentWillMount() {
+        this.props.dispatch(find.navShare(this.navBarRightBottom));
+    }
+
     componentWillUnmount() {
         this.props.dispatch(home.hideMenu(false));
     }
 
+    navBarRightBottom(route, navigator, index, navState) {
+        if (index > 0) {
+            return <View style={styles.rightContainer}>
+                <Text>123</Text>
+            </View>
+        }
+    }
+
     render() {
         return (
-            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                <ScrollTabBar/>
-                <Content/>
-            </ScrollView>
+            <View>
+                <View>
+                    <ScrollTabBar/>
+                </View>
+                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} style={{marginTop: -14}}>
+                    <Content/>
+                </ScrollView>
+            </View>
         );
 
     }

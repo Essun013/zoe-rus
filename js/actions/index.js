@@ -3,7 +3,9 @@
  */
 
 const home = require('./home/actions');
+const find = require('./find/actions');
 
 module.exports = {
-    home
+    home,
+    find
 }

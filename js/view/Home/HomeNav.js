@@ -9,7 +9,7 @@ import Nav from '../../components/Nav/Nav';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {home} from '../../actions';
 
-export default class HomeNav extends Component {
+class HomeNav extends Component {
     constructor(props) {
         super(props);
 
@@ -62,6 +62,10 @@ export default class HomeNav extends Component {
     }
 
     render() {
+        //var reduxArgs = this.props.reduxArgs;
+
+        //var rightBotton = reduxArgs.component || this.navBarRightBottom;
+
         return <Nav route={{component: Home, title: '9月28日'}} leftButton={this.navBarLeftBottom} rightButton={this.navBarRightBottom}/>;
     }
 }
@@ -97,3 +101,13 @@ const styles = StyleSheet.create({
         marginLeft: 20
     }
 });
+
+//function select(state) {
+//    return {
+//        reduxArgs : state.find.reduxArgs
+//    }
+//}
+
+const {connect} = require('react-redux');
+
+module.exports = connect()(HomeNav);
