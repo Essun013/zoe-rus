@@ -2,10 +2,10 @@
  * Created by ianchen on 2016/10/17.
  */
 
-import {combineReducers} from 'redux';
-
 const home = require('./home/reducers');
+const find = require('./find/reducers');
 
 module.exports = {
-    ...home
+    ...home,
+    ...find
 }

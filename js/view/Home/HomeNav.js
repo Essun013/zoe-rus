@@ -7,9 +7,8 @@ import {View, Image, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import Home from './Home';
 import Nav from '../../components/Nav/Nav';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {home} from '../../actions';
 
-export default class HomeNav extends Component {
+class HomeNav extends Component {
     constructor(props) {
         super(props);
 
@@ -23,7 +22,8 @@ export default class HomeNav extends Component {
                 <TouchableOpacity style={styles.bottomCenter} onPress={() => {
                     Alert.alert('_(:з」∠)_', '暂时还不能切换宝宝啦〜');
                 }}>
-                    <Image source={require('./img/switch_baby.png')} style={{width: 30, height: 26}} resizeMode='stretch'/>
+                    <Image source={require('./img/switch_baby.png')} style={{width: 30, height: 26}}
+                           resizeMode='stretch'/>
                 </TouchableOpacity>
             </View>
         }
@@ -37,8 +37,7 @@ export default class HomeNav extends Component {
                             if (index > 0) {
                                 navigator.pop()
                             }
-                        }}
-                    >
+                        }}>
                         <Icon
                             style={styles.leftNavButtonText}
                             name='chevron-left'/>
@@ -62,7 +61,13 @@ export default class HomeNav extends Component {
     }
 
     render() {
-        return <Nav route={{component: Home, title: '9月28日'}} leftButton={this.navBarLeftBottom} rightButton={this.navBarRightBottom}/>;
+        var reduxArgs = this.props.reduxArgs;
+
+        var rightBotton = this.navBarRightBottom;
+        if (reduxArgs.component)
+            rightBotton = (route, navigator, index, navState) => {return reduxArgs.component}
+
+        return <Nav route={{component: Home, title: '9月28日'}} leftButton={this.navBarLeftBottom} rightButton={rightBotton}/>;
     }
 }
 
@@ -97,3 +102,14 @@ const styles = StyleSheet.create({
         marginLeft: 20
     }
 });
+
+function select(state) {
+    // Alert.alert('select', JSON.stringify(state))
+    return {
+        reduxArgs: state.findX.reduxArgs
+    }
+}
+
+const {connect} = require('react-redux');
+
+module.exports = connect(select)(HomeNav);

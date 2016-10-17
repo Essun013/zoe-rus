@@ -11,13 +11,12 @@ class Content extends Component {
     constructor(props) {
         super(props);
         this.state = {initPage : 7, week : 8, date: 1};
-
     }
 
     render() {
         return (<View style={styles.container}>
             <View>
-                <TouchableOpacity style={[styles.listItem,{marginTop: 0}]} onPress={()=>(Alert.alert("hello", "点了我'{this.state.week}'8周"))}>
+                <TouchableOpacity style={[styles.listItem,{marginTop: -1}]} onPress={()=>(Alert.alert("hello", "点了我'{this.state.week}'8周"))}>
                     <View style={styles.weekContent}>
                         <Image source={require('../../img/babygrow_cal_sel.png')} style={styles.weekSelImg}>
                             <Text style={styles.bgWeekText}>{this.state.week}周</Text>
@@ -75,7 +74,6 @@ class Content extends Component {
 const styles = StyleSheet.create({
     container: {
         width: device.width(),
-        marginTop: -12
     },
     weekSelImg: {
         width: 68,
