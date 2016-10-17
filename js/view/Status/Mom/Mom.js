@@ -7,7 +7,7 @@ import {View, StyleSheet, Image, Text, TouchableOpacity, TextInput} from 'react-
 import device from '../../../common/util/device';
 import Login from '../../Me/LoginSys';
 import {navPush} from '../../../components/Nav/Nav';
-import {addTodo} from '../../../actions/actions';
+import {goHome} from '../../../actions/home/actions';
 
 class Mom extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class Mom extends Component {
     }
 
     pushMain() {
-        this.props.dispatch(addTodo(true));
+        this.props.dispatch(goHome(true));
     }
 
     pushLogin() {

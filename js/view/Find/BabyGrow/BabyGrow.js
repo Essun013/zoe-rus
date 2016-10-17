@@ -3,10 +3,10 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, Alert} from 'react-native';
 import ScrollTabBar from '../ScrollTabBar/ScrollTabBar'
 import Content from './Content/Content'
-import {hideMenu} from '../../../actions/actions';
+import {home} from '../../../actions';
 
 class BabyGrow extends Component {
 
@@ -15,8 +15,12 @@ class BabyGrow extends Component {
 
     }
 
-    componentWillMount() {
-        this.props.dispatch(hideMenu(true));
+    componentDidMount() {
+        this.props.dispatch(home.hideMenu(true));
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(home.hideMenu(false));
     }
 
     render() {

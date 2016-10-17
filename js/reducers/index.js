@@ -1,9 +1,11 @@
 /**
- * Created by sea35 on 2016/10/13.
+ * Created by ianchen on 2016/10/17.
  */
+
 import {combineReducers} from 'redux';
-import reducers from './reducers';
-const rootReducer = combineReducers({
-    reducers
-})
-export default rootReducer;
+
+const home = require('./home/reducers');
+
+module.exports = {
+    ...home
+}

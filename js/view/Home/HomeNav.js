@@ -7,6 +7,7 @@ import {View, Image, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import Home from './Home';
 import Nav from '../../components/Nav/Nav';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {home} from '../../actions';
 
 export default class HomeNav extends Component {
     constructor(props) {
