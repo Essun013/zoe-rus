@@ -12,18 +12,36 @@ import device from '../../common/util/device';
 import LoginSys from './LoginSys';
 import { Provider, connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import meActions from '../../actions/me/me';
 /*import Register from './Register';*/
 const log = () => console.log('this is an example method');
 
 class Me extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            phone: ''
+        }
+    }
     onBasicInfoPress() {
         navPush.push(this.props, BasicInfo, '基本信息');
     }
     onLoginSys(){
-
         navPush.push(this.props, LoginSys, '登录');
     }
     render() {
+        var loginButton;
+        if ( this.props.loginState) {
+            loginButton = <Text style={styles.headerTxt}>this.props.user.name</Text>;
+        } else {
+            loginButton =  <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
+                <Image style={styles.loginBut} source={require('./img/but-login.png')}
+                       resizeMode='cover'>
+                    <Text style={styles.loginText}>立即登录</Text>
+                </Image>
+            </TouchableOpacity>;
+        }
         return (
             <View style={{flex: 1}}>
                 <View style={styles.header}>
@@ -38,12 +56,7 @@ class Me extends Component {
                                            resizeMode='cover'>
                                     </Image>
                                 </Image>
-                                <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
-                                    <Image style={styles.loginBut} source={require('./img/but-login.png')}
-                                           resizeMode='cover'>
-                                        <Text style={styles.loginText}>立即登录</Text>
-                                    </Image>
-                                </TouchableOpacity>
+                                {loginButton}
                                 <Text style={styles.headerTxt}>怀孕8周+1天 | 厦门</Text>
                             </View>
                         </Image>
@@ -128,16 +141,17 @@ const styles = StyleSheet.create({
 
 // 声明 connect 连接
 // 将 redux 中的 state传给 App
-function mapStateToProps(state){
+function mapStateToProps(store){
     return{
-        light:state
+        user:store.user,
+        loginState:store.loginState
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        actions : bindActionCreators(LightActions,dispatch)
+        actions : bindActionCreators(meActions,dispatch)
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(Me);
