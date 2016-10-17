@@ -10,10 +10,12 @@ import BasicInfo from './basic-info/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
 import LoginSys from './LoginSys';
+import { Provider, connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 /*import Register from './Register';*/
 const log = () => console.log('this is an example method');
 
-export default class Me extends Component {
+class Me extends Component {
     onBasicInfoPress() {
         navPush.push(this.props, BasicInfo, '基本信息');
     }
@@ -123,3 +125,19 @@ const styles = StyleSheet.create({
         color: '#ff4969'
     }
 })
+
+// 声明 connect 连接
+// 将 redux 中的 state传给 App
+function mapStateToProps(state){
+    return{
+        light:state
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        actions : bindActionCreators(LightActions,dispatch)
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

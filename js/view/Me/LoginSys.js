@@ -1,8 +1,18 @@
 /**
  * Created by sea35 on 2016/10/12.
  */
-import React, {Component,PropTypes} from 'react'
-import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio,TouchableOpacity} from 'react-native'
+import React, {Component, PropTypes} from 'react'
+import {
+    ScrollView,
+    StyleSheet,
+    Image,
+    TextInput,
+    View,
+    Text,
+    PixelRatio,
+    TouchableOpacity,
+    Platform
+} from 'react-native'
 import {ImgButton} from '../../components'
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
@@ -12,67 +22,74 @@ class LoginSys extends Component {
     static propTypes = {
         fatherProps: PropTypes.object
     };
+
     constructor(props) {
         super(props);
         this.state = {
             phone: ''
         }
     }
-    onBasicInfoPress() {
 
+    onBasicInfoPress() {
         navPush.pop(this.props);
     }
-    onRegisterPress(){
+
+    onRegisterPress() {
         navPush.push(this.props, Register, '注册');
     }
+
     render() {
         return (
             <ScrollView style={styles.mainContainer}>
                 <View style={styles.container}>
                     <View style={styles.listView}>
                         <Text style={styles.title}>手机号</Text>
-                        <View style={styles.textInput}>
+                        <View style={styles.textPhoneInput}>
                             <TextInput
-                                style={{height: 40, fontSize: 15}}
-                                onChangeText={(phone) => this.setState({phone:phone})}
-                                value={this.state.phone}/>
+                                keyboardType="numeric"
+                                style={[styles.textInput, {width: 240}]}
+                                onChangeText={(phone) => this.setState({phone: phone})}
+                                value={this.state.phone} underlineColorAndroid={'transparent'}/>
                         </View>
                     </View>
                     <View style={styles.listView}>
-                        <Text style={styles.title}>密    码</Text>
+                        <Text style={styles.title}>密 码</Text>
                         <View style={styles.textMMInput}>
                             <TextInput
-                                style={{height: 40, fontSize: 15}}
+                                style={[styles.textInput, {width: 180}]}
                                 onChangeText={(text) => this.setState({text})}
-                                value={this.state.text}/>
+                                value={this.state.text}
+                                underlineColorAndroid={'transparent'}
+                                secureTextEntry={true}
+                            />
                         </View>
                         <View style={styles.textFgMMInput}>
-                            <Text style={{fontSize: 15,color: '#fe7aa2'}}>忘记密码了？</Text>
+                            <Text style={{fontSize: 15, color: '#fe7aa2'}}>忘记密码了？</Text>
                         </View>
                     </View>
                 </View>
                 <View style={styles.submitBut}>
                     <ImgButton text="登录" onClick={this.onBasicInfoPress.bind(this)}></ImgButton>
                 </View>
-                <View style={[styles.submitBut,{marginTop:20}]}>
+                <View style={[styles.submitBut, {marginTop: 20}]}>
                     <TouchableOpacity onPress={this.onRegisterPress.bind(this)}>
-                        <Text style={{fontSize: 13,color: '#bbbbbb'}}>我没有帐户，我要注册</Text>
+                        <Text style={{fontSize: 13, color: '#bbbbbb'}}>我没有帐户，我要注册</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.thirdLogin}>
                     <View style={styles.thirdLoginRow}>
-                        <View style={{flex:4,alignItems: 'center',justifyContent: 'center'}}  >
-                            <Text style={{fontSize: 15,color: '#bbbbbb'}}>第三方无需注册，点击直接登录</Text>
+                        <View style={{flex: 4, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={{fontSize: 15, color: '#bbbbbb'}}>第三方无需注册，点击直接登录</Text>
                         </View>
                     </View>
                     <View style={styles.thirdLoginRow}>
-                        <View style={styles.thirdIconList} >
+                        <View style={styles.thirdIconList}>
                             <Image style={styles.thirdIcon} source={require('./img/wx-icon.png')} resizeMode='cover'/>
                         </View>
-                        <View style={styles.thirdIconList} >
+                        <View style={styles.thirdIconList}>
                             <Image style={styles.thirdIcon} source={require('./img/qq-icon.png')} resizeMode='cover'/>
                         </View>
-                        <View style={styles.thirdIconList} >
+                        <View style={styles.thirdIconList}>
                             <Image style={styles.thirdIcon} source={require('./img/wb-icon.png')} resizeMode='cover'/>
                         </View>
                     </View>
@@ -101,18 +118,27 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     textInput: {
+        height: 40,
+        fontSize: 15,
+        ...Platform.select({
+            android: {
+                marginTop: 8,
+            }
+        })
+    },
+    textPhoneInput: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         marginLeft: 10,
     },
-    textMMInput:{
+    textMMInput: {
         flex: 2,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         marginLeft: 10,
     },
-    textFgMMInput:{
+    textFgMMInput: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
@@ -121,7 +147,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#bbbbbb'
     },
-    submitBut:{
+    submitBut: {
         marginTop: 20,
         width: device.width(),
         alignItems: 'center',
@@ -132,7 +158,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         justifyContent: 'center',
         marginLeft: 10,
-        marginTop: 180,
+        ...Platform.select({
+            android: {
+                marginTop: 100,
+            },
+            ios:{
+                marginTop: 180,
+            }
+        })
     },
     thirdLoginRow: {
         flexDirection: 'row',
@@ -140,14 +173,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 30,
     },
-    thirdIconList:{
-        flex:1,
+    thirdIconList: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    thirdIcon:{
-        height:60,
-        width:60
+    thirdIcon: {
+        height: 60,
+        width: 60
     }
 })
 export default LoginSys

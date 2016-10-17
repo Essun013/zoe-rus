@@ -2,12 +2,11 @@
  * Created by sea35 on 2016/10/12.
  */
 import React, {Component} from 'react'
-import {ScrollView, StyleSheet, Image,  Alert,TextInput, View, Text, PixelRatio} from 'react-native'
+import {ScrollView, StyleSheet, Image, Alert, TextInput, View, Text, PixelRatio,Platform} from 'react-native'
 import {ImgButton} from '../../components'
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
 import apiHttp from '../../common/util/http';
-
 
 
 class Register extends Component {
@@ -15,49 +14,77 @@ class Register extends Component {
         super(props);
         this.state = {
             phone: '',
-            verification:''
+            verification: '',
+            password:''
         }
     }
+
     onBasicInfoPress() {
-        let params={
-            username:this.state.phone,
-            captcha:this.state.verification
+        let params = {
+            username: this.state.phone,
+            captcha: this.state.verification,
+            password:this.state.password,
+            gender:2
         }
-        apiHttp.apiPost('/uc/user/signUp',params,(obj)=>{
-            Alert.alert("系统提示","注册成功");
-            navPush.pop(this.props,2);
-        },(err)=> {
-            Alert.alert("系统提示",err);
+        apiHttp.apiPost('/uc/user/sign-up', params, (data)=> {
+                if (data.code == 0) {
+                    Alert.alert("系统提示", "注册成功");
+                    navPush.pop(this.props, 2);
+                } else {
+                    Alert.alert("系统提示", "注册失败,失败原因" + data.message);
+                }
+
+            }, (err)=> {
+                Alert.alert("系统提示", err);
             }
         )
-        // navPush.pop(this.props,2);
-
     }
+
     render() {
         return (
             <ScrollView style={styles.mainContainer}>
                 <View style={styles.container}>
                     <View style={styles.listView}>
                         <Text style={styles.title}>手机号</Text>
-                        <View style={styles.textInput}>
+                        <View style={styles.textPhoneInput}>
                             <TextInput
-                                style={{height: 40, fontSize: 15}}
-                                onChangeText={(phone) => this.setState({phone:phone})}
-                                value={this.state.phone}/>
+                                keyboardType="numeric"
+                                style={[styles.textInput, {width: 240}]}
+                                onChangeText={(phone) => this.setState({phone: phone})}
+                                value={this.state.phone} underlineColorAndroid={'transparent'}/>
                         </View>
                     </View>
                     <View style={styles.listView}>
                         <Text style={styles.title}>验证码</Text>
                         <View style={styles.textMMInput}>
                             <TextInput
-                                style={{height: 40, fontSize: 15}}
-                                onChangeText={(verification) => this.setState({verification:verification})}
-                                value={this.state.verification}/>
+                                style={[styles.textInput, {width: 190}]}
+                                onChangeText={(verification) => this.setState({verification: verification})}
+                                value={this.state.verification} underlineColorAndroid={'transparent'}/>
                         </View>
                         <View style={styles.textFgMMInput}>
-                                <Image style={{height:30,width:130,alignItems: 'center',justifyContent: 'center',}} source={require('./img/verification-but.png')} resizeMode='contain'>
-                                    <Text style={{fontSize: 15,width:90,color: '#fe7aa2',marginLeft: 5,backgroundColor:'#fff1f6'}}>获取验证码</Text>
-                                </Image>
+                            <Image style={{height: 30, width: 130, alignItems: 'center', justifyContent: 'center',}}
+                                   source={require('./img/verification-but.png')} resizeMode='contain'>
+                                <Text style={{
+                                    fontSize: 15,
+                                    width: 90,
+                                    color: '#fe7aa2',
+                                    marginLeft: 5,
+                                    backgroundColor: '#fff1f6'
+                                }}>获取验证码</Text>
+                            </Image>
+                        </View>
+                    </View>
+                    <View style={styles.listView}>
+                        <Text style={styles.title}>密    码</Text>
+                        <View style={styles.textPhoneInput}>
+                            <TextInput
+                                style={[styles.textInput, {width: 240}]}
+                                onChangeText={(password) => this.setState({password: password})}
+                                value={this.state.password}
+                                underlineColorAndroid={'transparent'}
+                                secureTextEntry={true}
+                            />
                         </View>
                     </View>
                 </View>
@@ -66,11 +93,12 @@ class Register extends Component {
                 </View>
                 <View style={styles.thirdLogin}>
                     <View style={styles.thirdLoginRow}>
-                        <View style={{flex:1,alignItems: 'flex-end'}}  >
-                            <Image style={{height:20,width:20}} source={require('./img/selected.png')} resizeMode='cover'/>
+                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                            <Image style={{height: 20, width: 20}} source={require('./img/selected.png')}
+                                   resizeMode='cover'/>
                         </View>
-                        <View style={{flex:5,alignItems: 'flex-start',marginLeft: 5}}  >
-                            <Text style={{fontSize: 15,color: '#bbbbbb'}}>我已阅读并同意使用条款和隐私政策</Text>
+                        <View style={{flex: 5, alignItems: 'flex-start', marginLeft: 5}}>
+                            <Text style={{fontSize: 15, color: '#bbbbbb'}}>我已阅读并同意使用条款和隐私政策</Text>
                         </View>
                     </View>
                 </View>
@@ -96,20 +124,34 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderBottomColor: '#ededed',
         borderBottomWidth: 1,
+        ...Platform.select({
+            ios: {
+                height: 50,
+            }
+        })
     },
     textInput: {
+        height: 50,
+        fontSize: 15,
+        ...Platform.select({
+            android: {
+                marginTop: 8,
+            }
+        })
+    },
+    textPhoneInput: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         marginLeft: 10,
     },
-    textMMInput:{
+    textMMInput: {
         flex: 2,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         marginLeft: 10,
     },
-    textFgMMInput:{
+    textFgMMInput: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -119,7 +161,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#bbbbbb'
     },
-    submitBut:{
+    submitBut: {
         marginTop: 20,
         width: device.width(),
         alignItems: 'center',

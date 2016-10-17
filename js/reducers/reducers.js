@@ -22,6 +22,7 @@ function todos(state = {goToMain: false}, action) {
         case ADD_TODO:
             return {
                 reduxArgs: {
+                    ...state,
                     goToMain: action.goToMain
                 },
             }
