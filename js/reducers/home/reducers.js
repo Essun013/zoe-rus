@@ -4,10 +4,9 @@
 'use strict';
 
 import React from 'react';
-import {combineReducers} from 'redux';
 import {home} from '../../actions'
 
-function todos(state = {goHome: false}, action) {
+function homeX(state = {goHome: false}, action) {
     switch (action.type) {
         case home.GO_HOME:
             return {
@@ -17,24 +16,19 @@ function todos(state = {goHome: false}, action) {
             }
         case home.HIDE_MENU:
             return {
+                ...state,
                 reduxArgs: {
-                    ...state,
                     hideMenu: action.hideMenu
                 },
             }
         default:
             return {
                 reduxArgs: {
-                    ...state
                 },
             }
     }
 }
 
-// const todoApp = combineReducers({
-//     todos
-// })
-
 module.exports = {
-    todos
+    homeX
 }

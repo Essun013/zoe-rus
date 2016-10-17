@@ -16,8 +16,6 @@ import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
 import {rcache} from '../../common/util';
-import {homeSwitch} from '../../actions/home/actions';
-
 
 class Main extends Component {
     constructor(props) {
@@ -122,13 +120,8 @@ class Main extends Component {
         var {selectedTab} = this.state;
         var reduxArgs = this.props.reduxArgs;
 
-        let tabsStyle = [];
-
-        if (reduxArgs.hideMenu)
-            tabsStyle.push({marginBottom: -50});
-
         return (
-            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow} style={tabsStyle}>
+            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow} style={[reduxArgs.hideMenu && {marginBottom: -50}]}>
                 <Tab
                     titleStyle={[styles.menuIconFont]}
                     selectedTitleStyle={styles.tabSelected}
@@ -138,7 +131,7 @@ class Main extends Component {
                     renderIcon={this.home}
                     renderSelectedIcon={this.home}
                     onPress={() => this.changeTab('home')}>
-                    <HomeNav />
+                    <HomeNav/>
                 </Tab>
                 <Tab
                     titleStyle={[styles.menuIconFont]}
@@ -149,7 +142,7 @@ class Main extends Component {
                     renderIcon={this.record}
                     renderSelectedIcon={this.record}
                     onPress={() => this.changeTab('record')}>
-                    <RecordNav />
+                    <RecordNav/>
                 </Tab>
                 <Tab
                     titleStyle={[styles.menuIconFont]}
@@ -160,7 +153,7 @@ class Main extends Component {
                     renderIcon={this.finding}
                     renderSelectedIcon={this.finding}
                     onPress={() => this.changeTab('finding')}>
-                    <FindNav />
+                    <FindNav/>
                 </Tab>
                 <Tab
                     titleStyle={[styles.menuIconFont]}
@@ -171,7 +164,7 @@ class Main extends Component {
                     renderIcon={this.me}
                     renderSelectedIcon={this.me}
                     onPress={() => this.changeTab('me')}>
-                    <MeNav />
+                    <MeNav/>
                 </Tab>
             </Tabs>
         );
@@ -226,7 +219,7 @@ const {connect} = require('react-redux');
 
 function select(state) {
     return {
-        reduxArgs : state.todos.reduxArgs
+        reduxArgs : state.homeX.reduxArgs
     }
 }
 

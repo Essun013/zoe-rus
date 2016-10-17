@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
+import {StyleSheet, ScrollView, View, Text, TouchableOpacity, Image} from 'react-native';
 import ScrollTabBar from '../ScrollTabBar/ScrollTabBar'
 import Content from './Content/Content'
 import {home, find} from '../../../actions';
@@ -19,19 +19,20 @@ class BabyGrow extends Component {
     }
 
     componentWillMount() {
-        this.props.dispatch(find.navShare(this.navBarRightBottom));
+        this.props.dispatch(find.navShare(this.navBarRightBottom()));
     }
 
     componentWillUnmount() {
         this.props.dispatch(home.hideMenu(false));
+        this.props.dispatch(find.navShare(null));
     }
 
-    navBarRightBottom(route, navigator, index, navState) {
-        if (index > 0) {
-            return <View style={styles.rightContainer}>
-                <Text>123</Text>
-            </View>
-        }
+    navBarRightBottom() {
+        return <View style={styles.rightContainer}>
+            <TouchableOpacity style={styles.bottomCenter}>
+                <Image source={require('../img/share.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
+            </TouchableOpacity>
+        </View>
     }
 
     render() {
@@ -52,6 +53,15 @@ class BabyGrow extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f5f5f5'
+    },
+    rightContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        marginRight: 20,
+        flexDirection: 'row',
+    },
+    bottomCenter: {
+        justifyContent: 'center'
     }
 })
 

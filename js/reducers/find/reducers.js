@@ -5,7 +5,7 @@
 import React from 'react';
 import {find} from '../../actions'
 
-function findTodos(state, action) {
+function findX(state = {reduxArgs: {}}, action) {
     switch (action.type) {
         case find.NAV_SHARE:
             return {
@@ -15,13 +15,11 @@ function findTodos(state, action) {
             }
         default:
             return {
-                reduxArgs: {
-                    ...state
-                },
+                ...state
             }
     }
 }
 
 module.exports = {
-    findTodos
+    findX
 }
