@@ -3,8 +3,10 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity,ScrollView, Alert} from 'react-native';
-import ScrollTabBar from '../ScrollTabBar/ScrollTabBar'
+import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import ScrollTabBar from '../ScrollTabBar/ScrollTabBar';
+import Content from './Content/Content';
+import Top from './Top/Top'
 import {hideMenu} from '../../../actions';
 
 class PregnancyCheck extends Component {
@@ -17,9 +19,12 @@ class PregnancyCheck extends Component {
 
     render() {
         return (
-            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                <Text>jlkdsajgkladjsklgjkl</Text>
-            </ScrollView>
+            <View>
+                <Top />
+                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+                    <Content />
+                </ScrollView>
+            </View>
         );
 
     }
