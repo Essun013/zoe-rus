@@ -7,15 +7,23 @@ import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
 import MomKonw from '../../Find/MomKnow/MomKnow';
+import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
 
 class Box extends Component {
     constructor(props) {
         super(props);
         this.momKnow = this.momKnow.bind(this);
+        this.pregnancyCheck = this.pregnancyCheck.bind(this);
     }
+
     momKnow() {
         navPush.push(this.props, MomKonw, '');
     }
+
+    pregnancyCheck() {
+        navPush.push(this.props, PregnancyCheck, '产检小助手');
+    }
+
     render() {
         return <View style={styles.container}>
             <View style={styles.title}>
@@ -23,7 +31,7 @@ class Box extends Component {
                     <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
                 </View>
                 <View style={styles.titleBotton}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.pregnancyCheck} >
                         <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>添加</Text>
                     </TouchableOpacity>
                 </View>
