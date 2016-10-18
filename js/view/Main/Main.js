@@ -15,6 +15,7 @@ import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
+import DeviceInfo from 'react-native-device-info';
 import {rcache} from '../../common/util';
 
 class Main extends Component {
@@ -28,16 +29,18 @@ class Main extends Component {
             goHome: false,
             component: null
         };
-
+        //保存设备ID
+        rcache.put("macID",DeviceInfo.getUniqueID());
         rcache.get('firstChoose', (err, result) => {
-            if (!result || result === 'yes') {
-                rcache.put('firstChoose', 'yes');
-                self.setState({component: self.renderStatus});
-            } else if (result === 'no') {
-                self.setState({component: self.renderMain});
-            }
+            rcache.put('firstChoose', 'yes');
+            self.setState({component: self.renderStatus});
+            // if (!result || result === 'yes') {
+            //     rcache.put('firstChoose', 'yes');
+            //     self.setState({component: self.renderStatus});
+            // } else if (result === 'no') {
+            //     self.setState({component: self.renderMain});
+            // }
         });
-
         this.changeTab = this.changeTab.bind(this);
         this.home = this.home.bind(this);
         this.record = this.record.bind(this);

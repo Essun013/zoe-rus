@@ -3,24 +3,72 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, TextInput} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity,TouchableHighlight, TextInput,Alert} from 'react-native';
 import device from '../../../common/util/device';
 import Login from '../../Me/LoginSys';
 import {navPush} from '../../../components/Nav/Nav';
+import DatePicker from '../../../components/DatePicker'
 import {goHome} from '../../../actions/home/actions';
-
+import DeviceInfo from 'react-native-device-info';
+import apiHttp from '../../../common/util/http';
+import {rcache,synccache} from '../../../common/util';
 class Mom extends Component {
     constructor(props) {
         super(props);
-
+        this.state={
+            childbirth: null,
+            lmp:null
+        };
         this.pushMain = this.pushMain.bind(this);
         this.pushLogin = this.pushLogin.bind(this);
     }
-
     pushMain() {
-        this.props.dispatch(goHome(true));
-    }
+        if(!this.state.childbirth && !this.state.lmp){
+            Alert.alert("系统提示", '请选择预产期日期或末次月经日期');
+        }
+        let params = {
+            username: DeviceInfo.getUniqueID(),
+            gender:2
+        }
+        apiHttp.apiPost('/uc/user/macid', params, (data)=>  {
+                if (data.code == 0) {
+                    rcache.put("user",data.data);
+                    this.createTimeLine();
+                } else {
+                    if(data.code==4121){
+                        this.createTimeLine();
+                    }else{
+                    Alert.alert("系统提示", data.message);
+                    }
+                }
 
+            }, (err)=> {
+                Alert.alert("系统提示", err);
+            }
+        )
+    }
+    createTimeLine(){
+        let  params = {
+            childbirth: this.state.childbirth,
+            lmp:this.state.lmp
+        }
+        apiHttp.apiPost('/uc/timeline/create',params,(data)=> {
+            if(data.code==0){
+                this.props.dispatch(goHome(true));
+            }
+            else if(data.code==4202){
+                let  params = {
+                    username: DeviceInfo.getUniqueID(),
+                    password:1
+                }
+                apiHttp.apiPost('/uc/user/sign-in', params, (data)=>  {
+                    this.createTimeLine();
+                })
+            }else{
+                Alert.alert("系统提示",JSON.parse(data));
+            }
+        })
+    }
     pushLogin() {
         navPush.push(this.props, Login, '登录');
     }
@@ -33,12 +81,54 @@ class Mom extends Component {
                         <Image source={require('../img/mom.png')} style={{width: 122, height: 122}}/>
                     </View>
                     <View style={styles.inputBg}>
-                        {/*<Text style={{color: 'rgba(255,147,200, 0.56)', position: 'absolute', top: -5, zIndex: -1}}>◆</Text>*/}
                         <View style={styles.flex}>
                             <Text style={styles.inputTitle}>预产期</Text>
                         </View>
                         <View style={styles.flex}>
-                            <TextInput placeholder={'预产期是哪一天呢'} placeholderTextColor={'#ffec93'} style={styles.input} underlineColorAndroid={'rgba(255,255,255,0)'}/>
+                            <DatePicker
+                                style={styles.datePicker}
+                                date={this.state.childbirth}
+                                mode="date"
+                                placeholder="预产期是哪一天呢"
+                                format="YYYY-MM-DD"
+                                minDate="2016-05-01"
+                                maxDate="2017-06-01"
+                                confirmBtnText="确定"
+                                cancelBtnText="取消"
+                                customStyles={{
+                                    dateText: {
+                                        fontSize: 16,
+                                        textAlign: 'right',
+                                        color: '#ffec93',
+                                        borderWidth: 0,
+                                        marginBottom:18,
+                                        alignSelf: 'flex-end',
+                                        //height: 16
+                                    },
+                                    placeholderText:{
+                                        fontSize: 16,
+                                        textAlign: 'right',
+                                        color: '#ffec93',
+                                        borderWidth: 0,
+                                        marginBottom:18,
+                                        alignSelf: 'flex-end',
+                                        /*height: 16*/
+                                    },
+                                    dateInputView:{
+                                        borderWidth: 0,
+                                    },
+                                    datePicker:{
+                                        marginTop: 1,
+                                    }
+                                }}
+                                showIcon={false}
+                                onDateChange={(date) => {this.setState({childbirth: date})}}
+                            />
+                            {/*<TextInput placeholder={'预产期是哪一天呢'}*/}
+                                       {/*placeholderTextColor={'#ffec93'}*/}
+                                       {/*value={this.state.childbirth==null?'':this.state.childbirth.toDateString()}*/}
+                                       {/*style={styles.input}*/}
+                                       {/*underlineColorAndroid={'rgba(255,255,255,0)'}/>*/}
                         </View>
                     </View>
                     <View>
@@ -56,25 +146,64 @@ class Mom extends Component {
                                 <Text style={styles.inputTitle}>最后一次经期开始日</Text>
                             </View>
                             <View style={styles.flex}>
-                                <TextInput placeholder={'0000-00-00'} placeholderTextColor={'#ffec93'}
-                                           style={styles.input}/>
+                                <DatePicker
+                                    style={styles.datePicker}
+                                    date={this.state.lmp}
+                                    mode="date"
+                                    placeholder="0000-00-00"
+                                    format="YYYY-MM-DD"
+                                    minDate="2016-05-01"
+                                    maxDate="2017-06-01"
+                                    confirmBtnText="确定"
+                                    cancelBtnText="取消"
+                                    customStyles={{
+                                        dateText: {
+                                            fontSize: 16,
+                                            textAlign: 'right',
+                                            color: '#ffec93',
+                                            borderWidth: 0,
+                                            marginBottom:18,
+                                            alignSelf: 'flex-end',
+                                            //height: 16
+                                        },
+                                        placeholderText:{
+                                            fontSize: 16,
+                                            textAlign: 'right',
+                                            color: '#ffec93',
+                                            borderWidth: 0,
+                                            marginBottom:18,
+                                            alignSelf: 'flex-end',
+                                            /*height: 16*/
+                                        },
+                                        dateInputView:{
+                                            borderWidth: 0,
+                                        },
+                                        datePicker:{
+                                            marginTop: 1,
+                                        }
+                                    }}
+                                    showIcon={false}
+                                    onDateChange={(date) => {this.setState({lmp: date})}}
+                                />
+                                {/*<TextInput placeholder={'0000-00-00'} placeholderTextColor={'#ffec93'}*/}
+                                           {/*style={styles.input}/>*/}
                             </View>
                         </View>
-                        <View style={[styles.inputBg, {
-                            marginTop: 1,
-                            borderBottomLeftRadius: 2,
-                            borderBottomRightRadius: 2,
-                            borderTopLeftRadius: 0,
-                            borderTopRightRadius: 0
-                        }]}>
-                            <View style={styles.flex}>
-                                <Text style={styles.inputTitle}>设置经期、周期</Text>
-                            </View>
-                            <View style={styles.flex}>
-                                <TextInput placeholder={'经期5天，周期28天'} placeholderTextColor={'#ffec93'}
-                                           style={styles.input}/>
-                            </View>
-                        </View>
+                        {/*<View style={[styles.inputBg, {*/}
+                            {/*marginTop: 1,*/}
+                            {/*borderBottomLeftRadius: 2,*/}
+                            {/*borderBottomRightRadius: 2,*/}
+                            {/*borderTopLeftRadius: 0,*/}
+                            {/*borderTopRightRadius: 0*/}
+                        {/*}]}>*/}
+                            {/*<View style={styles.flex}>*/}
+                                {/*<Text style={styles.inputTitle}>设置经期、周期</Text>*/}
+                            {/*</View>*/}
+                            {/*<View style={styles.flex}>*/}
+                                {/*<TextInput placeholder={'经期5天，周期28天'} placeholderTextColor={'#ffec93'}*/}
+                                           {/*style={styles.input}/>*/}
+                            {/*</View>*/}
+                        {/*</View>*/}
                     </View>
                 </View>
                 <View>
@@ -179,6 +308,10 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         textAlign: 'right',
         color: '#ffec93'
+    },
+    datePicker:{
+        width: 160,
+        height: 18,
     }
 });
 

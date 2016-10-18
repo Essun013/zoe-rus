@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { View, StyleSheet, Platform, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Text from '../text/Text'
+import Text from '../Text/Text'
 import fonts from '../config/fonts'
 let styles
 

@@ -1,8 +1,8 @@
-import List from './list/List'
-import ListItem from './list/ListItem'
-import Text from './text/Text'
-import SocialIcon from './social/SocialIcon'
-import  ImgButton from './button/ImgButton'
+import List from './List/List'
+import ListItem from './List/ListItem'
+import Text from './Text/Text'
+import SocialIcon from './Social/SocialIcon'
+import  ImgButton from './Button/ImgButton'
 const Elements = {
     List,
     ListItem,

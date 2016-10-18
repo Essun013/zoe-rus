@@ -30,7 +30,7 @@ var RCache = {
         }).catch((err) => {
             callback(err);
         });
-    },
+    }
 };
 
 module.exports = RCache;

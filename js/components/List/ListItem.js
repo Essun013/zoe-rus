@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { View, StyleSheet, TouchableHighlight, Image, Platform } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import Text from '../text/Text'
+import Text from '../Text/Text'
 import colors from '../config/colors'
 import fonts from '../config/fonts'
 let styles

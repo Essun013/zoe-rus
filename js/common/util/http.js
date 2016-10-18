@@ -4,10 +4,12 @@
 'use strict';
 
 const localApp = require('./app');
+import DeviceInfo from 'react-native-device-info';
 
 const httpHeader = {
     headers: {
-        'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
+        'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+        'commons-session-id':DeviceInfo.getUniqueID()
     }
 };
 
