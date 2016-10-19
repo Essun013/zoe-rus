@@ -17,6 +17,8 @@ import {ImgButton} from '../../components'
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
 import Register from './Register';
+import apiHttp from '../../common/util/http';
+import {rcache,synccache} from '../../common/util';
 
 class LoginSys extends Component {
     static propTypes = {
@@ -31,7 +33,20 @@ class LoginSys extends Component {
     }
 
     onBasicInfoPress() {
-        navPush.pop(this.props);
+        apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
+                if (data.code == 0) {
+                    rcache.put("login",'true');
+                    rcache.put("user",JSON.stringify(data.data));
+                    this.props.dispatch(loginSys(data.data,true));
+                    navPush.pop(this.props);
+                } else {
+                    Alert.alert("系统提示", "登录失败," + data.message);
+                }
+
+            }, (err)=> {
+                Alert.alert("系统提示", err);
+            }
+        )
     }
 
     onRegisterPress() {
@@ -47,6 +62,7 @@ class LoginSys extends Component {
                         <View style={styles.textPhoneInput}>
                             <TextInput
                                 keyboardType="numeric"
+                                maxLength={11}
                                 style={[styles.textInput, {width: 240}]}
                                 onChangeText={(phone) => this.setState({phone: phone})}
                                 value={this.state.phone} underlineColorAndroid={'transparent'}/>

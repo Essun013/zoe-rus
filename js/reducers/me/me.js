@@ -2,15 +2,18 @@
  * Created by sea35 on 2016/10/17.
  */
 import React from 'react';
-import {UPDATE_ME} from '../../actions/me/me';
+import {LOGIN_SYS} from '../../actions/me/me';
 
-const initialState = {}
+const initialState = {
+
+}
 
 export function editMe(state = initialState, action) {
     switch (action.type) {
-        case UPDATE_ME:
+        case LOGIN_SYS:
             return {
-                user:action.user
+                user:action.user,
+                loginState:action.loginState
             };
         default:
             return state;

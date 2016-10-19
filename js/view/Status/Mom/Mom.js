@@ -34,13 +34,13 @@ class Mom extends Component {
         }
         apiHttp.apiPost('/uc/user/macid', params, (data)=>  {
                 if (data.code == 0) {
-                    rcache.put("user",data.data);
+                    rcache.put("user",JSON.stringify(data.data));
                     this.createTimeLine();
                 } else {
                     if(data.code==4121){
                         this.createTimeLine();
                     }else{
-                    Alert.alert("系统提示", data.message);
+                        Alert.alert("系统提示", data.message);
                     }
                 }
 
@@ -64,11 +64,11 @@ class Mom extends Component {
                     password:1
                 }
                 apiHttp.apiPost('/uc/user/sign-in', params, (data)=>  {
-                    rcache.put("user",data.data);
+                    rcache.put("user",JSON.stringify(data.data));
                     this.createTimeLine();
                 })
             }else{
-                Alert.alert("系统提示",JSON.parse(data));
+                Alert.alert("系统提示",JSON.stringify(data));
             }
         })
     }

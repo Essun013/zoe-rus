@@ -7,7 +7,7 @@ import {ImgButton} from '../../components'
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
 import apiHttp from '../../common/util/http';
-
+import {rcache,synccache} from '../../common/util';
 
 class Register extends Component {
     constructor(props) {
@@ -29,7 +29,8 @@ class Register extends Component {
         apiHttp.apiPost('/uc/user/sign-up', params, (data)=> {
                 if (data.code == 0) {
                     Alert.alert("系统提示", "注册成功");
-
+                    rcache.put("login",'true');
+                    rcache.put("user",JSON.stringify(data.data));
                     navPush.pop(this.props, 2);
                 } else {
                     Alert.alert("系统提示", "注册失败,失败原因" + data.message);
@@ -181,4 +182,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
-export default Register
+
+
+const {connect} = require('react-redux');
+module.exports = connect()(Register);
