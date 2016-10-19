@@ -32,6 +32,8 @@ class Main extends Component {
         //保存设备ID
         rcache.put("macID",DeviceInfo.getUniqueID());
         rcache.get('firstChoose', (err, result) => {
+            // rcache.put('firstChoose', 'yes');
+            // self.setState({component: self.renderStatus});
             if (!result || result === 'yes') {
                 rcache.put('firstChoose', 'yes');
                 self.setState({component: self.renderStatus});

@@ -12,6 +12,8 @@ import {goHome} from '../../../actions/home/actions';
 import DeviceInfo from 'react-native-device-info';
 import apiHttp from '../../../common/util/http';
 import {rcache,synccache} from '../../../common/util';
+import Moment from 'moment';
+
 class Mom extends Component {
     constructor(props) {
         super(props);
@@ -62,6 +64,7 @@ class Mom extends Component {
                     password:1
                 }
                 apiHttp.apiPost('/uc/user/sign-in', params, (data)=>  {
+                    rcache.put("user",data.data);
                     this.createTimeLine();
                 })
             }else{
@@ -74,6 +77,11 @@ class Mom extends Component {
     }
 
     render() {
+        const format ='YYYY-MM-DD';
+        const childbirthMin =Moment().format(format);
+        const childbirthMax =Moment().add(280,'days').format(format);
+        const lmpMin =Moment().add(-280,'days').format(format);
+        const lmpMax =Moment().format(format)
         return (
             <Image source={require('../img/bg.png')} resizeMode='stretch' style={styles.bg}>
                 <View style={styles.bgView}>
@@ -90,9 +98,9 @@ class Mom extends Component {
                                 date={this.state.childbirth}
                                 mode="date"
                                 placeholder="预产期是哪一天呢"
-                                format="YYYY-MM-DD"
-                                minDate="2016-05-01"
-                                maxDate="2017-06-01"
+                                format={format}
+                                minDate={childbirthMin}
+                                maxDate={childbirthMax}
                                 confirmBtnText="确定"
                                 cancelBtnText="取消"
                                 customStyles={{
@@ -152,8 +160,8 @@ class Mom extends Component {
                                     mode="date"
                                     placeholder="0000-00-00"
                                     format="YYYY-MM-DD"
-                                    minDate="2016-05-01"
-                                    maxDate="2017-06-01"
+                                    minDate={lmpMin}
+                                    maxDate={lmpMax}
                                     confirmBtnText="确定"
                                     cancelBtnText="取消"
                                     customStyles={{
