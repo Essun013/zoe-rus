@@ -5,7 +5,10 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, View, Text, TouchableOpacity, Image} from 'react-native';
 import ScrollTabBar from '../ScrollTabBar/ScrollTabBar'
+import device from '../../../common/util/device';
 import Content from './Content/Content'
+import TouchAble from './Content/TouchAble'
+import WeekTab from '../WeekTab/WeekTab'
 import {home, find} from '../../../actions';
 
 class BabyGrow extends Component {
@@ -38,10 +41,8 @@ class BabyGrow extends Component {
     render() {
         return (
             <View>
-                {/*<View>*/}
-                    {/*<ScrollTabBar/>*/}
-                {/*</View>*/}
-                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} style={{marginTop: -14}}>
+                <WeekTab/>
+                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} style={{}}>
                     <Content/>
                 </ScrollView>
             </View>
@@ -52,6 +53,9 @@ class BabyGrow extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        //flex:1,
+        //borderWidth: 1,
+        //borderColor: 'green',
         backgroundColor: '#f5f5f5'
     },
     rightContainer: {

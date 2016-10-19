@@ -11,12 +11,18 @@ class Content extends Component {
     constructor(props) {
         super(props);
         this.state = {initPage : 7, week : 8, date: 1};
+        this.getDetail = this.getDetail.bind(this);
     }
+
+    getDetail(){
+        console.log("点击了明细！");
+    }
+
 
     render() {
         return (<View style={styles.container}>
             <View>
-                <TouchableOpacity style={[styles.listItem,{marginTop: -1}]} onPress={()=>(Alert.alert("hello", "点了我'{this.state.week}'8周"))}>
+                <TouchableOpacity style={[styles.listItem,{marginTop: -1}]} onPress={this.getDetail}>
                     <View style={styles.weekContent}>
                         <Image source={require('../../img/babygrow_cal_sel.png')} style={styles.weekSelImg}>
                             <Text style={styles.bgWeekText}>{this.state.week}周</Text>
@@ -32,7 +38,7 @@ class Content extends Component {
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.listItem} onPress={()=>(Alert.alert("hello", "点了我'{this.state.week}'9周"))}>
+                <TouchableOpacity style={styles.listItem} onPress={this.getDetail}>
                     <View style={styles.weekContent}>
                         <Image source={require('../../img/babygrow_cal_unsel.png')} style={styles.weekunSelImg}>
                             <View><Text style={styles.bgWeekText}>{this.state.week}周</Text></View>
@@ -48,7 +54,7 @@ class Content extends Component {
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.listItem} onPress={()=>(Alert.alert("hello", "点了我'{this.state.week}'10周"))}>
+                <TouchableOpacity style={styles.listItem} onPress={this.getDetail}>
                     <View style={styles.weekContent}>
                         <Image source={require('../../img/babygrow_cal_unsel.png')} style={styles.weekunSelImg}>
                             <View><Text style={styles.bgWeekText}>{this.state.week}周</Text></View>
