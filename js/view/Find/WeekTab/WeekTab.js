@@ -11,7 +11,7 @@ class WeekTab extends Component {
     constructor(props) {
         console.log('------0.constructor------');
         super(props);
-        this.state = {initTab : 8, currentTab: 8}; //默认初始页，选中页
+        this.state = {initTab : 8, currentTab: 8}; //默认初始页，选中页8周
         //this.ScrollableTabView.state = {}
         this.switchTab =  this.switchTab.bind(this);
         this._onPressIn = this._onPressIn.bind(this);
@@ -23,14 +23,10 @@ class WeekTab extends Component {
     }
     componentDidMount(){
         console.log('------2.componentDidMount------');
-        this.weekTabRender();
+        //this.weekTabRender();
     }
     componentWillUnMount(){
         console.log('------3.componentWillUnMount------');
-    }
-
-    getCurrentTab(){
-        return this.state.currentTab;
     }
 
     _onPressIn(){
@@ -45,7 +41,7 @@ class WeekTab extends Component {
     switchTab(selectWeek){
         //this.setState({currentTab: week});
         this.setState({currentTab: selectWeek});
-        console.log(selectWeek);
+        //console.log(selectWeek);
     }
 
     _renderUnSelectTab(week){
@@ -113,7 +109,7 @@ class WeekTab extends Component {
                             {11===this.state.currentTab?this._renderSelect(11):this._renderUnSelectTab(11)}
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.scrollViewTab}>
+                    {/*<View style={styles.scrollViewTab}>
                         <TouchableOpacity style={styles.tabTextCenter} onPress={()=>this.switchTab(12)}>
                             {12===this.state.currentTab?this._renderSelect(12):this._renderUnSelectTab(12)}
                         </TouchableOpacity>
@@ -122,7 +118,7 @@ class WeekTab extends Component {
                         <TouchableOpacity style={styles.tabTextCenter} onPress={()=>this.switchTab(13)}>
                             {13===this.state.currentTab?this._renderSelect(13):this._renderUnSelectTab(13)}
                         </TouchableOpacity>
-                    </View>
+                    </View>*/}
                 </ScrollView>
         </Image>
         );

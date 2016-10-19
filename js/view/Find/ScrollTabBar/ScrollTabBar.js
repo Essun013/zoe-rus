@@ -10,17 +10,18 @@ class ScrollTabBar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {initPage : 7}; //默认初始页
+        this.state = {initPage : 2}; //默认初始页
         //this.ScrollableTabView.state = {}
     }
 
-    getInitPage(){
-        return this.state.initPage;
+
+    componentWillMount(){
+        //this.setState({initPage : 2});
     }
 
     getMonth(){
         var list = [];
-        for (let i = 6; i <= 10;i++)
+        for (let i = 6; i <= 11;i++)
             list.push(i+'周');
         return list.map((l, i) => {
             return <Text tabLabel={l} key={i}/>;
@@ -36,7 +37,7 @@ class ScrollTabBar extends Component {
             tabBarActiveTextColor='#ffffff'
             tabBarInactiveTextColor='#ffffff'
             tabBarPosition='top'
-            initialPage={this.getInitPage()}
+            initialPage={this.state.initPage}
             tabBarTextStyle={styles.tabBarTextStyle}>
             {this.getMonth()}
         </ScrollableTabView>

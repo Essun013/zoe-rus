@@ -17,7 +17,7 @@ class Content extends Component {
     render() {
         return (<View style={styles.container}>
             <View>
-                <TouchableOpacity style={[styles.listItem,{marginTop: 0}]} onPress={()=>(console.log(this))}>
+                <TouchableOpacity style={[styles.listItem,{marginTop: 0}]} onPress={()=>(console.log("1"))}>
                     <View style={{flexDirection: 'row'}}>
                         <Image source={require('../../img/momknow_01.png')} style={styles.momknowIcon}/>
                         <Text style={styles.listContentTitle}>本周概览</Text>
@@ -32,7 +32,7 @@ class Content extends Component {
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.listItem} onPress={()=>(console.log(this))}>
+                <TouchableOpacity style={styles.listItem} onPress={()=>(console.log("2"))}>
                     <View style={{flexDirection: 'row'}}>
                         <Image source={require('../../img/momknow_02.png')} style={styles.momknowIcon}/>
                         <Text style={styles.listContentTitle}>身体变化</Text>
@@ -47,7 +47,7 @@ class Content extends Component {
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.listItem} onPress={()=>(console.log(this))}>
+                <TouchableOpacity style={styles.listItem} onPress={()=>(console.log("3"))}>
                     <View style={{flexDirection: 'row'}}>
                         <Image source={require('../../img/momknow_03.png')} style={styles.momknowIcon}/>
                         <Text style={styles.listContentTitle}>情绪变化</Text>
@@ -60,7 +60,7 @@ class Content extends Component {
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.listItem} onPress={()=>(console.log(this))}>
+                <TouchableOpacity style={styles.listItem} onPress={()=>(console.log("4"))}>
                     <View style={{flexDirection: 'row'}}>
                         <Image source={require('../../img/momknow_04.png')} style={styles.momknowIcon}/>
                         <Text style={styles.listContentTitle}>关爱提醒</Text>
