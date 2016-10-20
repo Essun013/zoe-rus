@@ -2,11 +2,11 @@
  * Created by sea35 on 2016/10/17.
  */
 
-export const UPDATE_ME = 'UPDATE_ME';
+export const LOGIN_SYS = 'LOGIN_SYS';
 
-export function updateMe(user,loginState) {
+export function loginSys(user,loginState) {
     return {
-        type: UPDATE_ME,
+        type: LOGIN_SYS,
         user,
         loginState
 

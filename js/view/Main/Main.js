@@ -31,15 +31,31 @@ class Main extends Component {
         };
         //保存设备ID
         rcache.put("macID",DeviceInfo.getUniqueID());
+        let params = {
+            username: DeviceInfo.getUniqueID(),
+            password:1
+        }
         rcache.get('firstChoose', (err, result) => {
-            rcache.put('firstChoose', 'no');
-            self.setState({component: self.renderMain});
-            // if (!result || result === 'yes') {
-            //     rcache.put('firstChoose', 'yes');
-            //     self.setState({component: self.renderStatus});
-            // } else if (result === 'no') {
-            //     self.setState({component: self.renderMain});
-            // }
+            if(!result){
+                apiHttp.apiPost('/uc/user/sign-in', params, (data)=>  {
+                    if(data.code==0){
+                        rcache.put('firstChoose', 'no');
+                        self.setState({component: self.renderMain});
+                    }else {
+                        rcache.put('firstChoose', 'yes');
+                        self.setState({component: self.renderStatus});
+                    }
+                },(err)=>{
+                    rcache.put('firstChoose', 'yes');
+                    self.setState({component: self.renderStatus});
+                });
+            }
+            else if (!result || result === 'yes') {
+                rcache.put('firstChoose', 'yes');
+                self.setState({component: self.renderStatus});
+            } else if (result === 'no') {
+                self.setState({component: self.renderMain});
+            }
         });
         this.changeTab = this.changeTab.bind(this);
         this.home = this.home.bind(this);
