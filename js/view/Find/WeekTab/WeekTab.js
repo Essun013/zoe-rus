@@ -5,6 +5,8 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import device from '../../../common/util/device';
+import apiHttp from '../../../common/util/http';
+import {rcache,synccache} from '../../../common/util';
 
 class WeekTab extends Component {
 
@@ -24,6 +26,7 @@ class WeekTab extends Component {
     componentDidMount(){
         console.log('------2.componentDidMount------');
         //this.weekTabRender();
+        this.getBabyGrowDataByWeek(this.state.initTab);
     }
     componentWillUnMount(){
         console.log('------3.componentWillUnMount------');
@@ -35,6 +38,29 @@ class WeekTab extends Component {
 
     _onPressOut(){
         console.log("_onPressOut");
+    }
+
+    getBabyGrowDataByWeek(week){
+        let params = {
+            week: week
+        }
+        apiHttp.apiPost('/uc/babygrow/macid', params, (result)=>  {
+                if (result.code == 0) {
+                    //rcache.put("user",result.data);
+                    console.log(result.data);
+                    // todo
+                } else {
+                    if(result.code==4121){
+                        // todo
+                    }else{
+                        Alert.alert("系统提示", "请求错误！");
+                    }
+                }
+            }, (err)=> {
+                Alert.alert("系统提示", "请求错误！" + err);
+            }
+        )
+
     }
 
     //切换Tab方法(改变样式)

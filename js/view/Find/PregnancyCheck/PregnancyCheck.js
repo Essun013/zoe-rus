@@ -16,12 +16,11 @@ class PregnancyCheck extends Component {
 
     }
 
-
     render() {
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <Top />
-                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     <Content />
                 </ScrollView>
             </View>

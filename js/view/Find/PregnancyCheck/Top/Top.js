@@ -18,8 +18,10 @@ class Top extends Component {
             <View style={styles.title}>
                 <Text style={styles.titlelocalText}>产检医院  思明区妇幼保健院</Text>
                 <View style={styles.titlelocal}>
-                    <Image source={require('../../img/locate.png')} style={styles.localImg}></Image>
-                    <Text style={styles.titleGoThere}>到这里去</Text>
+                    <TouchableOpacity style={{flexDirection: 'row'}}>
+                        <Image source={require('../../img/locate.png')} style={styles.localImg}></Image>
+                        <Text style={styles.titleGoThere}>到这里去</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
@@ -32,7 +34,7 @@ class Top extends Component {
 const styles = StyleSheet.create({
     title : {
         width: device.width(),
-        height: 40,
+        height: 44,
         backgroundColor: '#f5f5f5',
         //flex: 1,
         flexDirection: 'row',
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     titlelocalText : {
-        flex:4,
+        flex:5,
         color:'rgb(146,146,146)',
         fontSize: 13,
         paddingTop: 6,
@@ -53,14 +55,15 @@ const styles = StyleSheet.create({
         paddingTop: 11,
         paddingBottom: 11,
         flex: 2,
-        flexDirection: 'row',
     },
     localImg : {
-        width:14,
+        marginLeft:10,
+        width:15,
         height:20,
         //backgroundColor: 'blue',
     },
     titleGoThere : {
+        marginLeft:10,
         fontSize: 13,
         color:'rgb(254,122,162)',
         fontFamily: 'PingFang SC',
