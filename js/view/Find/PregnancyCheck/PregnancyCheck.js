@@ -21,7 +21,7 @@ class PregnancyCheck extends Component {
             <View style={{flex: 1}}>
                 <Top />
                 <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                    <Content />
+                    <Content navigator={this.props.navigator}/>
                 </ScrollView>
             </View>
         );

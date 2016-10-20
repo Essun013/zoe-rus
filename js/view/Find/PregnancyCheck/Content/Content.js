@@ -5,13 +5,19 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
 import device from '../../../../common/util/device';
+import {navPush} from '../../../../components/Nav/Nav';
+import PregnancyCheckDetail from '../PregnanyCheckDetail/PregnancyCheckDetail';
+import PregnancyCheckedImage from '../PregnancyCheckedImage';
 
 class Content extends Component {
 
     constructor(props) {
         super(props);
-        //this.state = {initPage : 7, week : 8, date: 1};
+        this.toPregnancyCheckDetail = this.toPregnancyCheckDetail.bind(this);
+    }
 
+    toPregnancyCheckDetail(){
+        navPush.push(this.props, PregnancyCheckDetail, '第一次产检小贴士');
     }
 
     render() {
@@ -26,12 +32,9 @@ class Content extends Component {
                 <View style={styles.checkContent}>
                     <View style={styles.lineIn}>
                         <View style={{flex:1, alignItems:'flex-start'}}><Text style={styles.dateText}>2016年09月04日</Text></View>
-                        <View style={{flex:1, alignItems: 'flex-end'}}>
-                            <Image source={require('../../img/checkform.png')} style={styles.checkform} >
-                                <Image source={require('../../img/check_form_right.png')} style={styles.checkformright} />
-                                <View style={{paddingTop:1}}><Text style={styles.checkedText}>已检</Text></View>
-                            </Image>
-                        </View>
+                        <TouchableOpacity onPress={this.toPregnancyCheckDetail}>
+                            <PregnancyCheckedImage/>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.lineIn}>
                         <Text style={styles.pregnancyWeekText}>第一次产检  怀孕12周</Text>
