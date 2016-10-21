@@ -16,6 +16,7 @@ import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
 import DeviceInfo from 'react-native-device-info';
+import apiHttp from '../../common/util/http';
 import {rcache} from '../../common/util';
 
 class Main extends Component {
@@ -30,28 +31,28 @@ class Main extends Component {
             component: null
         };
         //保存设备ID
-        rcache.put("macID",DeviceInfo.getUniqueID());
+        rcache.put("macID", DeviceInfo.getUniqueID());
         let params = {
             username: DeviceInfo.getUniqueID(),
-            password:1
+            password: 1
         }
         rcache.get('firstChoose', (err, result) => {
-            if(!result){
-                apiHttp.apiPost('/uc/user/sign-in', params, (data)=>  {
-                    if(data.code==0){
+            if (!result) {
+                apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
+                    if (data.code == 0) {
                         rcache.put('firstChoose', 'no');
                         self.setState({component: self.renderMain});
-                    }else {
-                        rcache.put('firstChoose', 'yes');
+                    } else {
+                        // rcache.put('firstChoose', 'yes');
                         self.setState({component: self.renderStatus});
                     }
-                },(err)=>{
-                    rcache.put('firstChoose', 'yes');
+                }, (err)=> {
+                    // rcache.put('firstChoose', 'yes');
                     self.setState({component: self.renderStatus});
                 });
             }
-            else if (!result || result === 'yes') {
-                rcache.put('firstChoose', 'yes');
+            else if (result === 'yes') {
+                // rcache.put('firstChoose', 'yes');
                 self.setState({component: self.renderStatus});
             } else if (result === 'no') {
                 self.setState({component: self.renderMain});
@@ -67,7 +68,7 @@ class Main extends Component {
 
     goHome() {
         let self = this;
-        setTimeout(()=>{
+        setTimeout(()=> {
             self.setState({component: self.renderMain});
             rcache.put('firstChoose', 'no');
         }, 200);
@@ -140,7 +141,8 @@ class Main extends Component {
         var reduxArgs = this.props.reduxArgs;
 
         return (
-            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow} style={[reduxArgs.hideMenu && {marginBottom: -50}]}>
+            <Tabs tabBarStyle={styles.tabs} tabBarShadowStyle={styles.tabsShadow}
+                  style={[reduxArgs.hideMenu && {marginBottom: -50}]}>
                 <Tab
                     titleStyle={[styles.menuIconFont]}
                     selectedTitleStyle={styles.tabSelected}
@@ -238,7 +240,7 @@ const {connect} = require('react-redux');
 
 function select(state) {
     return {
-        reduxArgs : state.homeX.reduxArgs
+        reduxArgs: state.homeX.reduxArgs
     }
 }
 
