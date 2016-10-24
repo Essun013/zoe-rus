@@ -31,6 +31,7 @@ class Register extends Component {
                     Alert.alert("系统提示", "注册成功");
                     rcache.put("login",'true');
                     rcache.put("user",JSON.stringify(data.data));
+                    this.props.loginSys(data.data,'true');
                     navPush.pop(this.props, 2);
                 } else {
                     Alert.alert("系统提示", "注册失败,失败原因" + data.message);

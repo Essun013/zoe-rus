@@ -3,7 +3,7 @@
  */
 
 const home = require('./home/reducers');
-import * as me from './me/me';
+const me= require('./me/me');
 const find = require('./find/reducers');
 
 module.exports = {

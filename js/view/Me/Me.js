@@ -3,15 +3,15 @@
  */
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Image,TouchableOpacity} from 'react-native'
+import {ScrollView, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
 
 import {ListItem, List, Text} from '../../components';
 import BasicInfo from './basic-info/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
 import LoginSys from './LoginSys';
-import { Provider, connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import {Provider, connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as meActions from '../../actions/me/me';
 /*import Register from './Register';*/
 const log = () => console.log('this is an example method');
@@ -24,18 +24,26 @@ class Me extends Component {
             phone: ''
         }
     }
+
     onBasicInfoPress() {
-        navPush.push(this.props, BasicInfo, '基本信息');
+        if (this.props.loginState) {
+            navPush.push(this.props, BasicInfo, '基本信息');
+        }
+        else {
+            navPush.push(this.props, LoginSys, '登录');
+        }
     }
-    onLoginSys(){
+
+    onLoginSys() {
         navPush.push(this.props, LoginSys, '登录');
     }
+
     render() {
         var loginButton;
-        if ( this.props.loginState) {
-            loginButton = <Text style={styles.headerTxt}>this.props.user.name</Text>;
+        if (this.props.loginState) {
+            loginButton = <Text style={styles.headerTxt}>13860176061</Text>;
         } else {
-            loginButton =  <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
+            loginButton = <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
                 <Image style={styles.loginBut} source={require('./img/but-login.png')}
                        resizeMode='cover'>
                     <Text style={styles.loginText}>立即登录</Text>
@@ -141,17 +149,16 @@ const styles = StyleSheet.create({
 
 // 声明 connect 连接
 // 将 redux 中的 state传给 App
-function mapStateToProps(store){
-    return{
-        user:store.user,
-        loginState:store.loginState
+function mapStateToProps(store) {
+    return {
+        loginState: store.editMe.loginState
     }
 }
 
-function mapDispatchToProps(dispatch){
-    return{
-        actions : bindActionCreators(meActions,dispatch)
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         actions: bindActionCreators(meActions, dispatch)
+//     }
+// }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Me);
+export default connect(mapStateToProps)(Me);

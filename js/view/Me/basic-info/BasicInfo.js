@@ -11,6 +11,7 @@ import {navPush} from '../../../components/Nav/Nav';
 import PhoneSetting from './PhoneSetting';
 import NicknameSetting from './NicknameSetting';
 import SexSetting from './SexSetting';
+import PhotoSetting from './PhotoSetting';
 
 const log = () => console.log('this is an example method')
 
@@ -26,6 +27,9 @@ class PersonalCenter extends Component {
     onSexPress() {
         navPush.push(this.props, SexSetting, '性别');
     }
+    onPhotoSetting(){
+        navPush.push(this.props,PhotoSetting,'头像上传')
+    }
     render() {
         return (
             <ScrollView style={styles.mainContainer}>
@@ -34,7 +38,7 @@ class PersonalCenter extends Component {
                         title={"头像"}
                         rightImg={require('./img/photo.png')}
                         titleStyle={{color: "#bbbbbb"}}
-                        onPress={log}
+                        onPress={this.onPhotoSetting.bind(this)}
                     />
                     <ListItem
                         title={"昵称"}

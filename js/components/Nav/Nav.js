@@ -7,7 +7,7 @@ import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert} f
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
-export default class Nav extends Component {
+ class Nav extends Component {
     static propTypes = {
         route: PropTypes.object.isRequired,
         renderScene: PropTypes.func,
@@ -96,6 +96,11 @@ export default class Nav extends Component {
         );
     }
 }
+
+const {connect} = require('react-redux');
+
+export default connect()(Nav);
+
 
 export var navPush = {
     push(props, component, title,titleHide, other?: Object)
