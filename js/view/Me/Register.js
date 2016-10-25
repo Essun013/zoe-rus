@@ -8,6 +8,7 @@ import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
 import apiHttp from '../../common/util/http';
 import {rcache,synccache} from '../../common/util';
+import { loginSys }  from '../../actions/me/me';
 
 class Register extends Component {
     constructor(props) {
@@ -29,9 +30,9 @@ class Register extends Component {
         apiHttp.apiPost('/uc/user/sign-up', params, (data)=> {
                 if (data.code == 0) {
                     Alert.alert("系统提示", "注册成功");
-                    rcache.put("login",'true');
+                    rcache.put("loginState",'true');
                     rcache.put("user",JSON.stringify(data.data));
-                    this.props.loginSys(data.data,'true');
+                    this.props.dispatch(loginSys(data.data,true));
                     navPush.pop(this.props, 2);
                 } else {
                     Alert.alert("系统提示", "注册失败,失败原因" + data.message);

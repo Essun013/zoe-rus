@@ -4,9 +4,10 @@
 
 const LOGIN_SYS = 'LOGIN_SYS';
 
-function loginSys(loginState) {
+function loginSys(user,loginState) {
     return {
         type: LOGIN_SYS,
+        user,
         loginState
 
     }

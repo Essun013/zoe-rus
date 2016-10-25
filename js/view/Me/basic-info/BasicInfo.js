@@ -12,6 +12,7 @@ import PhoneSetting from './PhoneSetting';
 import NicknameSetting from './NicknameSetting';
 import SexSetting from './SexSetting';
 import PhotoSetting from './PhotoSetting';
+import {connect} from 'react-redux'
 
 const log = () => console.log('this is an example method')
 
@@ -43,12 +44,12 @@ class PersonalCenter extends Component {
                     <ListItem
                         title={"昵称"}
                         titleStyle={{color: "#bbbbbb"}}
-                        rightTitle={"辣妈"}
+                        rightTitle={this.props.user.name}
                         onPress={this.onNicknamePress.bind(this)}
                     />
                     <ListItem
                         title={"性别"}
-                        rightTitle={"女"}
+                        rightTitle={this.props.user.gender==1?'男':'女'}
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={this.onSexPress.bind(this)}
                     />
@@ -66,7 +67,7 @@ class PersonalCenter extends Component {
                     />
                     <ListItem
                         title={"手机号"}
-                        rightTitle={"138***6061"}
+                        rightTitle={this.props.user.mobile}
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={this.onPhonePress.bind(this)}
                     />
@@ -87,4 +88,10 @@ styles = StyleSheet.create({
     },
 })
 
-export default PersonalCenter
+function mapStateToProps(store) {
+    return {
+        user:store.editMe.user
+    }
+}
+
+export default connect(mapStateToProps)(PersonalCenter);

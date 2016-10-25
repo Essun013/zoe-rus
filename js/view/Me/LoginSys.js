@@ -20,6 +20,7 @@ import {navPush} from '../../components/Nav/Nav';
 import Register from './Register';
 import apiHttp from '../../common/util/http';
 import {rcache,synccache} from '../../common/util';
+import { loginSys }  from '../../actions/me/me';
 
 class LoginSys extends Component {
     static propTypes = {
@@ -42,9 +43,9 @@ class LoginSys extends Component {
         }
         apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
                 if (data.code == 0) {
-                    rcache.put("login",'true');
+                    rcache.put("loginState",'true');
                     rcache.put("user",JSON.stringify(data.data));
-                    me.props.dispatch(loginSys(true));
+                    me.props.dispatch(loginSys(data.data,true));
                     navPush.pop(this.props);
                 } else {
                     Alert.alert("系统提示", "登录失败," + data.message);

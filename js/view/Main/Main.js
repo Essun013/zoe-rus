@@ -18,6 +18,7 @@ import StatusNav from '../Status/StatusNav';
 import DeviceInfo from 'react-native-device-info';
 import apiHttp from '../../common/util/http';
 import {rcache} from '../../common/util';
+import { loginSys }  from '../../actions/me/me';
 
 class Main extends Component {
     constructor(props) {
@@ -38,24 +39,12 @@ class Main extends Component {
         }
         rcache.get('firstChoose', (err, result) => {
             if (!result) {
-                apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
-                    if (data.code == 0) {
-                        rcache.put('firstChoose', 'no');
-                        self.setState({component: self.renderMain});
-                    } else {
-                        // rcache.put('firstChoose', 'yes');
-                        self.setState({component: self.renderStatus});
-                    }
-                }, (err)=> {
-                    // rcache.put('firstChoose', 'yes');
-                    self.setState({component: self.renderStatus});
-                });
-            }
-            else if (result === 'yes') {
+               this.loginSys();
+            }else if (result === 'yes') {
                 // rcache.put('firstChoose', 'yes');
                 self.setState({component: self.renderStatus});
-            } else if (result === 'no') {
-                self.setState({component: self.renderMain});
+            }else  if (result === 'no') {
+                this.setState({component: self.renderMain});
             }
         });
         this.changeTab = this.changeTab.bind(this);
@@ -66,6 +55,25 @@ class Main extends Component {
         this.renderMain = this.renderMain.bind(this);
     }
 
+    loginSys(){
+        let params = {
+            username: DeviceInfo.getUniqueID(),
+            password: 1
+        }
+        rcache.put('firstChoose', 'no');
+        apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
+            if (data.code == 0) {
+                rcache.put("loginState", 'true');
+                rcache.put("user", JSON.stringify(data.data));
+                this.props.dispatch(loginSys(data.data, true));
+                this.setState({component: this.renderMain});
+            }else {
+                this.setState({component: this.renderStatus});
+            }
+        },(err)=> {
+            this.setState({component: this.renderStatus});
+        });
+    }
     goHome() {
         let self = this;
         setTimeout(()=> {
