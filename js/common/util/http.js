@@ -27,6 +27,7 @@ var http = {
     },
 };
 
+
 function getUrl(uri) {
     if (uri.indexOf("/") === 0)
         uri = uri.substr(1);

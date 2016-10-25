@@ -3,39 +3,72 @@
  */
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Image,TouchableOpacity} from 'react-native'
+import {ScrollView, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
 
 import {ListItem, List, Text} from '../../components';
 import BasicInfo from './basic-info/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
 import LoginSys from './LoginSys';
-import { Provider, connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import {Provider, connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as meActions from '../../actions/me/me';
+import apiHttp from '../../common/util/http';
+import {rcache,synccache} from '../../common/util';
+
 /*import Register from './Register';*/
 const log = () => console.log('this is an example method');
 
 class Me extends Component {
 
-    constructor(props) {
+     constructor(props) {
         super(props);
         this.state = {
-            phone: ''
+            loginState: false,
+            user:null,
+            gestationalAge:''
+        }
+        this.setLoingState();
+    }
+
+    async setLoingState(){
+        let loginState = await synccache.get("loginState");
+        let user = await synccache.get("user");
+        if(loginState == "true"){
+            this.setState({loginState:true,user:JSON.parse(user)});
+        }
+        apiHttp.apiPost('/uc/timeline/get', {}, (data)=> {
+                if (data.code == 0) {
+                    let week = parseInt(data.data.day/7);
+                    let day = data.data.day%7;
+                    this.setState({gestationalAge:week+'周+'+day+'天'})
+                }
+
+            }
+        )
+    }
+
+    onBasicInfoPress() {
+        if (this.state.loginState || this.props.loginState) {
+            navPush.push(this.props, BasicInfo, '基本信息');
+        }
+        else {
+            navPush.push(this.props, LoginSys, '登录');
         }
     }
-    onBasicInfoPress() {
-        navPush.push(this.props, BasicInfo, '基本信息');
-    }
-    onLoginSys(){
+
+    onLoginSys() {
         navPush.push(this.props, LoginSys, '登录');
     }
+
     render() {
         var loginButton;
-        if ( this.props.loginState) {
-            loginButton = <Text style={styles.headerTxt}>this.props.user.name</Text>;
+        let state =this.state.loginState || this.props.loginState;
+        let user = this.state.user || this.props.user;
+        if (state) {
+            loginButton = <Text style={styles.headerTxt}>{user.name || user.mobile}</Text>;
         } else {
-            loginButton =  <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
+            loginButton = <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
                 <Image style={styles.loginBut} source={require('./img/but-login.png')}
                        resizeMode='cover'>
                     <Text style={styles.loginText}>立即登录</Text>
@@ -57,7 +90,7 @@ class Me extends Component {
                                     </Image>
                                 </Image>
                                 {loginButton}
-                                <Text style={styles.headerTxt}>怀孕8周+1天 | 厦门</Text>
+                                <Text style={styles.headerTxt}>怀孕{this.state.gestationalAge} | 厦门</Text>
                             </View>
                         </Image>
                     </Image>
@@ -104,6 +137,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headerTxt: {
+        alignItems: 'center',
+        justifyContent: 'center',
         color: '#ffffff'
     },
     backgroundImage1: {
@@ -141,16 +176,16 @@ const styles = StyleSheet.create({
 
 // 声明 connect 连接
 // 将 redux 中的 state传给 App
-function mapStateToProps(store){
-    return{
-        user:store.user,
-        loginState:store.loginState
+function mapStateToProps(store) {
+    return {
+        user:store.editMe.user,
+        loginState: store.editMe.loginState
     }
 }
 
-function mapDispatchToProps(dispatch){
-    return{
-        actions : bindActionCreators(meActions,dispatch)
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(meActions, dispatch)
     }
 }
 

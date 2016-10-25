@@ -2,13 +2,17 @@
  * Created by sea35 on 2016/10/17.
  */
 
-export const LOGIN_SYS = 'LOGIN_SYS';
+const LOGIN_SYS = 'LOGIN_SYS';
 
-export function loginSys(user,loginState) {
+function loginSys(user,loginState) {
     return {
         type: LOGIN_SYS,
         user,
         loginState
 
     }
+}
+module.exports ={
+    loginSys,
+    LOGIN_SYS
 }

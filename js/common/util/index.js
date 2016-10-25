@@ -7,11 +7,13 @@ const app = require('./app');
 const rcache = require('./rcache');
 const reduxcomp = require('./reduxcomp');
 const synccache = require('./synccache');
+const converter = require('./converter');
 
 module.exports = {
     http,
     app,
     rcache,
     reduxcomp,
-    synccache
+    synccache,
+    converter
 };

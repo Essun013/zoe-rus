@@ -11,7 +11,8 @@ import {
     Text,
     PixelRatio,
     TouchableOpacity,
-    Platform
+    Platform,
+    Alert
 } from 'react-native'
 import {ImgButton} from '../../components'
 import device from '../../common/util/device';
@@ -19,6 +20,7 @@ import {navPush} from '../../components/Nav/Nav';
 import Register from './Register';
 import apiHttp from '../../common/util/http';
 import {rcache,synccache} from '../../common/util';
+import { loginSys }  from '../../actions/me/me';
 
 class LoginSys extends Component {
     static propTypes = {
@@ -28,16 +30,22 @@ class LoginSys extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: ''
+            phone: '',
+            password:''
         }
     }
 
     onBasicInfoPress() {
+        var me =this;
+        let params = {
+            username: this.state.phone,
+            password:this.state.password
+        }
         apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
                 if (data.code == 0) {
-                    rcache.put("login",'true');
+                    rcache.put("loginState",'true');
                     rcache.put("user",JSON.stringify(data.data));
-                    this.props.dispatch(loginSys(data.data,true));
+                    me.props.dispatch(loginSys(data.data,true));
                     navPush.pop(this.props);
                 } else {
                     Alert.alert("系统提示", "登录失败," + data.message);
@@ -69,12 +77,12 @@ class LoginSys extends Component {
                         </View>
                     </View>
                     <View style={styles.listView}>
-                        <Text style={styles.title}>密 码</Text>
+                        <Text style={styles.title}>密   码</Text>
                         <View style={styles.textMMInput}>
                             <TextInput
-                                style={[styles.textInput, {width: 180}]}
-                                onChangeText={(text) => this.setState({text})}
-                                value={this.state.text}
+                                style={[styles.textInput, {width: 200}]}
+                                onChangeText={(password) => this.setState({password:password})}
+                                value={this.state.password}
                                 underlineColorAndroid={'transparent'}
                                 secureTextEntry={true}
                             />
@@ -199,4 +207,6 @@ const styles = StyleSheet.create({
         width: 60
     }
 })
-export default LoginSys
+
+const {connect} = require('react-redux');
+module.exports = connect()(LoginSys);
