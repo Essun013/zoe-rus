@@ -63,8 +63,10 @@ export default class Baby extends Component {
                     </View>
 
                     <View style={styles.cacleView}>
-                        <Image source={require('../img/add_baby.png')} style={styles.addBabyImg}/>
-                        <Text style={styles.cacleTx}>添加宝宝</Text>
+                        <TouchableOpacity style={{flexDirection: 'row'}}>
+                            <Image source={require('../img/add_baby.png')} style={styles.addBabyImg}/>
+                            <Text style={styles.cacleTx}>添加宝宝</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View>
@@ -78,7 +80,6 @@ export default class Baby extends Component {
                             <TouchableOpacity onPress={this.pushLogin}>
                                 <Text style={styles.fastLoginTx}>已有账号快速登录</Text>
                             </TouchableOpacity>
-                            {/*<Text style={styles.fastLoginTx}>已有账号快速登录</Text>*/}
                         </View>
                     </View>
                     <Image source={require('../img/bottom_bg.png')} style={styles.bottomImg}

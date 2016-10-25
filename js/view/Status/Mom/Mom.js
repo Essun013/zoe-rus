@@ -3,43 +3,46 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity,TouchableHighlight, TextInput,Alert} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
 import device from '../../../common/util/device';
 import Login from '../../Me/LoginSys';
+import Hospital from '../hospital/Hospital';
 import {navPush} from '../../../components/Nav/Nav';
 import DatePicker from '../../../components/DatePicker'
 import {goHome} from '../../../actions/home/actions';
 import DeviceInfo from 'react-native-device-info';
 import apiHttp from '../../../common/util/http';
-import {rcache,synccache} from '../../../common/util';
+import {rcache, synccache, converter} from '../../../common/util';
 import Moment from 'moment';
 
 class Mom extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             childbirth: null,
-            lmp:null
+            lmp: null,
+            hidePreCalc: true
         };
         this.pushMain = this.pushMain.bind(this);
         this.pushLogin = this.pushLogin.bind(this);
     }
+
     pushMain() {
-        if(!this.state.childbirth && !this.state.lmp){
+        if (!this.state.childbirth && !this.state.lmp) {
             Alert.alert("系统提示", '请选择预产期日期或末次月经日期');
         }
         let params = {
             username: DeviceInfo.getUniqueID(),
-            gender:2
+            gender: 2
         }
-        apiHttp.apiPost('/uc/user/macid', params, (data)=>  {
+        apiHttp.apiPost('/uc/user/macid', params, (data)=> {
                 if (data.code == 0) {
-                    rcache.put("user",JSON.stringify(data.data));
+                    rcache.put("user", JSON.stringify(data.data));
                     this.createTimeLine();
                 } else {
-                    if(data.code==4121){
+                    if (data.code == 4121) {
                         this.createTimeLine();
-                    }else{
+                    } else {
                         Alert.alert("系统提示", data.message);
                     }
                 }
@@ -49,39 +52,48 @@ class Mom extends Component {
             }
         )
     }
-    createTimeLine(){
-        let  params = {
+
+    createTimeLine() {
+        let params = {
             childbirth: this.state.childbirth,
-            lmp:this.state.lmp
+            lmp: this.state.lmp
         }
-        apiHttp.apiPost('/uc/timeline/create',params,(data)=> {
-            if(data.code==0){
+        apiHttp.apiPost('/uc/timeline/create', params, (data)=> {
+            if (data.code == 0) {
                 this.props.dispatch(goHome(true));
             }
-            else if(data.code==4202){
-                let  params = {
+            else if (data.code == 4202) {
+                let params = {
                     username: DeviceInfo.getUniqueID(),
-                    password:1
+                    password: 1
                 }
-                apiHttp.apiPost('/uc/user/sign-in', params, (data)=>  {
-                    rcache.put("user",JSON.stringify(data.data));
+                apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
+                    rcache.put("user", JSON.stringify(data.data));
                     this.createTimeLine();
                 })
-            }else{
-                Alert.alert("系统提示",JSON.stringify(data));
+            } else {
+                Alert.alert("系统提示", JSON.stringify(data));
             }
         })
     }
+
     pushLogin() {
         navPush.push(this.props, Login, '登录');
     }
+    
+    push2Hospital() {
+        navPush.push(this.props, Hospital, '选择产检医院');
+    }
 
     render() {
-        const format ='YYYY-MM-DD';
-        const childbirthMin =Moment().format(format);
-        const childbirthMax =Moment().add(280,'days').format(format);
-        const lmpMin =Moment().add(-280,'days').format(format);
-        const lmpMax =Moment().format(format)
+        let preHospitalName = this.props.reduxArgs.name;
+
+        const format = 'YYYY-MM-DD';
+        const childbirthMin = Moment().format(format);
+        const childbirthMax = Moment().add(280, 'days').format(format);
+        const lmpMin = Moment().add(-280, 'days').format(format);
+        const lmpMax = Moment().format(format);
+
         return (
             <Image source={require('../img/bg.png')} resizeMode='stretch' style={styles.bg}>
                 <View style={styles.bgView}>
@@ -97,59 +109,28 @@ class Mom extends Component {
                                 style={styles.datePicker}
                                 date={this.state.childbirth}
                                 mode="date"
-                                placeholder="预产期是哪一天呢"
+                                placeholder={"预产期是哪一天呢"}
                                 format={format}
                                 minDate={childbirthMin}
                                 maxDate={childbirthMax}
                                 confirmBtnText="确定"
                                 cancelBtnText="取消"
-                                customStyles={{
-                                    dateText: {
-                                        fontSize: 16,
-                                        textAlign: 'right',
-                                        color: '#ffec93',
-                                        borderWidth: 0,
-                                        marginBottom:18,
-                                        alignSelf: 'flex-end',
-                                        //height: 16
-                                    },
-                                    placeholderText:{
-                                        fontSize: 16,
-                                        textAlign: 'right',
-                                        color: '#ffec93',
-                                        borderWidth: 0,
-                                        marginBottom:18,
-                                        alignSelf: 'flex-end',
-                                        /*height: 16*/
-                                    },
-                                    dateInputView:{
-                                        borderWidth: 0,
-                                    },
-                                    datePicker:{
-                                        marginTop: 1,
-                                    }
-                                }}
+                                customStyles={dataPickerStyles}
                                 showIcon={false}
-                                onDateChange={(date) => {this.setState({childbirth: date})}}
+                                onDateChange={(date) => {
+                                    this.setState({childbirth: date})
+                                }}
                             />
-                            {/*<TextInput placeholder={'预产期是哪一天呢'}*/}
-                                       {/*placeholderTextColor={'#ffec93'}*/}
-                                       {/*value={this.state.childbirth==null?'':this.state.childbirth.toDateString()}*/}
-                                       {/*style={styles.input}*/}
-                                       {/*underlineColorAndroid={'rgba(255,255,255,0)'}/>*/}
                         </View>
                     </View>
                     <View>
                         <View style={styles.cacleView}>
-                            <Image source={require('../img/cacle.png')} style={styles.cacleImg}/>
-                            <Text style={styles.cacleTx}>预产期计算器</Text>
+                            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => {this.setState({hidePreCalc: !this.state.hidePreCalc})}}>
+                                <Image source={require('../img/cacle.png')} style={styles.cacleImg}/>
+                                <Text style={styles.cacleTx}>预产期计算器</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View style={[styles.inputBg, {
-                            borderBottomLeftRadius: 0,
-                            borderBottomRightRadius: 0,
-                            borderTopLeftRadius: 2,
-                            borderTopRightRadius: 2
-                        }]}>
+                        {this.state.hidePreCalc ? null : <View style={[styles.inputBg, styles.calcViewRadius]}>
                             <View style={styles.flex}>
                                 <Text style={styles.inputTitle}>最后一次经期开始日</Text>
                             </View>
@@ -158,60 +139,29 @@ class Mom extends Component {
                                     style={styles.datePicker}
                                     date={this.state.lmp}
                                     mode="date"
-                                    placeholder="0000-00-00"
+                                    placeholder={"1970-01-01"}
                                     format="YYYY-MM-DD"
                                     minDate={lmpMin}
                                     maxDate={lmpMax}
                                     confirmBtnText="确定"
                                     cancelBtnText="取消"
-                                    customStyles={{
-                                        dateText: {
-                                            fontSize: 16,
-                                            textAlign: 'right',
-                                            color: '#ffec93',
-                                            borderWidth: 0,
-                                            marginBottom:18,
-                                            alignSelf: 'flex-end',
-                                            //height: 16
-                                        },
-                                        placeholderText:{
-                                            fontSize: 16,
-                                            textAlign: 'right',
-                                            color: '#ffec93',
-                                            borderWidth: 0,
-                                            marginBottom:18,
-                                            alignSelf: 'flex-end',
-                                            /*height: 16*/
-                                        },
-                                        dateInputView:{
-                                            borderWidth: 0,
-                                        },
-                                        datePicker:{
-                                            marginTop: 1,
-                                        }
-                                    }}
+                                    customStyles={dataPickerStyles}
                                     showIcon={false}
-                                    onDateChange={(date) => {this.setState({lmp: date})}}
+                                    onDateChange={(date) => {
+                                        var d = new Date(date);
+                                        d.setDate(d.getDate() + 280);
+                                        this.setState({lmp: date, childbirth: converter.dateToString(d)})
+                                    }}
                                 />
-                                {/*<TextInput placeholder={'0000-00-00'} placeholderTextColor={'#ffec93'}*/}
-                                           {/*style={styles.input}/>*/}
                             </View>
+                        </View>}
+                    </View>
+                    <View>
+                        <View style={styles.cacleView}>
+                            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => {this.push2Hospital()}}>
+                                <Text style={styles.cacleTx}>{preHospitalName ? '产检医院：' + preHospitalName : '选择产检医院'}</Text>
+                            </TouchableOpacity>
                         </View>
-                        {/*<View style={[styles.inputBg, {*/}
-                            {/*marginTop: 1,*/}
-                            {/*borderBottomLeftRadius: 2,*/}
-                            {/*borderBottomRightRadius: 2,*/}
-                            {/*borderTopLeftRadius: 0,*/}
-                            {/*borderTopRightRadius: 0*/}
-                        {/*}]}>*/}
-                            {/*<View style={styles.flex}>*/}
-                                {/*<Text style={styles.inputTitle}>设置经期、周期</Text>*/}
-                            {/*</View>*/}
-                            {/*<View style={styles.flex}>*/}
-                                {/*<TextInput placeholder={'经期5天，周期28天'} placeholderTextColor={'#ffec93'}*/}
-                                           {/*style={styles.input}/>*/}
-                            {/*</View>*/}
-                        {/*</View>*/}
                     </View>
                 </View>
                 <View>
@@ -234,6 +184,31 @@ class Mom extends Component {
         )
     }
 }
+
+const dataPickerStyles = {
+    dateText: {
+        fontSize: 16,
+        textAlign: 'right',
+        color: '#ffec93',
+        borderWidth: 0,
+        marginBottom: 18,
+        alignSelf: 'flex-end',
+    },
+    placeholderText: {
+        fontSize: 16,
+        textAlign: 'right',
+        color: '#ffec93',
+        borderWidth: 0,
+        marginBottom: 18,
+        alignSelf: 'flex-end',
+    },
+    dateInputView: {
+        borderWidth: 0,
+    },
+    datePicker: {
+        marginTop: 1,
+    }
+};
 
 const styles = StyleSheet.create({
     flex: {
@@ -315,14 +290,26 @@ const styles = StyleSheet.create({
         width: 150,
         alignSelf: 'flex-end',
         textAlign: 'right',
-        color: '#ffec93'
+        color: '#ffec93',
     },
-    datePicker:{
+    datePicker: {
         width: 160,
         height: 18,
+    },
+    calcViewRadius: {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        borderTopLeftRadius: 2,
+        borderTopRightRadius: 2
     }
 });
 
 const {connect} = require('react-redux');
 
-module.exports = connect()(Mom);
+function select(state) {
+    return {
+        reduxArgs: state.statusX.reduxArgs
+    }
+}
+
+module.exports = connect(select)(Mom);
