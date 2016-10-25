@@ -21,7 +21,7 @@ class ScrollTabBar extends Component {
 
     getMonth(){
         var list = [];
-        for (let i = 6; i <= 11;i++)
+        for (let i = 1; i <= 45;i++)
             list.push(i+'周');
         return list.map((l, i) => {
             return <Text tabLabel={l} key={i}/>;
