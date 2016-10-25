@@ -2,22 +2,39 @@
  * Created by sea35 on 2016/10/10.
  */
 import React, {Component} from 'react'
-import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio} from 'react-native'
+import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio,Alert} from 'react-native'
 import {ImgButton} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
-
+import apiHttp from '../../../common/util/http';
+import { loginSys }  from '../../../actions/me/me';
 
 
 class NicknameSetting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: ''
+            text: this.props.user.nick
         }
     }
     onBasicInfoPress() {
-        navPush.pop(this.props);
+        let user =this.props.user;
+        user.nick=this.state.text;
+        let params = {
+            nick: this.state.text
+        }
+        apiHttp.apiPost('/uc/user/modify', params,(data)=>{
+             if(data.code==0){
+                 this.props.dispatch(loginSys(user,true));
+                 navPush.pop(this.props);
+             }
+             else {
+                 Alert.alert('系统提示','更新失败,'+data.message);
+             }
+        },(err)=>{
+            Alert.alert('系统提示',err.toString());
+        });
+
     }
     render() {
         return (
@@ -77,4 +94,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
-export default NicknameSetting
+const {connect} = require('react-redux');
+module.exports = connect()(NicknameSetting);

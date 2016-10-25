@@ -67,7 +67,7 @@ class Me extends Component {
         let state = this.props.loginState;//this.state.loginState || this.props.loginState;
         let user = this.props.user;//this.state.user || this.props.user;
         if (state) {
-            loginButton = <Text style={styles.headerTxt}>{user.name || user.mobile}</Text>;
+            loginButton = <Text style={styles.headerTxt}>{user.nick || user.mobile}</Text>;
         } else {
             loginButton = <TouchableOpacity onPress={this.onLoginSys.bind(this)}>
                 <Image style={styles.loginBut} source={require('./img/but-login.png')}

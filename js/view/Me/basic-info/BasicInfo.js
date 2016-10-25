@@ -22,19 +22,19 @@ class PersonalCenter extends Component {
         super(props);
     }
     onPhonePress() {
-        navPush.push(this.props, PhoneSetting, '手机号');
+        navPush.push(this.props, PhoneSetting, '手机号',{user:this.props.user});
     }
     onNicknamePress() {
-        navPush.push(this.props, NicknameSetting, '昵称');
+        navPush.push(this.props, NicknameSetting, '昵称',{user:this.props.user});
     }
     onSexPress() {
-        navPush.push(this.props, SexSetting, '性别');
+        navPush.push(this.props, SexSetting, '性别',{user:this.props.user});
     }
     onPhotoSetting(){
         navPush.push(this.props,PhotoSetting,'头像上传')
     }
     render() {
-        const name = this.props.user.name || false;
+        const name = this.props.user.nick || false;
         const gender = this.props.user.gender==1?'男':'女';
         const mobile=this.props.user.mobile||false;
         const childbirth = this.props.childbirth || false;

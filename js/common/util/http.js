@@ -47,7 +47,7 @@ function login(method,uri,params,callback,err) {
         username: DeviceInfo.getUniqueID(),
         password: 1
     }
-    apiHttp.apiPost('/uc/user/sign-in', curParams, (data)=> {
+    http.apiPost('/uc/user/sign-in', curParams, (data)=> {
         handleHttp(method,uri,params,callback,err);
     },(error)=>{
         if (err)

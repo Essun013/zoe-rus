@@ -39,7 +39,7 @@ class Register extends Component {
                 }
 
             }, (err)=> {
-                Alert.alert("系统提示", err);
+                Alert.alert("系统提示", JSON.parse(err));
             }
         )
     }
