@@ -42,8 +42,20 @@ function procArgs(params) {
 
     return argsArray.join('&');
 }
+function login(method,uri,params,callback,err) {
+    let curParams = {
+        username: DeviceInfo.getUniqueID(),
+        password: 1
+    }
+    apiHttp.apiPost('/uc/user/sign-in', curParams, (data)=> {
+        handleHttp(method,uri,params,callback,err);
+    },(error)=>{
+        if (err)
+            err(error);
+    });
 
-function handleHttp(method: string, uri: string, params, suc, err?: (err: Error) => void) {
+}
+function handleHttp(method: string, uri: string, params, callback, err?: (err: Error) => void) {
     var header = Object.assign({}, httpHeader, {method: method});
     
     if (params)
@@ -52,7 +64,12 @@ function handleHttp(method: string, uri: string, params, suc, err?: (err: Error)
     fetch(uri, header)
         .then((resp) => resp.json())
         .then((resp) => {
-            suc(resp);
+            if(resp.code && resp.code==4191){
+                login(method,uri,params,callback,err)
+            }
+            else{
+                callback(resp);
+            }
         })
         .catch((error) => {
             if (err)

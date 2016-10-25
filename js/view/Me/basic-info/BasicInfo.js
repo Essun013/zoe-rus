@@ -18,7 +18,9 @@ const log = () => console.log('this is an example method')
 
 
 class PersonalCenter extends Component {
-
+    constructor(props){
+        super(props);
+    }
     onPhonePress() {
         navPush.push(this.props, PhoneSetting, '手机号');
     }
@@ -32,6 +34,10 @@ class PersonalCenter extends Component {
         navPush.push(this.props,PhotoSetting,'头像上传')
     }
     render() {
+        const name = this.props.user.name || false;
+        const gender = this.props.user.gender==1?'男':'女';
+        const mobile=this.props.user.mobile||false;
+        const childbirth = this.props.childbirth || false;
         return (
             <ScrollView style={styles.mainContainer}>
                 <List style={styles.hero} containerStyle={{marginTop: 10}}>
@@ -44,18 +50,18 @@ class PersonalCenter extends Component {
                     <ListItem
                         title={"昵称"}
                         titleStyle={{color: "#bbbbbb"}}
-                        rightTitle={this.props.user.name}
+                        rightTitle={name}
                         onPress={this.onNicknamePress.bind(this)}
                     />
                     <ListItem
                         title={"性别"}
-                        rightTitle={this.props.user.gender==1?'男':'女'}
+                        rightTitle={gender}
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={this.onSexPress.bind(this)}
                     />
                     <ListItem
                         title={"预产期"}
-                        rightTitle={"2017-05-06"}
+                        rightTitle={childbirth}
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={log}
                     />
@@ -67,7 +73,7 @@ class PersonalCenter extends Component {
                     />
                     <ListItem
                         title={"手机号"}
-                        rightTitle={this.props.user.mobile}
+                        rightTitle={mobile}
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={this.onPhonePress.bind(this)}
                     />

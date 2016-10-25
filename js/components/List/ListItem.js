@@ -93,7 +93,7 @@ const ListItem = ({
           onPress && !hideChevron && (
             <View style={styles.chevronContainer}>
               <View style={styles.rightTitleContainer}>
-              { rightTitle && (
+              { rightTitle && rightTitle!='' && (
                   <Text
                       style={[
                         styles.rightTitle,

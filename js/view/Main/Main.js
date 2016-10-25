@@ -31,6 +31,7 @@ class Main extends Component {
             goHome: false,
             component: null
         };
+
         //保存设备ID
         rcache.put("macID", DeviceInfo.getUniqueID());
         let params = {

@@ -11,22 +11,22 @@ import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
 import LoginSys from './LoginSys';
 import {Provider, connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as meActions from '../../actions/me/me';
 import apiHttp from '../../common/util/http';
+import Moment from 'moment';
 import {rcache,synccache} from '../../common/util';
+import { loginSys }  from '../../actions/me/me';
 
-/*import Register from './Register';*/
-const log = () => console.log('this is an example method');
+
 
 class Me extends Component {
 
      constructor(props) {
         super(props);
         this.state = {
-            loginState: false,
-            user:null,
-            gestationalAge:''
+            // loginState: false,
+            // user:null,
+            gestationalAge:'',
+            childbirth:Moment().format('YYYY-MM-DD'),
         }
         this.setLoingState();
     }
@@ -35,22 +35,23 @@ class Me extends Component {
         let loginState = await synccache.get("loginState");
         let user = await synccache.get("user");
         if(loginState == "true"){
-            this.setState({loginState:true,user:JSON.parse(user)});
+            //this.setState({loginState:true,user:JSON.parse(user)});
+            this.props.dispatch(loginSys(JSON.parse(user),true));
         }
         apiHttp.apiPost('/uc/timeline/get', {}, (data)=> {
                 if (data.code == 0) {
                     let week = parseInt(data.data.day/7);
                     let day = data.data.day%7;
-                    this.setState({gestationalAge:week+'周+'+day+'天'})
+                    const childbirth = Moment().add(280-data.data.day, 'days').format('YYYY-MM-DD');
+                    this.setState({gestationalAge:week+'周+'+day+'天',childbirth:childbirth})
                 }
-
             }
         )
     }
 
     onBasicInfoPress() {
-        if (this.state.loginState || this.props.loginState) {
-            navPush.push(this.props, BasicInfo, '基本信息');
+        if (this.props.loginState) {//(this.state.loginState || this.props.loginState)
+            navPush.push(this.props, BasicInfo, '基本信息',{childbirth:this.state.childbirth});
         }
         else {
             navPush.push(this.props, LoginSys, '登录');
@@ -63,8 +64,8 @@ class Me extends Component {
 
     render() {
         var loginButton;
-        let state =this.state.loginState || this.props.loginState;
-        let user = this.state.user || this.props.user;
+        let state = this.props.loginState;//this.state.loginState || this.props.loginState;
+        let user = this.props.user;//this.state.user || this.props.user;
         if (state) {
             loginButton = <Text style={styles.headerTxt}>{user.name || user.mobile}</Text>;
         } else {
@@ -182,11 +183,11 @@ function mapStateToProps(store) {
         loginState: store.editMe.loginState
     }
 }
+//
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         actions: bindActionCreators(meActions, dispatch)
+//     }
+// }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(meActions, dispatch)
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(Me);
+export default connect(mapStateToProps)(Me);
