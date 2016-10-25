@@ -8,35 +8,10 @@ import device from '../../../../common/util/device';
 
 class Content extends Component {
 
-    // 默认属性
-    static defaultProps = {
-    }
-
-    // 属性类型
-    static propTypes = {
-    }
-
     constructor(props) {
         super(props);
-        this.state = {
-            initPage : 7,
-            week : 8,
-            date: 1,
-            testHtml: "",
-        };
+        this.state = {initPage : 7, week : 8, date: 1};
         this.getDetail = this.getDetail.bind(this);
-    }
-
-    componentWillMount(){
-        console.log('------componentWillMount------');
-        this.setState({
-            testHtml: this.props
-        });
-    }
-
-    componentWillReceiveProps(){
-        //父组件更新时候，触发
-        console.log('------componentWillReceiveProps------');
     }
 
     getDetail(){
@@ -52,11 +27,44 @@ class Content extends Component {
                         <Image source={require('../../img/babygrow_cal_sel.png')} style={styles.weekSelImg}>
                             <Text style={styles.bgWeekText}>{this.state.week}周</Text>
                         </Image>
+                        <Text style={styles.dateText}>09月19日</Text>
                     </View>
                     <View style={styles.babyContent}>
                         <Image source={require('../../img/babygrow_01.png')} style={styles.babyImg}/>
                         <Text style={styles.contentText}>
-                            {this.state.testHtml}
+                            我的胳膊和手掌会比脚和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity style={styles.listItem} onPress={this.getDetail}>
+                    <View style={styles.weekContent}>
+                        <Image source={require('../../img/babygrow_cal_unsel.png')} style={styles.weekunSelImg}>
+                            <View><Text style={styles.bgWeekText}>{this.state.week}周</Text></View>
+                            <View><Text style={styles.bgDateText}>+{this.state.date}天</Text></View>
+                        </Image>
+                        <Text style={styles.dateText}>09月20日</Text>
+                    </View>
+                    <View style={styles.babyContent}>
+                        <Text style={styles.contentText}>
+                            我的胳膊和手掌会比脚和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity style={styles.listItem} onPress={this.getDetail}>
+                    <View style={styles.weekContent}>
+                        <Image source={require('../../img/babygrow_cal_unsel.png')} style={styles.weekunSelImg}>
+                            <View><Text style={styles.bgWeekText}>{this.state.week}周</Text></View>
+                            <View><Text style={styles.bgDateText}>+{this.state.date+1}天</Text></View>
+                        </Image>
+                        <Text style={styles.dateText}>09月21日</Text>
+                    </View>
+                    <View style={styles.babyContent}>
+                        <Text style={styles.contentText}>
+                            我的胳膊和手掌会比脚和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。
                         </Text>
                     </View>
                 </TouchableOpacity>
