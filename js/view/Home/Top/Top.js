@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     },
     babyImg: {
         width: 110,
-        height: 110
+        height: 110,
+        borderRadius: 55
     },
     bgImg: {
         height: 220,
