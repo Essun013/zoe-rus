@@ -2,7 +2,7 @@
  * Created by linys on 16/10/18.
  */
 
-import React, {Component} from 'react';
+import React, { Component , PropTypes } from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import device from '../../../common/util/device';
 import apiHttp from '../../../common/util/http';
@@ -10,11 +10,16 @@ import {rcache, synccache} from '../../../common/util';
 
 class WeekTab extends Component {
 
-    static propTypes = {}
-
+    // 默认属性
     static defaultProps = {
-        name: '',
+        scrollCellWidth: device.width()/5,
     }
+
+    // 属性类型
+    static propTypes = {
+        scrollCellWidth: PropTypes.number,
+    }
+
 
     constructor(props) {
         console.log('---WeekTab---0.constructor------');
@@ -26,6 +31,7 @@ class WeekTab extends Component {
         this._onPressIn = this._onPressIn.bind(this);
         this._onPressOut = this._onPressOut.bind(this);
         //console.log('---WeekTab---0.constructor------'+this.state.currentTab);
+
     }
 
     componentWillMount() {
@@ -36,6 +42,11 @@ class WeekTab extends Component {
         console.log('---WeekTab---3.componentDidMount------');
         //this.weekTabRender();
         //this.getBabyGrowDataByWeek(this.state.initTab);
+        let scrollToX = this.state.currentTab<3?0:this.state.currentTab-3;
+        if(scrollToX >= 43){
+            scrollToX = 45;
+        }
+        this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
     }
 
     componentWillUnMount() {
@@ -56,25 +67,28 @@ class WeekTab extends Component {
     }
 
     //切换Tab方法(改变样式)
-    switchTab(obj) {
-        console.log("selWeek:"+obj.week);
+    switchTab(week) {
         //改变tab样式
-        this.setState({currentTab: obj.week});
+        this.setState({currentTab: week});
         //触发父组件加载网页内容
-        this.props.switchTab(obj.week);
-
+        this.props.switchTab(week);
+        let scrollToX = week<3?0:week-3;
+        if(scrollToX >= 41){
+            scrollToX = 40;
+        }
+        this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
     }
 
-    _renderUnSelectTab(obj) {
+    _renderUnSelectTab(week) {
         return (
-            <Text style={styles.tabText}>{obj.week}周</Text>
+            <Text style={styles.tabText}>{week}周</Text>
         );
     }
 
-    _renderSelect(obj) {
+    _renderSelect(week) {
         return (
             <Image source={require('../img/finger.png')} style={{height: 50, width: 50, alignItems: 'center'}}>
-                <Text style={styles.tabText}>{obj.week}周</Text>
+                <Text style={styles.tabText}>{week}周</Text>
                 <Image source={require('../img/rectangle.png')}
                        style={{width: device.width() / 5, height: 3, marginTop: 10}}/>
             </Image>
@@ -82,31 +96,21 @@ class WeekTab extends Component {
     }
 
     weekTabRender() {
-        let weekListStart = 6;
-        let weekListEnd = 12;
         var listView = [];
-        for (let j = weekListStart; j <= weekListEnd; listView.push(j), j++) ;
-
-        return (<ScrollView horizontal={true} showsVerticalScrollIndicator={false}
-                           showsHorizontalScrollIndicator={false}>
+        //一共只有45周内容
+        for (let j = 1; j < 46; listView.push(j), j++);
+        return (
+            <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}
+                        ref='_scrollView' >
             {listView.map((week, index) => {
                 return <View style={styles.scrollViewTab} key={index}>
-                    <TouchableOpacity style={styles.tabTextCenter} onPress={()=>this.switchTab({week})} >
-                        {{week}===this.state.currentTab? this._renderSelect({week}): this._renderUnSelectTab({week})}
+                    <TouchableOpacity style={styles.tabTextCenter} onPress={()=>this.switchTab(week)} >
+                        {week==this.state.currentTab? this._renderSelect(week): this._renderUnSelectTab(week)}
                     </TouchableOpacity>
                 </View>
             })}
         </ScrollView>);
 
-        // for(i = weekListStart; i<weekListEnd; i++){
-        //     listView.push(<View style={styles.scrollViewTab}>
-        //         <TouchableOpacity style={styles.tabTextCenter} onPress={()=>this.switchTab({i})}>
-        //             {{i}===this.state.currentTab?this._renderSelect({i}):this._renderUnSelectTab({i})}
-        //         </TouchableOpacity>
-        //     </View>)
-        // }
-        // console.log(listView);
-        // return listView;
     }
 
 

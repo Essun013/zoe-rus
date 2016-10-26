@@ -105,7 +105,7 @@ export default connect()(Nav);
 export var navPush = {
     push(props, component, title, other?: Object)
     {
-        props.navigator.push({component: component, title: title,passProps: other});
+        props.navigator.push({component: component, title: title, passProps: other});
     },
     pop(props, n?: number)
     {

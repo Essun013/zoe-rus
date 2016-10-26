@@ -32,8 +32,8 @@ class BabyGrow extends Component {
         console.log('---BabyGrow---0.constructor------');
         super(props);
         this.state = {
-            initWeek : 8, //初始化周数
-            selWeek : 0,  //用户选中的周数
+            initWeek : this.props.initWeek, //初始化周数
+            selWeek : this.props.initWeek,  //用户选中的周数
             webView: null, //WebView组件
         };
     }
@@ -67,6 +67,7 @@ class BabyGrow extends Component {
                     console.log('---BabyGrow---uri------'+uri);
                     //渲染WebView
                     this.setState({
+                        selWeek: week,
                         webView: this.loadHtml(uri),
                     });
                 } else {
@@ -74,7 +75,7 @@ class BabyGrow extends Component {
                     Alert.alert("系统提示", result.message);
                 }
             }, (err)=> {
-                Alert.alert("系统提示", err);
+                Alert.alert("系统提示", err.stack);
             }
         );
     }

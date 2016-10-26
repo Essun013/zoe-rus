@@ -75,6 +75,7 @@ class Main extends Component {
             this.setState({component: this.renderStatus});
         });
     }
+
     goHome() {
         let self = this;
         setTimeout(()=> {
@@ -127,7 +128,7 @@ class Main extends Component {
         if (selected)
             textStyle.push(styles.tabSelected);
 
-        return <Image source={imageSource} style={styles.menuIcon}></Image>
+        return <Image source={imageSource} style={styles.menuIcon}/>
     }
 
     render() {
