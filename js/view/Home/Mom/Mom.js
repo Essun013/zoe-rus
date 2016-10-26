@@ -56,14 +56,14 @@ class Mom extends Component {
                 source: require('../img/mom_know_1.png'),
                 title: '宝宝发育',
                 // content: '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
-                content: babySummary,
+                content: babySummary ? babySummary : '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
                 onPress: this.babyGrow
             },
             {
                 source: require('../img/mom_know_2.png'),
                 title: '孕妈早知道',
                 // content: '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
-                content: momSummary,
+                content: momSummary ? momSummary : '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
                 onPress: this.momKnow
             }
         ];

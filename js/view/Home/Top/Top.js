@@ -22,7 +22,7 @@ class Top extends Component {
 
         http.apiPost('/kb/knowledge/find', {subject: '宝宝成长' + (week <= 0 ? 1 : week) + '周'}, (data) => {
             if (data.code == 0) {
-                this.setState({babyImg: {uri: app.apiUrl + data.data.thumbnail}, tag: data.data.label});
+                this.setState({babyImg: {uri: app.apiUrl + data.data.thumbnail}, tag: data.data.label || this.state.tag});
             }
         })
     }
