@@ -70,7 +70,7 @@ class Mom extends Component {
 
         return <View>{list.map((ele, index) => {
             return <View key={index}>
-                <TouchableOpacity style={[styles.listItem, index && {marginTop: 1}]} onPress={ele.onPress}>
+                <TouchableOpacity style={[styles.listItem, index && {marginTop: 1}]} onPress={ele.onPress} activeOpacity={0.6}>
                     <Image source={ele.source} style={styles.img}/>
                     <View style={[styles.listView]}>
                         <Text style={styles.listTitle}>{ele.title}</Text>

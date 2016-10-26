@@ -12,6 +12,7 @@ import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
 class Box extends Component {
     constructor(props) {
         super(props);
+
         this.momKnow = this.momKnow.bind(this);
         this.pregnancyCheck = this.pregnancyCheck.bind(this);
     }
@@ -24,6 +25,56 @@ class Box extends Component {
         navPush.push(this.props, PregnancyCheck, '产检小助手');
     }
 
+    scrollBottom() {
+        let list = [
+            {
+                img: require('../img/yinshi.png'),
+                text: '孕妈饮食',
+                onPress: this.momKnow
+            },
+            {
+                img: require('../img/taijiao.png'),
+                text: '每日胎教',
+                onPress: null
+            },
+            {
+                img: require('../img/tizhongji.png'),
+                text: '体重计',
+                onPress: null
+            },
+            {
+                img: require('../img/taidong.png'),
+                text: '数胎动',
+                onPress: null
+            },
+            {
+                img: require('../img/taidong.png'),
+                text: '数胎动',
+                onPress: null
+            },
+            {
+                img: require('../img/taidong.png'),
+                text: '数胎动',
+                onPress: null
+            },
+        ];
+
+        return (
+            <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+                {
+                    list.map((l, i) => {
+                        return <View style={styles.buttonView} key={i}>
+                            <TouchableOpacity style={styles.buttonTextCenter} onPress={l.onPress} activeOpacity={0.7}>
+                                <Image source={l.img} style={styles.buttonImgSize}/>
+                                <Text style={[styles.titleText]}>{l.text}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    })
+                }
+            </ScrollView>
+        )
+    }
+
     render() {
         return <View style={styles.container}>
             <View style={styles.title}>
@@ -31,50 +82,13 @@ class Box extends Component {
                     <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
                 </View>
                 <View style={styles.titleBotton}>
-                    <TouchableOpacity onPress={this.pregnancyCheck} >
+                    <TouchableOpacity onPress={this.pregnancyCheck}>
                         <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>添加</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.body}>
-                <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter} onPress={this.momKnow}>
-                            <Image source={require('../img/yinshi.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>孕妈饮食</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/taijiao.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>每日胎教</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/tizhongji.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>体重计</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/taidong.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>数胎动</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/taidong.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>数胎动</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/taidong.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>数胎动</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                {this.scrollBottom()}
             </View>
         </View>
     }

@@ -3,23 +3,86 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
 import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
 
 class Check extends Component {
-
     constructor(props) {
         super(props);
+
+        let list = [
+            {
+                img: require('../img/selected.png'),
+                text: '结婚证',
+                selected: true
+            },
+            {
+                img: require('../img/selected.png'),
+                text: '身份证',
+                selected: true
+            },
+            {
+                img: require('../img/select.png'),
+                text: '户口本',
+                selected: false
+            },
+            {
+                img: require('../img/select.png'),
+                text: '临时居住证',
+                selected: false
+            },
+            {
+                img: require('../img/select.png'),
+                text: '临时居住证',
+                selected: false
+            },
+            {
+                img: require('../img/select.png'),
+                text: '临时居住证',
+                selected: false
+            },
+        ];
+
+        this.state = {
+            list: list
+        };
+
         this.pregnancyCheck = this.pregnancyCheck.bind(this);
     }
-
 
     pregnancyCheck() {
         navPush.push(this.props, PregnancyCheck, '产检小助手');
     }
 
+    scrollTools() {
+        return (
+            <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+                {
+                    this.state.list.map((l, i) => {
+                        let ref = 'tools_' + i;
+                        return <TouchableOpacity style={styles.oddsSingleView} key={i} activeOpacity={1} onPress={() => {this.switchTool(i)}}>
+                            <Image source={l.img} style={styles.oddsSingleImg}/>
+                            <Text>{l.text}</Text>
+                        </TouchableOpacity>
+                    })
+                }
+            </ScrollView>
+        )
+    }
+
+    switchTool(i) {
+        let list = this.state.list;
+
+        let select = list[i].selected;
+
+        let img = select ? require('../img/select.png') : require('../img/selected.png');
+
+        list[i] = {...list[i], selected: !select, img: img}
+
+        this.setState({list: list})
+    }
 
     render() {
         return <View style={styles.container}>
@@ -32,15 +95,15 @@ class Check extends Component {
                 <Image source={require('../img/time_ring.png')} style={styles.timeRing}/>
                 <View style={styles.bodySubView}>
                     <View style={styles.aidesView}>
-                        <Text style={styles.aides}>下次产检：2016\9\26</Text>
-                        <Text style={styles.aides}>产检重点：建档、NT检查、空腹</Text>
-                        <Text style={styles.aides}>随身物品：产检手册、身份证、......</Text>
+                        <Text style={styles.aides} numberOfLines={1}>下次产检：2016\9\26</Text>
+                        <Text style={styles.aides} numberOfLines={1}>产检重点：建档、NT检查、空腹</Text>
+                        <Text style={styles.aides} numberOfLines={1}>随身物品：产检手册、身份证、......</Text>
                         <Text>
                             <Text style={[styles.aides]}>产检医院：思明区妇幼保健院</Text>
                             <Image source={require('../img/location.png')} style={styles.locationImg}/>
                             <Text style={[styles.aides, {marginLeft: 2}]}>怎么去</Text>
                         </Text>
-                        <TouchableOpacity style={styles.aidesButton}>
+                        <TouchableOpacity style={styles.aidesButton} activeOpacity={0.6}>
                             <Text style={styles.aidesButtonText}>参加宣教课程</Text>
                         </TouchableOpacity>
                     </View>
@@ -48,43 +111,13 @@ class Check extends Component {
                         <View style={{flexDirection: 'row'}}>
                             <Text>随身物品</Text>
                             <View style={styles.oddsPlusButton}>
-                                <TouchableOpacity style={{}} onPress={this.pregnancyCheck} >
+                                <TouchableOpacity style={{}} onPress={this.pregnancyCheck} activeOpacity={0.6}>
                                     <Image source={require('../img/plus.png')} style={{width: 16, height: 16}}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         <View style={{marginTop: 25, flex: 1}}>
-                            <ScrollView horizontal={true} showsVerticalScrollIndicator={false}
-                                        showsHorizontalScrollIndicator={false}>
-                                <View style={styles.oddsSingleView}>
-                                    <Image source={require('../img/selected.png')} style={styles.oddsSingleImg}/>
-                                    <Text>结婚证</Text>
-                                </View>
-                                <View style={styles.oddsSingleView}>
-                                    <Image source={require('../img/selected.png')} style={styles.oddsSingleImg}/>
-                                    <Text>身份证</Text>
-                                </View>
-                                <View style={styles.oddsSingleView}>
-                                    <Image source={require('../img/select.png')} style={styles.oddsSingleImg}/>
-                                    <Text>户口本</Text>
-                                </View>
-                                <View style={styles.oddsSingleView}>
-                                    <Image source={require('../img/select.png')} style={styles.oddsSingleImg}/>
-                                    <Text>临时居住证</Text>
-                                </View>
-                                <View style={styles.oddsSingleView}>
-                                    <Image source={require('../img/select.png')} style={styles.oddsSingleImg}/>
-                                    <Text>临时居住证</Text>
-                                </View>
-                                <View style={styles.oddsSingleView}>
-                                    <Image source={require('../img/select.png')} style={styles.oddsSingleImg}/>
-                                    <Text>临时居住证</Text>
-                                </View>
-                                <View style={styles.oddsSingleView}>
-                                    <Image source={require('../img/select.png')} style={styles.oddsSingleImg}/>
-                                    <Text>临时居住证</Text>
-                                </View>
-                            </ScrollView>
+                            {this.scrollTools()}
                         </View>
                     </View>
                 </View>
@@ -178,8 +211,8 @@ const styles = StyleSheet.create({
         marginBottom: 18
     },
     aidesButtonText: {
-        lineHeight: 30,
-        padding: 2,
+        marginTop: 10,
+        marginBottom: 10,
         color: 'rgb(255,122,162)'
     },
     oddsView: {
@@ -196,7 +229,8 @@ const styles = StyleSheet.create({
     },
     oddsSingleImg: {
         width: 28,
-        height: 28
+        height: 28,
+        marginBottom: 5
     }
 });
 
