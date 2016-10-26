@@ -25,7 +25,7 @@ class Mom extends Component {
     }
 
     momKnow() {
-        navPush.push(this.props, MomKonw, '妈妈早知道');
+        navPush.push(this.props, MomKonw, '孕妈早知道');
     }
 
     renderMom() {
