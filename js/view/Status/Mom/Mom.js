@@ -30,6 +30,7 @@ class Mom extends Component {
     pushMain() {
         if (!this.state.childbirth && !this.state.lmp) {
             Alert.alert("系统提示", '请选择预产期日期或末次月经日期');
+            return;
         }
         let params = {
             username: DeviceInfo.getUniqueID(),
@@ -86,6 +87,9 @@ class Mom extends Component {
     }
 
     render() {
+        rcache.put('childBirth', this.state.childbirth || '')
+        rcache.put('lpmDate', this.state.lmp || '')
+
         let preHospitalName = this.props.reduxArgs.name;
 
         const format = 'YYYY-MM-DD';

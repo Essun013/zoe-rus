@@ -3,21 +3,41 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
-import device from '../../../common/util/device';
+import {View, StyleSheet, Image, Text, Alert} from 'react-native';
+import {device, http, rcache, app} from '../../../common/util';
 
 class Top extends Component {
+    constructor(props) {
+        super(props);
+
+        let week = this.props.week;
+        let days = this.props.days;
+
+        this.state = {
+            babyImg: require('../img/baby.png'),
+            bornDistances: 280 - ((week * 7 + days) || 1),
+            babyWeek: (week <= 0 ? '' : week + '周' + '+') + (days <= 0 ? '1天' : days + '天'),
+            tag: '顶臂长：0mm | 体 重：0kg'
+        };
+
+        http.apiPost('/kb/knowledge/find', {subject: '宝宝成长' + (week <= 0 ? 1 : week) + '周'}, (data) => {
+            if (data.code == 0) {
+                this.setState({babyImg: {uri: app.apiUrl + data.data.thumbnail}, tag: data.data.label});
+            }
+        })
+    }
+
     render() {
         return <Image source={require('../img/background.png')} style={styles.bgImg}
                       resizeMode='stretch'>
             <View style={[styles.center]}>
-                <Text style={styles.bgText}>8周+1天</Text>
-                <Image source={require('../img/baby.png')} style={styles.babyImg}/>
+                <Text style={styles.bgText}>{this.state.babyWeek}</Text>
+                <Image source={this.state.babyImg} style={styles.babyImg}/>
             </View>
             <Image source={require('../img/change.png')} style={styles.change} resizeMode='stretch'>
                 <View style={[styles.center, {marginTop: 14}]}>
-                    <Text style={styles.changeText}>再过<Text style={{fontSize: 16}}>233</Text>天，我就出生啦</Text>
-                    <Text style={styles.changeText}>顶臂长：2.3mm | 体 重：3.3kg</Text>
+                    <Text style={styles.changeText}>再过 <Text style={{fontSize: 16}}>{this.state.bornDistances || '280'}</Text> 天，我就出生啦</Text>
+                    <Text style={styles.changeText}>{this.state.tag}</Text>
                 </View>
             </Image>
         </Image>
@@ -33,8 +53,6 @@ const styles = StyleSheet.create({
         height: 110
     },
     bgImg: {
-        // flex: 1,
-        // marginTop: 62,
         height: 220,
         width: device.width()
     },

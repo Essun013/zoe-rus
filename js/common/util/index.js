@@ -8,6 +8,7 @@ const rcache = require('./rcache');
 const reduxcomp = require('./reduxcomp');
 const synccache = require('./synccache');
 const converter = require('./converter');
+const device = require('./device');
 
 module.exports = {
     http,
@@ -15,5 +16,6 @@ module.exports = {
     rcache,
     reduxcomp,
     synccache,
-    converter
+    converter,
+    device
 };

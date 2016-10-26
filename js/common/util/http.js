@@ -47,15 +47,18 @@ function login(method,uri,params,callback,err) {
         username: DeviceInfo.getUniqueID(),
         password: 1
     }
-    apiHttp.apiPost('/uc/user/sign-in', curParams, (data)=> {
-        handleHttp(method,uri,params,callback,err);
+    http.apiPost('/uc/user/sign-in', curParams, (data)=> {
+        if (data.code == 0)
+            handleHttp(method,uri,params,callback,err);
+        else
+            callback(data);
     },(error)=>{
         if (err)
             err(error);
     });
 
 }
-function handleHttp(method: string, uri: string, params, callback, err?: (err: Error) => void) {
+function handleHttp(method, uri, params, callback, err?: (err: Error) => void) {
     var header = Object.assign({}, httpHeader, {method: method});
     
     if (params)

@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
-import device from '../../../common/util/device';
+import {device, http, rcache} from '../../../common/util';
 import {navPush} from '../../../components/Nav/Nav';
 import BabyGrow from '../../Find/BabyGrow/BabyGrow';
 import MomKonw from '../../Find/MomKnow/MomKnow';
@@ -12,12 +12,33 @@ import MomKonw from '../../Find/MomKnow/MomKnow';
 class Mom extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            babySummary: '',
+            momSummary: ''
+        };
+
+        let week = this.props.week;
+        week = week <= 0 ? 1 : week;
+
+        http.apiPost('/kb/knowledge/find', {subject: '孕妈早知道' + week + '周'}, (data) => {
+            if (data.code == 0)
+                this.setState({momSummary: data.data.summary})
+        });
+
+        http.apiPost('/kb/knowledge/find', {subject: '宝宝成长' + week + '周'}, (data) => {
+            if (data.code == 0)
+                this.setState({babySummary: data.data.summary})
+        });
+
         this.babyGrow = this.babyGrow.bind(this);
         this.momKnow = this.momKnow.bind(this);
     }
 
     render() {
-        return <View>{this.renderMom()}</View>;
+        let {babySummary, momSummary} = this.state;
+
+        return <View>{this.renderMom(babySummary, momSummary)}</View>;
     }
 
     babyGrow() {
@@ -28,29 +49,31 @@ class Mom extends Component {
         navPush.push(this.props, MomKonw, '孕妈早知道');
     }
 
-    renderMom() {
+    renderMom(babySummary, momSummary) {
         var list = [
             {
                 source: require('../img/mom_know_1.png'),
                 title: '宝宝发育',
-                content: '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
+                // content: '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
+                content: babySummary,
                 onPress: this.babyGrow
             },
             {
                 source: require('../img/mom_know_2.png'),
                 title: '孕妈早知道',
-                content: '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
+                // content: '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
+                content: momSummary,
                 onPress: this.momKnow
             }
         ];
 
         return <View>{list.map((ele, index) => {
             return <View key={index}>
-                <TouchableOpacity style={[styles.listItem, index ? {marginTop: 1} : null]} onPress={ele.onPress}>
+                <TouchableOpacity style={[styles.listItem, index && {marginTop: 1}]} onPress={ele.onPress}>
                     <Image source={ele.source} style={styles.img}/>
                     <View style={[styles.listView]}>
                         <Text style={styles.listTitle}>{ele.title}</Text>
-                        <Text style={styles.listContent} ellipsizeMode='tail'>{ele.content}</Text>
+                        <Text style={styles.listContent} ellipsizeMode='tail' numberOfLines={3}>{ele.content}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
