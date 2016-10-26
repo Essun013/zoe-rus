@@ -28,8 +28,8 @@ class MomKnow extends Component {
         console.log('---MomKnow---0.constructor------');
         super(props);
         this.state = {
-            initWeek : 10, //初始化周数
-            selWeek : 10,  //用户选中的周数
+            initWeek : this.props.initWeek, //初始化周数
+            selWeek : this.props.initWeek,  //用户选中的周数
             webView : null, //WebView组件
         };
     }

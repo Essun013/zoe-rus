@@ -32,8 +32,8 @@ class BabyGrow extends Component {
         console.log('---BabyGrow---0.constructor------');
         super(props);
         this.state = {
-            initWeek : 8, //初始化周数
-            selWeek : 8,  //用户选中的周数
+            initWeek : this.props.initWeek, //初始化周数
+            selWeek : this.props.initWeek,  //用户选中的周数
             webView: null, //WebView组件
         };
     }

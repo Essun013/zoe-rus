@@ -13,13 +13,14 @@ class Mom extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            babySummary: '',
-            momSummary: ''
-        };
-
         let week = this.props.week;
         week = week <= 0 ? 1 : week;
+
+        this.state = {
+            babySummary: '',
+            momSummary: '',
+            week: week,
+        };
 
         http.apiPost('/kb/knowledge/find', {subject: '孕妈早知道' + week + '周'}, (data) => {
             if (data.code == 0)
@@ -42,11 +43,11 @@ class Mom extends Component {
     }
 
     babyGrow() {
-        navPush.push(this.props, BabyGrow, '宝宝成长');
+        navPush.push(this.props, BabyGrow, '宝宝成长', {initWeek: this.state.week});
     }
 
     momKnow() {
-        navPush.push(this.props, MomKonw, '孕妈早知道');
+        navPush.push(this.props, MomKonw, '孕妈早知道', {initWeek: this.state.week});
     }
 
     renderMom(babySummary, momSummary) {
