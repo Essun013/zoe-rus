@@ -3,25 +3,24 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
 import Expectant from '../../Box/Expectant/Expectant';
-import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
 
 class Box extends Component {
     constructor(props) {
         super(props);
         this.toExpectantPackage = this.toExpectantPackage.bind(this);
-        this.toPregnancyCheck = this.toPregnancyCheck.bind(this);
+        this.toAddBox = this.toAddBox.bind(this);
     }
 
     toExpectantPackage() {
         navPush.push(this.props, Expectant, '待产包');
     }
 
-    toPregnancyCheck() {
-        navPush.push(this.props, PregnancyCheck, '产检小助手');
+    toAddBox() {
+        Alert.alert("添加工具待完善！~_~");
     }
 
     scrollBottom() {
@@ -81,7 +80,7 @@ class Box extends Component {
                     <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
                 </View>
                 <View style={styles.titleBotton}>
-                    <TouchableOpacity onPress={this.toPregnancyCheck}>
+                    <TouchableOpacity onPress={this.toAddBox}>
                         <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>添加</Text>
                     </TouchableOpacity>
                 </View>

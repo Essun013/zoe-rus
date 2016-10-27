@@ -4,19 +4,22 @@
 
 import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Platform} from 'react-native'
+import PregnancyCheck from '../Find/PregnancyCheck/PregnancyCheck'
 
 import {
     Text,
 } from 'react-native-elements'
 
 export default class Record extends Component {
+
+    constructor(props) {
+        super(props);
+
+    }
+
     render() {
         return (
-            <ScrollView style={{backgroundColor: 'white'}}>
-                <View style={styles.hero}>
-                    <Text>Record</Text>
-                </View>
-            </ScrollView>
+            <PregnancyCheck navigator={this.props.navigator}/>
         )
     }
 }
