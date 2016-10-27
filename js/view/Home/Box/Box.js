@@ -6,31 +6,30 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
-import MomKonw from '../../Find/MomKnow/MomKnow';
+import Expectant from '../../Box/Expectant/Expectant';
 import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
 
 class Box extends Component {
     constructor(props) {
         super(props);
-
-        this.momKnow = this.momKnow.bind(this);
-        this.pregnancyCheck = this.pregnancyCheck.bind(this);
+        this.toExpectantPackage = this.toExpectantPackage.bind(this);
+        this.toPregnancyCheck = this.toPregnancyCheck.bind(this);
     }
 
-    momKnow() {
-        navPush.push(this.props, MomKonw, '');
+    toExpectantPackage() {
+        navPush.push(this.props, Expectant, '待产包');
     }
 
-    pregnancyCheck() {
+    toPregnancyCheck() {
         navPush.push(this.props, PregnancyCheck, '产检小助手');
     }
 
     scrollBottom() {
         let list = [
             {
-                img: require('../img/yinshi.png'),
-                text: '孕妈饮食',
-                onPress: this.momKnow
+                img: require('../../Find/img/box/dcb.png'),
+                text: '待产包',
+                onPress: this.toExpectantPackage
             },
             {
                 img: require('../img/taijiao.png'),
@@ -82,7 +81,7 @@ class Box extends Component {
                     <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
                 </View>
                 <View style={styles.titleBotton}>
-                    <TouchableOpacity onPress={this.pregnancyCheck}>
+                    <TouchableOpacity onPress={this.toPregnancyCheck}>
                         <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>添加</Text>
                     </TouchableOpacity>
                 </View>
