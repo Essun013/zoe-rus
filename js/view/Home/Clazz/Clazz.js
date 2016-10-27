@@ -19,7 +19,7 @@ class Clazz extends Component {
                 </View>
             </View>
             <View style={styles.body}>
-                <View>
+                <TouchableOpacity activeOpacity={0.6}>
                     <View style={styles.listView}>
                         <Image source={require('../img/ketang1.png')} style={styles.listViewImg}/>
                         <View style={{marginRight: 0, flex: 1}}>
@@ -43,8 +43,8 @@ class Clazz extends Component {
                             <Text style={styles.msgOverText}>56</Text>
                         </View>
                     </View>
-                </View>
-                <View style={{borderTopWidth: 1, borderTopColor: '#ededed'}}>
+                </TouchableOpacity>
+                <TouchableOpacity style={{borderTopWidth: 1, borderTopColor: '#ededed'}} activeOpacity={0.6}>
                     <View style={styles.listView}>
                         <Image source={require('../img/ketang2.png')} style={styles.listViewImg}/>
                         <View style={{marginRight: 0, flex: 1}}>
@@ -68,7 +68,7 @@ class Clazz extends Component {
                             <Text style={styles.msgOverText}>56</Text>
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     }

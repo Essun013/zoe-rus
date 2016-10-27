@@ -15,14 +15,14 @@ class Top extends Component {
 
         this.state = {
             babyImg: require('../img/baby.png'),
-            bornDistances: 280 - ((week * 7 + days) || 1),
+            bornDistances: 280 - ((week * 7 + (days * 1)) || 1),
             babyWeek: (week <= 0 ? '' : week + '周' + '+') + (days <= 0 ? '1天' : days + '天'),
             tag: '顶臂长：0mm | 体 重：0kg'
         };
 
         http.apiPost('/kb/knowledge/find', {subject: '宝宝成长' + (week <= 0 ? 1 : week) + '周'}, (data) => {
             if (data.code == 0) {
-                this.setState({babyImg: {uri: app.apiUrl + data.data.thumbnail}, tag: data.data.label});
+                this.setState({babyImg: {uri: app.apiUrl + data.data.thumbnail}, tag: data.data.label || this.state.tag});
             }
         })
     }
