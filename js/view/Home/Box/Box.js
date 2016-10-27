@@ -6,21 +6,21 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
-import MomKonw from '../../Find/MomKnow/MomKnow';
+import Expectant from '../../Box/Expectant/Expectant'
 import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
 
 class Box extends Component {
     constructor(props) {
         super(props);
-        this.momKnow = this.momKnow.bind(this);
-        this.pregnancyCheck = this.pregnancyCheck.bind(this);
+        this.toExpectantPackage = this.toExpectantPackage.bind(this);
+        this.toPregnancyCheck = this.toPregnancyCheck.bind(this);
     }
 
-    momKnow() {
-        navPush.push(this.props, MomKonw, '');
+    toExpectantPackage() {
+        navPush.push(this.props, Expectant, '待产包');
     }
 
-    pregnancyCheck() {
+    toPregnancyCheck() {
         navPush.push(this.props, PregnancyCheck, '产检小助手');
     }
 
@@ -31,7 +31,7 @@ class Box extends Component {
                     <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
                 </View>
                 <View style={styles.titleBotton}>
-                    <TouchableOpacity onPress={this.pregnancyCheck} >
+                    <TouchableOpacity onPress={this.toPregnancyCheck} >
                         <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>添加</Text>
                     </TouchableOpacity>
                 </View>
@@ -39,9 +39,9 @@ class Box extends Component {
             <View style={styles.body}>
                 <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter} onPress={this.momKnow}>
-                            <Image source={require('../img/yinshi.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>孕妈饮食</Text>
+                        <TouchableOpacity style={styles.buttonTextCenter} onPress={this.toExpectantPackage}>
+                            <Image source={require('../../Find/img/box/dcb.png')} style={styles.buttonImgSize}/>
+                            <Text style={[styles.titleText]}>待产包</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttonView}>

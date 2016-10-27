@@ -15,7 +15,7 @@ class PregnancyCheckDetail extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     <View style={{marginTop:10,marginLeft:10}}>
                         <Text style={styles.titleText}>
@@ -129,7 +129,8 @@ class PregnancyCheckDetail extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#fff',
+        flex: 1,
     },
     titleText: {
         fontSize: 15,
