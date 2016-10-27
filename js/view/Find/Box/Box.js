@@ -29,24 +29,10 @@ class Box extends Component {
                     </View>
                     <View style={styles.buttonView}>
                         <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/box/yqys.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>孕期饮食</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/box/yzc.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>月子餐</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
                             <Image source={require('../img/box/std.png')} style={styles.buttonImgSize}/>
                             <Text style={[styles.titleText]}>数胎动</Text>
                         </TouchableOpacity>
                     </View>
-                </ScrollView>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} scrollEnabled={false}>
                     <View style={styles.buttonView}>
                         <TouchableOpacity style={styles.buttonTextCenter}>
                             <Image source={require('../img/box/tzj.png')} style={styles.buttonImgSize}/>
@@ -59,20 +45,14 @@ class Box extends Component {
                             <Text style={[styles.titleText]}>能不能吃</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
-                            <Image source={require('../img/box/snsn.png')} style={styles.buttonImgSize}/>
-                            <Text style={[styles.titleText]}>生男生女</Text>
-                        </TouchableOpacity>
-                    </View>
+                </ScrollView>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} scrollEnabled={false}>
                     <View style={styles.buttonView}>
                         <TouchableOpacity style={styles.buttonTextCenter}>
                             <Image source={require('../img/box/bbfs.png')} style={styles.buttonImgSize}/>
                             <Text style={[styles.titleText]}>宝宝辅食</Text>
                         </TouchableOpacity>
                     </View>
-                </ScrollView>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} scrollEnabled={false}>
                     <View style={styles.buttonView}>
                         <TouchableOpacity style={styles.buttonTextCenter}>
                             <Image source={require('../img/box/qmz.png')} style={styles.buttonImgSize}/>
