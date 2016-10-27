@@ -18,7 +18,7 @@ class PregnancyCheck extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
                 <Top />
                 <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     <Content navigator={this.props.navigator}/>

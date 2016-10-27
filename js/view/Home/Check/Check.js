@@ -63,7 +63,7 @@ class Check extends Component {
                     this.state.list.map((l, i) => {
                         let ref = 'tools_' + i;
                         return <TouchableOpacity style={styles.oddsSingleView} key={i} activeOpacity={1} onPress={() => {this.switchTool(i)}}>
-                            <Image source={l.img} style={styles.oddsSingleImg}/>
+                            <Image source={l.img} style={styles.oddsSingleImg} resizeMode='stretch'/>
                             <Text>{l.text}</Text>
                         </TouchableOpacity>
                     })

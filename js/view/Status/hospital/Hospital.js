@@ -8,6 +8,39 @@ import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
 import {switchHospital} from '../../../actions/status/actions';
 
+const countries = {
+    '350000': [
+        {name: '福州', code: '350100'},
+        {name: '厦门', code: '350200'},
+        {name: '漳州', code: '350300'},
+        {name: '泉州', code: '350400'},
+    ],
+    '120000': [
+        {name: '天津', code: '120100'},
+    ],
+    '130000': [
+        {name: '石家庄', code: '130100'},
+    ],
+    '210000': [
+        {name: '沈阳', code: '210100'},
+    ],
+};
+
+const provinces = [
+    {name: '福建', code: '350000', select: false},
+    {name: '天津', code: '120000', select: false},
+    {name: '河北', code: '130000', select: false},
+    {name: '辽宁', code: '210000', select: false},
+];
+
+const hospitals = [
+    {title: '厦门市妇幼保健院', location: '厦门市镇海路55号'},
+    {title: '厦门大学附属第一医院', location: '厦门市镇海路55号'},
+    {title: '厦门市中医院', location: '厦门市镇海路55号'},
+    {title: '解放军第一七四医院', location: '厦门市镇海路55号'},
+    {title: '厦门市第二医院', location: '厦门市镇海路55号'},
+];
+
 class Hospital extends Component {
     constructor(props) {
         super(props);
@@ -16,41 +49,11 @@ class Hospital extends Component {
         const provinceList = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const cityList = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-        var countries = {
-            '350000': [
-                {name: '福州', code: '350100'},
-                {name: '厦门', code: '350200'},
-                {name: '漳州', code: '350300'},
-                {name: '泉州', code: '350400'},
-            ],
-            '120000': [
-                {name: '天津', code: ''},
-            ],
-            '130000': [
-                {name: '石家庄', code: ''},
-            ],
-            '210000': [
-                {name: '沈阳', code: ''},
-            ],
-        };
-
         this.state = {
             showMask: false,
             city: '厦门',
-            hospitalList: hospitalList.cloneWithRows([
-                {title: '厦门市妇幼保健院', location: '厦门市镇海路55号'},
-                {title: '厦门大学附属第一医院', location: '厦门市镇海路55号'},
-                {title: '厦门市中医院', location: '厦门市镇海路55号'},
-                {title: '解放军第一七四医院', location: '厦门市镇海路55号'},
-                {title: '厦门市第二医院', location: '厦门市镇海路55号'},
-            ]),
-
-            provinceList: provinceList.cloneWithRows([
-                {name: '福建', code: '350000', select: true},
-                {name: '天津', code: '120000', select: false},
-                {name: '河北', code: '130000', select: false},
-                {name: '辽宁', code: '210000', select: false},
-            ]),
+            hospitalList: hospitalList.cloneWithRows(hospitals),
+            provinceList: provinceList.cloneWithRows(provinces),
             cityList: cityList.cloneWithRows(countries['350000']),
             currentProvince: '350000',
             currentCity: '350200'
@@ -71,12 +74,25 @@ class Hospital extends Component {
         </TouchableOpacity>
     }
 
-    provinceList(row) {
+    provinceList(row, sectionId, rowId) {
         return <TouchableOpacity style={[styles.provinceBottom]} onPress={() => {
-            this.setState({currentProvince: row.code})
-        }}>
-            <Text style={[styles.provinceTx, (row.select || this.state.currentProvince == row.code) && {color: 'rgb(1,1,1)'}]}>{row.name}</Text>
+            this.changeSelectProvince(rowId, row.code)
+        }} activeOpacity={0.9}>
+            <Text
+                style={[styles.provinceTx, this.state.currentProvince == row.code && {color: 'rgb(1,1,1)'}]}>{row.name}</Text>
         </TouchableOpacity>
+    }
+
+    changeSelectProvince(rowId, code) {
+        let _provinces = JSON.parse(JSON.stringify(provinces));
+
+        _provinces[rowId].select = !_provinces[rowId].select;
+
+        this.setState({
+            provinceList: this.state.provinceList.cloneWithRows(_provinces),
+            currentProvince: code,
+            cityList: this.state.cityList.cloneWithRows(countries[code])
+        });
     }
 
     cityList(row) {
@@ -87,28 +103,40 @@ class Hospital extends Component {
         </TouchableOpacity>
     }
 
+    renderLocation() {
+        return !this.state.showMask ? null :
+            <TouchableOpacity style={styles.maskView} activeOpacity={1} onPress={() => {
+                this.setState({showMask: false})
+            }}>
+                <View style={{flexDirection: 'row', backgroundColor: '#fff', height: 176, flex: 1}}>
+                    <ListView dataSource={this.state.provinceList}
+                              renderRow={(row, sectionId, rowId) => this.provinceList(row, sectionId, rowId)}
+                              showsVerticalScrollIndicator={false}/>
+                    <ListView dataSource={this.state.cityList} renderRow={(row) => this.cityList(row)}
+                              style={{width: 128}} showsVerticalScrollIndicator={false}/>
+                </View>
+            </TouchableOpacity>
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.topView}>
-                    <TouchableOpacity style={styles.locationBotton} onPress={() => {this.setState({showMask: true})}}>
-                        <Image source={require('../img/location.png')} style={{width: 13, height: 18, marginRight: 10}} resizeMode='stretch'/>
+                    <TouchableOpacity style={styles.locationBotton} onPress={() => {
+                        this.setState({showMask: true})
+                    }}>
+                        <Image source={require('../img/location.png')} style={{width: 13, height: 18, marginRight: 10}}
+                               resizeMode='stretch'/>
                         <Text style={{fontSize: 14}}>{this.state.city}</Text>
                     </TouchableOpacity>
-                    <TextInput style={styles.searchHospital} placeholder={'请输入医院名称'} placeholderTextColor={'rgb(146,146,146)'}/>
+                    <TextInput style={styles.searchHospital} placeholder={'请输入医院名称'}
+                               placeholderTextColor={'rgb(146,146,146)'}/>
                 </View>
 
-                <ListView style={styles.hospitalView} dataSource={this.state.hospitalList} renderRow={(row) => this.hospitalList(row)} />
+                <ListView style={styles.hospitalView} dataSource={this.state.hospitalList}
+                          renderRow={(row) => this.hospitalList(row)}/>
 
-                {
-                    !this.state.showMask ? null : <TouchableOpacity style={styles.maskView} activeOpacity={1} onPress={() => {this.setState({showMask: false})}}>
-                        <View style={{flexDirection: 'row', backgroundColor: '#fff', height: 176, flex: 1}}>
-                            <ListView dataSource={this.state.provinceList} renderRow={(row) => this.provinceList(row)}/>
-                            <ListView dataSource={this.state.cityList} renderRow={(row) => this.cityList(row)} style={{width: 128}}/>
-                        </View>
-                    </TouchableOpacity>
-                }
-
+                {this.renderLocation()}
             </View>
         )
     }
@@ -142,8 +170,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 14
     },
-    hospitalView: {
-    },
+    hospitalView: {},
     hospitalBotton: {
         flex: 1,
         borderBottomWidth: 1,
@@ -201,6 +228,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const {connect} = require('react-redux');
+// const {connect} = require('react-redux');
 
-module.exports = connect()(Hospital);
+module.exports = Hospital;

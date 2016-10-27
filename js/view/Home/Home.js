@@ -15,14 +15,16 @@ import {Clazz} from './Clazz';
 class Home extends Component {
     constructor(props){
         super(props);
-        // navigator.geolocation.getCurrentPosition(
-        //     (position) => {
-        //         var initialPosition = JSON.stringify(position);
-        //         Alert.alert(initialPosition);
-        //     },
-        //     (error) =>Alert.alert(error.message),
-        //     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-        // );
+        /*navigator.geolocation.getCurrentPosition(
+            (position) => {
+                var initialPosition = JSON.stringify(position);
+                Alert.alert(initialPosition);
+            },
+            (error) => {
+                Alert.alert('error', error.message)
+            },
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+        );*/
 
         this.state = {
             content: null

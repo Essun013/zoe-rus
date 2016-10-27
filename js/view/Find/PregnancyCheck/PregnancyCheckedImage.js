@@ -16,37 +16,34 @@ class PregnancyCheckedImage extends Component {
 
     render() {
         return (
-            <View style={{flex:1, alignItems: 'flex-end'}}>
-                <Image source={require('../img/checkform.png')} style={styles.checkform} >
-                    <Image source={require('../img/check_form_right.png')} style={styles.checkformright} />
-                    <View style={{paddingTop:1}}><Text style={styles.checkedText}>已检</Text></View>
-                </Image>
+            <View style={styles.checkform}>
+                <Image source={require('../img/check_form_right.png')} style={styles.checkformright} />
+                <Text style={styles.checkedText}>已检</Text>
             </View>
         );
     }
-
-
-
 }
 
 const styles = StyleSheet.create({
     checkform: {
         flexDirection: 'row',
-        marginRight: 14,
+        marginRight: 15,
         width: 76,
         height: 30,
+        alignSelf: 'flex-end',
+        borderWidth: 1,
+        borderColor: 'rgb(254,122,162)',
+        borderRadius: 3,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     checkformright: {
-        marginTop: 7,
-        marginLeft: 8,
-        width: 15,
-        height: 15,
+        width: 18,
+        height: 18,
     },
     checkedText: {
-        paddingTop: 4,
-        paddingLeft: 13,
         fontSize: 13,
-        //lineHeight: 30,
+        marginLeft: 7,
         color:'rgb(254,122,162)',
         fontFamily: 'PingFang SC',
     }

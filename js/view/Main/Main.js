@@ -42,7 +42,6 @@ class Main extends Component {
             if (!result) {
                this.loginSys();
             }else if (result === 'yes') {
-                // rcache.put('firstChoose', 'yes');
                 self.setState({component: self.renderStatus});
             }else  if (result === 'no') {
                 this.setState({component: self.renderMain});

@@ -27,10 +27,12 @@ class PregnancyCheckDetail extends Component {
                     </View>
                     <View style={{marginTop:10,marginLeft:10}}>
                         <View style={{flexDirection:'row'}}>
-                            <Text style={styles.titleText}>
+                            <Text style={[styles.titleText]}>
                                 产检项目
                             </Text>
-                            <PregnancyCheckedImage />
+                            <View style={{flex: 1, alignSelf: 'flex-end'}}>
+                                <PregnancyCheckedImage />
+                            </View>
                         </View>
                         <Text style={styles.titleTextContent}>
                             建档。
