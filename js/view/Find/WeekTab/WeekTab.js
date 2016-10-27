@@ -3,7 +3,7 @@
  */
 
 import React, { Component , PropTypes } from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert, InteractionManager} from 'react-native';
 import device from '../../../common/util/device';
 import apiHttp from '../../../common/util/http';
 import {rcache, synccache} from '../../../common/util';
@@ -46,7 +46,10 @@ class WeekTab extends Component {
         if(scrollToX >= 43){
             scrollToX = 45;
         }
-        this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
+
+        InteractionManager.runAfterInteractions(() => {
+            this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
+        })
     }
 
     componentWillUnMount() {

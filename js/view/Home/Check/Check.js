@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert, Platform} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
 import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
@@ -100,8 +100,8 @@ class Check extends Component {
                         <Text style={styles.aides} numberOfLines={1}>随身物品：产检手册、身份证、......</Text>
                         <Text>
                             <Text style={[styles.aides]}>产检医院：思明区妇幼保健院</Text>
-                            <Image source={require('../img/location.png')} style={styles.locationImg}/>
-                            <Text style={[styles.aides, {marginLeft: 2}]}>怎么去</Text>
+                            <Image source={require('../img/location.png')} style={styles.locationImg} resizeMode='stretch'/>
+                            <Text style={[styles.aides, {marginLeft: 2, backgroundColor: 'red'}]}>怎么去</Text>
                         </Text>
                         <TouchableOpacity style={styles.aidesButton} activeOpacity={0.6}>
                             <Text style={styles.aidesButtonText}>参加宣教课程</Text>
@@ -185,13 +185,19 @@ const styles = StyleSheet.create({
     },
     aides: {
         fontSize: 14,
-        fontFamily: 'PingFang SC',
         lineHeight: 30,
-        color: 'rgb(0,0,0)'
+        fontFamily: 'PingFang SC',
+        color: 'rgb(0,0,0)',
+        ...Platform.select({
+            android: {
+                marginTop: 6,
+            }
+        })
     },
     aidesView: {
         borderBottomWidth: 1,
-        borderBottomColor: '#ededed'
+        borderBottomColor: '#ededed',
+        marginTop: 1
     },
     locationImg: {
         width: 22,
@@ -200,7 +206,11 @@ const styles = StyleSheet.create({
         marginBottom: 7,
         marginRight: 3,
         marginLeft: 3,
-        flex: 1
+        ...Platform.select({
+            android: {
+                width: 16,
+            }
+        })
     },
     aidesButton: {
         alignItems: 'center',
