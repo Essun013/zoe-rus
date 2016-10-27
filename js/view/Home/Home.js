@@ -25,32 +25,37 @@ class Home extends Component {
         // );
 
         this.state = {
-            week: 0,
-            days: 0,
+            content: null
         };
 
         http.apiPost('/uc/timeline/get', {}, (data) => {
-            if (data.code == 0) {
-                var now = new Date().valueOf();
-                var startDate = new Date(data.data.start).valueOf();
-                var preDays = Math.floor((now - startDate) / (24 * 3600 * 1000));
+
+            if (data.code === 0) {
+                var preDays = data.data.day;
 
                 var week = Math.floor(preDays / 7);
                 var days = preDays - (week * 7);
 
-                this.setState({week: week, days: days});
+                this.scroll(week+'', days+'');
             }
         })
     }
+
+    scroll(week, days) {
+        let scroll = (<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+            <Top navigator={this.props.navigator} week={week} days={days}/>
+            <Mom navigator={this.props.navigator} week={week}/>
+            <Box navigator={this.props.navigator} week={week}/>
+            <Check navigator={this.props.navigator} week={week}/>
+            <Clazz navigator={this.props.navigator} week={week}/>
+        </ScrollView>)
+
+        this.setState({content: scroll});
+    }
+
     render() {
         return <View style={{flex: 1}}>
-            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                <Top navigator={this.props.navigator} week={this.state.week} days={this.state.days}/>
-                <Mom navigator={this.props.navigator} week={this.state.week}/>
-                <Box navigator={this.props.navigator} week={this.state.week}/>
-                <Check navigator={this.props.navigator} week={this.state.week}/>
-                <Clazz navigator={this.props.navigator} week={this.state.week}/>
-            </ScrollView>
+            {this.state.content}
         </View>
     }
 }
