@@ -4,16 +4,22 @@
 
 'use strict';
 
-const NAV_SHARE = 'NAV_SHARE';
-
+const NAV_SHAREWITH = 'NAV_SHAREWITH';
+const NAV_TEXT = 'NAV_TEXT';
 /*
  * action 创建函数
  */
-function navShare(component) {
-    return { type: NAV_SHARE, component }
+function navShareWith(shareWith) {
+    return { type: NAV_SHAREWITH, shareWith }
+}
+
+function navText(text) {
+    return { type: NAV_TEXT, text }
 }
 
 module.exports = {
-    NAV_SHARE,
-    navShare
+    NAV_SHAREWITH,
+    navShareWith,
+    NAV_TEXT,
+    navText
 }
