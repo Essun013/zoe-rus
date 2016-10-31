@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver"
   },
   "dependencies": {
     "moment": "^2.15.1",
@@ -23,5 +24,9 @@
     "redux-logger": "~2.6.1",
     "redux-persist": "~3.2.2",
     "redux-thunk": "~2.1.0"
+  },
+  "devDependencies": {
+    "remote-redux-devtools": "^0.5.1",
+    "remote-redux-devtools-on-debugger": "^0.6.3"
   }
 }

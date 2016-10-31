@@ -2,20 +2,23 @@
  * Created by sea35 on 2016/10/17.
  */
 import React from 'react';
-import {LOGIN_SYS} from '../../actions/me/me';
+import {LOGIN_SYS, SET_USER} from '../../actions/me/me';
 
 const initialState = {
-    user:null,
+    user:{},
     loginState:false
 }
 
 function editMe(state = initialState, action) {
     switch (action.type) {
         case LOGIN_SYS:
-            return {
-                user:action.user,
+            return Object.assign({}, state, {
                 loginState:action.loginState
-            }
+            });
+        case SET_USER:
+            return Object.assign({}, state, {
+                user:action.user
+            });
         default:
             return state;
     }

@@ -2,7 +2,7 @@
  * Created by sea35 on 2016/10/8.
  */
 import React, {Component} from 'react'
-import {ScrollView, StyleSheet, Image} from 'react-native'
+import {ScrollView, StyleSheet, Image,Alert} from 'react-native'
 import {
     List,
     ListItem
@@ -34,10 +34,10 @@ class PersonalCenter extends Component {
         navPush.push(this.props,PhotoSetting,'头像上传')
     }
     render() {
-        const name = this.props.user.nick || false;
-        const gender = this.props.user.gender==1?'男':'女';
-        const mobile=this.props.user.mobile||false;
-        const childbirth = this.props.childbirth || false;
+        let name = this.props.user.nick ;
+        let gender = this.props.user.gender==1?'男':'女';
+        // let mobile=this.props.user.mobile;
+        let childbirth = this.props.childbirth ;
         return (
             <ScrollView style={styles.mainContainer}>
                 <List style={styles.hero} containerStyle={{marginTop: 10}}>
@@ -50,18 +50,18 @@ class PersonalCenter extends Component {
                     <ListItem
                         title={"昵称"}
                         titleStyle={{color: "#bbbbbb"}}
-                        rightTitle={name}
+                        rightTitle={name || false}
                         onPress={this.onNicknamePress.bind(this)}
                     />
                     <ListItem
                         title={"性别"}
-                        rightTitle={gender}
+                        rightTitle={gender ||false}
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={this.onSexPress.bind(this)}
                     />
                     <ListItem
                         title={"预产期"}
-                        rightTitle={childbirth}
+                        rightTitle={childbirth || false}
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={log}
                     />
@@ -71,12 +71,11 @@ class PersonalCenter extends Component {
                         titleStyle={{color: "#bbbbbb"}}
                         onPress={log}
                     />
-                    <ListItem
-                        title={"手机号"}
-                        rightTitle={mobile}
-                        titleStyle={{color: "#bbbbbb"}}
-                        onPress={this.onPhonePress.bind(this)}
-                    />
+                    {/*<ListItem*/}
+                        {/*title={"手机号"}*/}
+                        {/*rightTitle={mobile}*/}
+                        {/*titleStyle={{color: "#bbbbbb"}}*/}
+                    {/*/>*/}
                 </List>
             </ScrollView>
         )

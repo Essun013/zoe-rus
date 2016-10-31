@@ -3,16 +3,26 @@
  */
 
 const LOGIN_SYS = 'LOGIN_SYS';
+const SET_USER = 'SET_USER';
 
-function loginSys(user,loginState) {
+function loginSys(loginState) {
     return {
         type: LOGIN_SYS,
-        user,
         loginState
 
     }
 }
+
+function setUser(user) {
+    return {
+        type:SET_USER,
+        user
+    }
+}
+
 module.exports ={
     loginSys,
-    LOGIN_SYS
+    setUser,
+    LOGIN_SYS,
+    SET_USER
 }

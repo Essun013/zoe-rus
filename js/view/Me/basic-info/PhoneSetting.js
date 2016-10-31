@@ -19,7 +19,25 @@ class PhoneSetting extends Component {
         }
     }
     onBasicInfoPress() {
-        navPush.pop(this.props);
+        var user = {
+            ...this.props.user,
+            nick:this.state.text
+        };
+        let params = {
+            nick: this.state.text
+        }
+        apiHttp.apiPost('/uc/user/modify', params,(data)=>{
+            if(data.code==0){
+                rcache.put("user",JSON.stringify(data.data));
+                this.props.dispatch(loginSys(user,true));
+                navPush.pop(this.props);
+            }
+            else {
+                Alert.alert('系统提示','更新失败,'+data.message);
+            }
+        },(err)=>{
+            Alert.alert('系统提示',err.toString());
+        });
     }
     render() {
         return (

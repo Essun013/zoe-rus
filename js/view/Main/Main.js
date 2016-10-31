@@ -18,7 +18,6 @@ import StatusNav from '../Status/StatusNav';
 import DeviceInfo from 'react-native-device-info';
 import apiHttp from '../../common/util/http';
 import {rcache} from '../../common/util';
-import { loginSys }  from '../../actions/me/me';
 
 class Main extends Component {
     constructor(props) {
@@ -32,7 +31,7 @@ class Main extends Component {
             component: null
         };
 
-        //保存设备ID
+        //保存设备ID  0605A0A5-0159-4F17-9B7D-A6991420779F
         rcache.put("macID", DeviceInfo.getUniqueID());
         let params = {
             username: DeviceInfo.getUniqueID(),
@@ -65,7 +64,6 @@ class Main extends Component {
             if (data.code == 0) {
                 rcache.put("loginState", 'true');
                 rcache.put("user", JSON.stringify(data.data));
-                this.props.dispatch(loginSys(data.data, true));
                 this.setState({component: this.renderMain});
             }else {
                 this.setState({component: this.renderStatus});

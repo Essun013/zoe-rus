@@ -28,13 +28,13 @@ class SexSetting extends Component {
                         <Text style={styles.title}>性别</Text>
                         <View style={styles.textInput}>
                             <Picker
-                                style={{width:200}}
+                                style={{width:240}}
                                 selectedValue={this.state.value}
+                                mode="dialog"
                                 onValueChange={(value,label) => this.setState({value: value,label:label})}>
                                 <Picker.Item label="男" value="1" />
                                 <Picker.Item label="女" value="2" />
                             </Picker>
-                            <Text style={{height: 40, fontSize: 15}}> {this.state.label}</Text>
                         </View>
                     </View>
                 </View>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 1,
-        alignItems: 'flex-end',
+        //alignItems: 'flex-end',
         justifyContent: 'center',
         marginLeft: 10,
     },

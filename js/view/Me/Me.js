@@ -14,7 +14,7 @@ import {Provider, connect} from 'react-redux'
 import apiHttp from '../../common/util/http';
 import Moment from 'moment';
 import {rcache,synccache} from '../../common/util';
-import { loginSys }  from '../../actions/me/me';
+import { loginSys,setUser }  from '../../actions/me/me';
 
 
 
@@ -23,8 +23,6 @@ class Me extends Component {
      constructor(props) {
         super(props);
         this.state = {
-            // loginState: false,
-            // user:null,
             gestationalAge:'',
             childbirth:Moment().format('YYYY-MM-DD'),
         }
@@ -36,7 +34,8 @@ class Me extends Component {
         let user = await synccache.get("user");
         if(loginState == "true"){
             //this.setState({loginState:true,user:JSON.parse(user)});
-            this.props.dispatch(loginSys(JSON.parse(user),true));
+            this.props.dispatch(loginSys(true));
+            this.props.dispatch(setUser(JSON.parse(user)));
         }
         apiHttp.apiPost('/uc/timeline/get', {}, (data)=> {
                 if (data.code == 0) {
@@ -140,6 +139,7 @@ const styles = StyleSheet.create({
     headerTxt: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 10,
         color: '#ffffff'
     },
     backgroundImage1: {
