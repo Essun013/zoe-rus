@@ -4,8 +4,8 @@
 
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet,Alert} from 'react-native'
-import {device, http, rcache, app} from '../../common/util';
+import {ScrollView, View, StyleSheet, Alert} from 'react-native'
+import {device, http, rcache, app, gps} from '../../common/util';
 import {Top} from './Top';
 import {Mom} from './Mom';
 import {Box} from './Box';
@@ -15,16 +15,12 @@ import {Clazz} from './Clazz';
 class Home extends Component {
     constructor(props){
         super(props);
-        /*navigator.geolocation.getCurrentPosition(
-            (position) => {
-                var initialPosition = JSON.stringify(position);
-                Alert.alert(initialPosition);
-            },
-            (error) => {
-                Alert.alert('error', error.message)
-            },
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-        );*/
+
+        /*gps.getLocation((d) => {
+            Alert.alert('location', JSON.stringify(d))
+        }, (e) => {
+            Alert.alert('error', e.message)
+        });*/
 
         this.state = {
             content: null
@@ -38,18 +34,18 @@ class Home extends Component {
                 var week = Math.floor(preDays / 7);
                 var days = preDays - (week * 7);
 
-                this.scroll(week+'', days+'');
+                this.scroll(week+'', days+'', preDays+'');
             }
         })
     }
 
-    scroll(week, days) {
+    scroll(week, days, totalDay) {
         let scroll = (<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
             <Top navigator={this.props.navigator} week={week} days={days}/>
-            <Mom navigator={this.props.navigator} week={week}/>
-            <Box navigator={this.props.navigator} week={week}/>
-            <Check navigator={this.props.navigator} week={week}/>
-            <Clazz navigator={this.props.navigator} week={week}/>
+            <Mom navigator={this.props.navigator} week={week} days={days}/>
+            <Box navigator={this.props.navigator} week={week} days={days}/>
+            <Check navigator={this.props.navigator} week={week} days={days}/>
+            <Clazz navigator={this.props.navigator} week={week} totalDay={totalDay}/>
         </ScrollView>)
 
         this.setState({content: scroll});

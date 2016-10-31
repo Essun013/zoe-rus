@@ -3,12 +3,100 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
-import device from '../../../common/util/device';
+import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
+import {device, http, app} from '../../../common/util';
+import {navPush} from '../../../components/Nav/Nav'
 
 class Clazz extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            list: null
+        }
+
+        let params = {
+            pageSize: 2,
+            pageNum: 1,
+            day: this.props.totalDay,
+            classify: '名词解释'
+        }
+
+        http.apiPost('/kb/knowledge/query', params, (data) => {
+            if (data.count)
+                this.setState({list: this.renderList(data.list)})
+            else
+                this.setState({list: this.renderList([])})
+        })
+    }
+
+    detail(id) {
+
+    }
+
+    renderList(list) {
+        /*let _list = [
+            {
+                title: '吃什么对胎儿头发好？',
+                content: '想要宝贝以后头发长得好，准妈妈们从孕期就需要补充营养，比如维生素......',
+                img: require('../img/ketang1.png'),
+                over: 56,
+                collect: 56,
+            },
+            {
+                title: '吃什么对胎儿头发好？',
+                content: '想要宝贝以后头发长得好，准妈妈们从孕期就需要补充营养，比如维生素......',
+                img: require('../img/ketang2.png'),
+                over: 56,
+                collect: 56,
+            },
+        ];*/
+
+        /*list.map((l, i) => {
+            _list[i].title = l.subject || _list[i].title;
+            _list[i].img = l.thumbnail ? {uri: app.apiUrl + l.thumbnail} : _list[i].img;
+            _list[i].content = l.summary || _list[i].content;
+        });*/
+
+        let style = {borderTopWidth: 1, borderTopColor: '#ededed'};
+
+        return (
+            <View style={styles.body}>
+                {
+                    list ? list.map((l, i) => {
+                        return (
+                            <TouchableOpacity activeOpacity={0.6} key={i} style={[i && style]} onPress={() => {this.detail(l.id)}}>
+                                <View style={styles.listView}>
+                                    <Image source={l.thumbnail ? {uri: app.apiUrl + l.thumbnail} : require('../img/ketang1.png')} style={styles.listViewImg}/>
+                                    <View style={{marginRight: 0, flex: 1}}>
+                                        <Text style={styles.listViewContentTitle}>{l.subject}</Text>
+                                        <Text style={styles.listViewContent} ellipsizeMode='tail'
+                                              numberOfLines={2}>{l.summary || '还没有摘要说明哦~'}</Text>
+                                    </View>
+                                </View>
+                                <View style={[styles.msgOverView, styles.msgOver]}>
+                                    <View style={styles.msgOver}>
+                                        <View style={styles.msgOverImgView}>
+                                            <Image source={require('../img/over.png')} style={styles.msgOverImg}
+                                                   resizeMode='stretch'/>
+                                        </View>
+                                        <Text style={styles.msgOverText}>{l.over || 56}</Text>
+                                    </View>
+                                    <View style={[styles.msgOver, {marginLeft: 20}]}>
+                                        <View style={styles.msgOverImgView}>
+                                            <Image source={require('../img/collection.png')} style={styles.msgOverImg}
+                                                   resizeMode='stretch'/>
+                                        </View>
+                                        <Text style={styles.msgOverText}>{l.collect || 56}</Text>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                    }) : <View style={{flex: 1, height: 80, justifyContent: 'center', alignItems: 'center'}}><Text
+                        style={{color: 'rgb(166,166,166)'}}>暂无数据哦</Text></View>
+                }
+            </View>
+        )
     }
 
     render() {
@@ -18,58 +106,7 @@ class Clazz extends Component {
                     <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>妈妈课堂</Text>
                 </View>
             </View>
-            <View style={styles.body}>
-                <TouchableOpacity activeOpacity={0.6}>
-                    <View style={styles.listView}>
-                        <Image source={require('../img/ketang1.png')} style={styles.listViewImg}/>
-                        <View style={{marginRight: 0, flex: 1}}>
-                            <Text style={styles.listViewContentTitle}>吃什么对胎儿头发好？</Text>
-                            <Text style={styles.listViewContent} ellipsizeMode='tail'>想要宝贝以后头发长得好，准妈妈们从孕期就需要补充营养，比如维生素......</Text>
-                        </View>
-                    </View>
-                    <View style={[styles.msgOverView, styles.msgOver]}>
-                        <View style={styles.msgOver}>
-                            <View style={styles.msgOverImgView}>
-                                <Image source={require('../img/over.png')} style={styles.msgOverImg}
-                                       resizeMode='stretch'/>
-                            </View>
-                            <Text style={styles.msgOverText}>56</Text>
-                        </View>
-                        <View style={[styles.msgOver, {marginLeft: 20}]}>
-                            <View style={styles.msgOverImgView}>
-                                <Image source={require('../img/collection.png')} style={styles.msgOverImg}
-                                       resizeMode='stretch'/>
-                            </View>
-                            <Text style={styles.msgOverText}>56</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={{borderTopWidth: 1, borderTopColor: '#ededed'}} activeOpacity={0.6}>
-                    <View style={styles.listView}>
-                        <Image source={require('../img/ketang2.png')} style={styles.listViewImg}/>
-                        <View style={{marginRight: 0, flex: 1}}>
-                            <Text style={styles.listViewContentTitle}>吃什么对胎儿头发好？</Text>
-                            <Text style={styles.listViewContent} ellipsizeMode='tail'>想要宝贝以后头发长得好，准妈妈们从孕期就需要补充营养，比如维生素......</Text>
-                        </View>
-                    </View>
-                    <View style={[styles.msgOverView, styles.msgOver]}>
-                        <View style={styles.msgOver}>
-                            <View style={styles.msgOverImgView}>
-                                <Image source={require('../img/over.png')} style={styles.msgOverImg}
-                                       resizeMode='stretch'/>
-                            </View>
-                            <Text style={styles.msgOverText}>56</Text>
-                        </View>
-                        <View style={[styles.msgOver, {marginLeft: 20}]}>
-                            <View style={styles.msgOverImgView}>
-                                <Image source={require('../img/collection.png')} style={styles.msgOverImg}
-                                       resizeMode='stretch'/>
-                            </View>
-                            <Text style={styles.msgOverText}>56</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            </View>
+            {this.state.list}
         </View>
     }
 }
