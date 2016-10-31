@@ -9,6 +9,7 @@ const reduxcomp = require('./reduxcomp');
 const synccache = require('./synccache');
 const converter = require('./converter');
 const device = require('./device');
+const gps = require('./gps');
 
 module.exports = {
     http,
@@ -17,5 +18,6 @@ module.exports = {
     reduxcomp,
     synccache,
     converter,
-    device
+    device,
+    gps
 };

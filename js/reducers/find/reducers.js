@@ -7,10 +7,16 @@ import {find} from '../../actions'
 
 function findX(state = {reduxArgs: {}}, action) {
     switch (action.type) {
-        case find.NAV_SHARE:
+        case find.NAV_SHAREWITH:
             return {
                 reduxArgs: {
-                    component: action.component
+                    shareWith: action.shareWith
+                },
+            }
+        case find.NAV_TEXT:
+            return {
+                reduxArgs: {
+                    text: action.text
                 },
             }
         default:

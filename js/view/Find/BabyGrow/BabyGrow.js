@@ -40,7 +40,7 @@ class BabyGrow extends Component {
 
     componentWillMount() {
         console.log('---BabyGrow---1.componentWillMount------');
-        this.props.dispatch(find.navShare(this.navBarRightBottom()));
+        this.props.dispatch(find.navShareWith(this.navBarRightBottom()));
         //初始化加载
         this.loadBabyHtml(this.state.initWeek);
     }
@@ -52,7 +52,7 @@ class BabyGrow extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(home.hideMenu(false));
-        this.props.dispatch(find.navShare(null));
+        this.props.dispatch(find.navShareWith(null));
     }
 
     //加载文章

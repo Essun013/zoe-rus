@@ -3,7 +3,16 @@
  */
 
 import React, { Component , PropTypes } from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {View,
+    StyleSheet,
+    Image,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    Alert,
+    InteractionManager,
+    Platform,
+    Animated} from 'react-native';
 import device from '../../../common/util/device';
 import apiHttp from '../../../common/util/http';
 import {rcache, synccache} from '../../../common/util';
@@ -46,7 +55,14 @@ class WeekTab extends Component {
         if(scrollToX >= 43){
             scrollToX = 45;
         }
-        this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
+
+        if(Platform.OS === 'ios'){
+            this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
+        } else {
+            InteractionManager.runAfterInteractions(() => {
+                this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
+            });
+        }
     }
 
     componentWillUnMount() {
@@ -85,7 +101,7 @@ class WeekTab extends Component {
         );
     }
 
-    _renderSelect(week) {
+    _renderSelectTab(week) {
         return (
             <Image source={require('../img/finger.png')} style={{height: 50, width: 50, alignItems: 'center'}}>
                 <Text style={styles.tabText}>{week}周</Text>
@@ -105,7 +121,7 @@ class WeekTab extends Component {
             {listView.map((week, index) => {
                 return <View style={styles.scrollViewTab} key={index}>
                     <TouchableOpacity style={styles.tabTextCenter} onPress={()=>this.switchTab(week)} >
-                        {week==this.state.currentTab? this._renderSelect(week): this._renderUnSelectTab(week)}
+                        {week==this.state.currentTab? this._renderSelectTab(week): this._renderUnSelectTab(week)}
                     </TouchableOpacity>
                 </View>
             })}

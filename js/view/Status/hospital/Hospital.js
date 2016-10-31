@@ -130,7 +130,7 @@ class Hospital extends Component {
                         <Text style={{fontSize: 14}}>{this.state.city}</Text>
                     </TouchableOpacity>
                     <TextInput style={styles.searchHospital} placeholder={'请输入医院名称'}
-                               placeholderTextColor={'rgb(146,146,146)'}/>
+                               placeholderTextColor={'rgb(146,146,146)'} underlineColorAndroid={'#fff'}/>
                 </View>
 
                 <ListView style={styles.hospitalView} dataSource={this.state.hospitalList}
@@ -168,7 +168,8 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         alignSelf: 'center',
         textAlign: 'center',
-        fontSize: 14
+        fontSize: 14,
+        padding: 0
     },
     hospitalView: {},
     hospitalBotton: {
@@ -228,6 +229,6 @@ const styles = StyleSheet.create({
     }
 });
 
-// const {connect} = require('react-redux');
+const {connect} = require('react-redux');
 
-module.exports = Hospital;
+module.exports = connect()(Hospital);

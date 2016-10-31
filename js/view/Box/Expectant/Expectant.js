@@ -11,6 +11,8 @@ import {StyleSheet,
     Image,
     Alert} from 'react-native';
 import device from '../../../common/util/device';
+import {find} from '../../../actions';
+import {navPush} from '../../../components/Nav/Nav';
 
 class Expectant extends Component {
 
@@ -28,17 +30,26 @@ class Expectant extends Component {
         };
         this.switchCheckObj = this.switchCheckObj.bind(this);
         this.switchCheckThing = this.switchCheckThing.bind(this);
-    }
-
-    componentWillMount() {
-        console.log('---Expectant---1.componentWillMount------');
+        this.navBarRightBottom = this.navBarRightBottom.bind(this);
     }
 
     componentDidMount() {
         console.log('---Expectant---3.componentDidMount------');
+        this.props.dispatch(find.navText(this.navBarRightBottom()));
+    }
+
+    navBarRightBottom() {
+        return (
+            <View style={styles.rightContainer}>
+                <TouchableOpacity style={styles.bottomCenter}>
+                    <Text style={{color:'rgb(255,255,255)',fontSize:15}}>添加</Text>
+                </TouchableOpacity>
+            </View>
+        );
     }
 
     componentWillUnmount() {
+        this.props.dispatch(find.navText(null));
     }
 
     //切换检查对象
@@ -231,11 +242,21 @@ const styles = StyleSheet.create({
         paddingBottom:10,
         color:'rgb(146,146,146)',
         fontFamily: 'PingFang SC',
-    }
-
+    },
+    rightContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        marginRight: 20,
+        flexDirection: 'row',
+    },
+    bottomCenter: {
+        justifyContent: 'center',
+    },
 
 
 
 })
 
-module.exports = Expectant;
+const {connect} = require('react-redux');
+
+module.exports = connect()(Expectant);

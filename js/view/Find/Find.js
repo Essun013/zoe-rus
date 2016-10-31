@@ -11,18 +11,21 @@ import {
     Text,
 } from 'react-native-elements'
 
-export default class Find extends Component {
+class Find extends Component {
+
+    constructor(props){
+        super(props);
+    }
+
     render() {
         return (
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                <Box/>
-                <Topic/>
+                <Box navigator={this.props.navigator} />
+                <Topic />
             </ScrollView>
         )
     }
 }
-
-
 
 
 const styles = StyleSheet.create({
@@ -30,3 +33,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5'
     }
 })
+
+module.exports = Find;

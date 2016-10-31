@@ -3,13 +3,36 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, ListView} from 'react-native';
+import {View,
+    StyleSheet,
+    Image,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    ListView} from 'react-native';
 import device from '../../../common/util/device';
+import {find} from '../../../actions';
+import {navPush} from '../../../components/Nav/Nav';
+import Expectant from '../../Box/Expectant/Expectant';
 
 
 class Box extends Component {
     constructor(props) {
         super(props);
+        this.toExpectantPackage = this.toExpectantPackage.bind(this);
+    }
+
+    toExpectantPackage() {
+        navPush.push(this.props, Expectant, '待产包');
+    }
+
+    componentWillMount() {
+        console.log('---Box---1.componentWillMount------');
+        //this.props.dispatch(find.navText(this.navBarRightBottom()));
+    }
+
+    componentWillUnmount() {
+        //this.props.dispatch(find.navText(null));
     }
 
     render() {
@@ -22,7 +45,7 @@ class Box extends Component {
             <View style={styles.body}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} scrollEnabled={false}>
                     <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.buttonTextCenter}>
+                        <TouchableOpacity style={styles.buttonTextCenter} onPress={this.toExpectantPackage}>
                             <Image source={require('../img/box/dcb.png')} style={styles.buttonImgSize}/>
                             <Text style={[styles.titleText]}>待产包</Text>
                         </TouchableOpacity>
@@ -113,7 +136,8 @@ const styles = StyleSheet.create({
     },
     buttonTextCenter: {
         alignItems: 'center'
-    }
+    },
+
 });
 
 module.exports = Box;

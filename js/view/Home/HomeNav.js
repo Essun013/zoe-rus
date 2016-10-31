@@ -64,8 +64,8 @@ class HomeNav extends Component {
         var reduxArgs = this.props.reduxArgs;
 
         var rightBotton = this.navBarRightBottom;
-        if (reduxArgs.component)
-            rightBotton = (route, navigator, index, navState) => {return reduxArgs.component}
+        if (reduxArgs.shareWith)
+            rightBotton = (route, navigator, index, navState) => {return reduxArgs.shareWith}
         let now = new Date();
         let title= (now.getMonth()+1)+'月'+now.getDate()+'日';
         return <Nav route={{component: Home, title: title}} leftButton={this.navBarLeftBottom} rightButton={rightBotton}/>;
