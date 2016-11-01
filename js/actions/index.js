@@ -7,10 +7,12 @@ const me = require('./me/me');
 const home = require('./home/actions');
 const find = require('./find/actions');
 const status = require('./status/actions');
+const box = require('./box/actions');
 
 module.exports = {
     home,
     me,
     find,
     status,
+    box,
 }

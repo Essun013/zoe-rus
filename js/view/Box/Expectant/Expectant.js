@@ -13,6 +13,8 @@ import {StyleSheet,
 import device from '../../../common/util/device';
 import {find} from '../../../actions';
 import {navPush} from '../../../components/Nav/Nav';
+import AddPackageThings from './AddPackageThings';
+import {connect} from 'react-redux';
 
 class Expectant extends Component {
 
@@ -25,23 +27,55 @@ class Expectant extends Component {
     constructor(props) {
         console.log('---Expectant---0.constructor------');
         super(props);
-        this.state = {
-            checkObj: 'mom', //检查对象初始值默认为妈妈
-        };
         this.switchCheckObj = this.switchCheckObj.bind(this);
         this.switchCheckThing = this.switchCheckThing.bind(this);
         this.navBarRightBottom = this.navBarRightBottom.bind(this);
+        this.toAddPackageThings = this.toAddPackageThings.bind(this);
+
+        var checkedList = [{
+            name:'产妇卫生巾',
+            number:'3包',
+        }, {
+            name:'哺乳文胸',
+            number:'2包',
+        }, {
+            name:'月子帽',
+            number:'2顶',
+        }];
+
+        var UnCheckedList = [{
+            name:'毛巾',
+            number:'4条',
+        }, {
+            name:'拖鞋',
+            number:'2双',
+        }, {
+            name:'睡衣',
+            number:'4套',
+        }];
+
+        this.state = {
+            checkObj: 'mom', //检查对象初始值默认为妈妈
+            checkedList: checkedList,//已检查物品
+            UnCheckedList: UnCheckedList,//未检查物品
+        };
+
     }
 
     componentDidMount() {
         console.log('---Expectant---3.componentDidMount------');
         this.props.dispatch(find.navText(this.navBarRightBottom()));
+
+    }
+
+    toAddPackageThings(){
+        navPush.push(this.props, AddPackageThings, "添加待产包");
     }
 
     navBarRightBottom() {
         return (
             <View style={styles.rightContainer}>
-                <TouchableOpacity style={styles.bottomCenter}>
+                <TouchableOpacity style={styles.bottomCenter} onPress={()=>this.toAddPackageThings()}>
                     <Text style={{color:'rgb(255,255,255)',fontSize:15}}>添加</Text>
                 </TouchableOpacity>
             </View>
@@ -67,13 +101,27 @@ class Expectant extends Component {
     }
 
     //切换检查物品
-    switchCheckThing(){
-
+    switchCheckThing(thing, index, checked){
+        //console.log(thing);
+        if(checked){
+            this.state.checkedList.push(thing); //增加元素
+            this.state.UnCheckedList.splice(index, 1); //移除元素
+            this.setState({
+                checkedList: this.state.checkedList,
+                UnCheckedList: this.state.UnCheckedList,
+            });
+        } else {
+            this.state.UnCheckedList.push(thing); //增加元素
+            this.state.checkedList.splice(index, 1); //移除元素
+            this.setState({
+                checkedList: this.state.checkedList,
+                UnCheckedList: this.state.UnCheckedList,
+            });
+        }
     }
 
-
     //渲染检查对象
-    renderTitleCheckObj(obj){
+    _renderTitleCheckObj(obj){
         if(obj==="mom"){//妈妈
             return (<View style={styles.checkObjView}>
                 <TouchableOpacity style={styles.checkObjSel} onPress={()=>{this.switchCheckObj("mom")}}>
@@ -97,66 +145,68 @@ class Expectant extends Component {
         }
     }
 
+    //渲染未准备物品
+    renderUnCheckedThing(index, things){
+        return (
+            <View key={index} style={styles.prepareContentArea}>
+                <View style={{flex:5}}><Text style={styles.prepareContentAreaText}>{things.name}</Text></View>
+                <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>{things.number}</Text></View>
+                <TouchableOpacity style={{flex:1}} onPress={()=>this.switchCheckThing(things, index, true)}>
+                    <Image source={require('../img/expectant/unchecked.png')} style={styles.prepareChkImg}></Image>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
+    //渲染已准备物品
+    renderCheckedThing(index, things){
+        return (
+            <View key={index} style={styles.prepareContentArea}>
+                <View style={{flex:5}}><Text style={styles.prepareContentAreaText}>{things.name}</Text></View>
+                <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>{things.number}</Text></View>
+                <TouchableOpacity style={{flex:1}} onPress={()=>this.switchCheckThing(things, index, false)}>
+                    <Image source={require('../img/expectant/checked.png')} style={styles.prepareChkImg}></Image>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+
+    //渲染所有待产包
+    _renderCheckThings(){
+        return <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+            <View style={styles.prepareTextArea}>
+                <Image source={require('../img/expectant/begin.png')} style={styles.prepareImg}></Image>
+                <Text style={styles.prepareText}>未准备</Text>
+            </View>
+            {this.state.checkedList.map((obj, index)=>{
+                return this.renderCheckedThing(index, obj);
+            })}
+            <View style={styles.prepareTextArea}>
+                <Image source={require('../img/expectant/begin.png')} style={styles.prepareImg}></Image>
+                <Text style={styles.prepareText}>已准备</Text>
+            </View>
+            {this.state.UnCheckedList.map((obj, index)=>{
+                return this.renderUnCheckedThing(index, obj);
+            })}
+        </ScrollView>;
+    }
 
     render() {
         console.log('---Expectant---2.render------');
 
+        //处理待添加的东西
+        let things = this.props.addPackageThing;
+        if(things){
+            console.log('thingName:'+things.addThingName);
+            console.log('thingCount:'+things.addThingCount);
+            console.log('thingCount:'+things.addThingClass);
+        }
+
         return (
             <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
-                {this.renderTitleCheckObj(this.state.checkObj)}
-                <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                    <View style={styles.prepareTextArea}>
-                        <Image source={require('../img/expectant/begin.png')} style={styles.prepareImg}></Image>
-                        <Text style={styles.prepareText}>未准备</Text>
-                    </View>
-                    <View style={styles.prepareContentArea}>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaText} >产妇卫生巾</Text></View>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>3包</Text></View>
-                        <TouchableOpacity style={{flex:1}} onPress={this.switchCheckThing}>
-                            <Image source={require('../img/expectant/unchecked.png')} style={styles.prepareChkImg}></Image>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.prepareContentArea}>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaText}>哺乳文胸</Text></View>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>2包</Text></View>
-                        <TouchableOpacity style={{flex:1}} onPress={this.switchCheckThing}>
-                            <Image source={require('../img/expectant/unchecked.png')} style={styles.prepareChkImg}></Image>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.prepareContentArea}>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaText}>月子帽</Text></View>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>2顶</Text></View>
-                        <TouchableOpacity style={{flex:1}}>
-                            <Image source={require('../img/expectant/unchecked.png')} style={styles.prepareChkImg}></Image>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.prepareTextArea}>
-                        <Image source={require('../img/expectant/begin.png')} style={styles.prepareImg}></Image>
-                        <Text style={styles.prepareText}>已准备</Text>
-                    </View>
-                    <View style={styles.prepareContentArea} onPress={this.switchCheckThing}>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaText}>毛巾</Text></View>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>4条</Text></View>
-                        <TouchableOpacity style={{flex:1}}>
-                            <Image source={require('../img/expectant/checked.png')} style={styles.prepareChkImg}></Image>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.prepareContentArea}>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaText}>拖鞋</Text></View>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>2双</Text></View>
-                        <TouchableOpacity style={{flex:1}}>
-                            <Image source={require('../img/expectant/checked.png')} style={styles.prepareChkImg}></Image>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.prepareContentArea}>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaText}>睡衣</Text></View>
-                        <View style={{flex:5}}><Text style={styles.prepareContentAreaCount}>4套</Text></View>
-                        <TouchableOpacity style={{flex:1}}>
-                            <Image source={require('../img/expectant/checked.png')} style={styles.prepareChkImg}></Image>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                {this._renderTitleCheckObj(this.state.checkObj)}
+                {this._renderCheckThings()}
             </View>
         );
 
@@ -176,8 +226,6 @@ const styles = StyleSheet.create({
     },
     checkObjUnSel: {
         flex:1,
-        //borderBottomWidth: 2,
-        //borderBottomColor: 'rgb(0,0,0)',
     },
     checkObjTitleSel: {
         fontSize:15,
@@ -253,10 +301,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
+});
 
+function mapStateToProps(store) {
+    //Alert.alert(JSON.stringify(store))
+    return {
+        addPackageThing: store.boxX.addPackageThing,
+    }
+}
 
-})
-
-const {connect} = require('react-redux');
-
-module.exports = connect()(Expectant);
+module.exports = connect(mapStateToProps)(Expectant);

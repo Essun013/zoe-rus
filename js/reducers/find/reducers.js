@@ -3,9 +3,14 @@
  */
 
 import React from 'react';
-import {find} from '../../actions'
+import {find} from '../../actions';
 
-function findX(state = {reduxArgs: {}}, action) {
+const initialState = {
+    reduxArgs: {}
+}
+
+//发现导航
+function findX(state = initialState, action) {
     switch (action.type) {
         case find.NAV_SHAREWITH:
             return {
@@ -26,6 +31,7 @@ function findX(state = {reduxArgs: {}}, action) {
     }
 }
 
+
 module.exports = {
-    findX
+    findX,
 }
