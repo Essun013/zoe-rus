@@ -3,20 +3,11 @@
  */
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Platform} from 'react-native'
+import {ScrollView, StyleSheet} from 'react-native'
 import {Box} from './Box';
 import {Topic} from './Topic';
 
-import {
-    Text,
-} from 'react-native-elements'
-
-class Find extends Component {
-
-    constructor(props){
-        super(props);
-    }
-
+export default class Find extends Component {
     render() {
         return (
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
@@ -33,5 +24,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5'
     }
 })
-
-module.exports = Find;

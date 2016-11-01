@@ -5,9 +5,9 @@
 import React, {Component, PropTypes} from 'react'
 import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import NavBar from './NavBar'
 
-
- class Nav extends Component {
+export default class Nav extends Component {
     static propTypes = {
         route: PropTypes.object.isRequired,
         renderScene: PropTypes.func,
@@ -27,6 +27,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
     }
 
     LeftButton(route, navigator, index, navState) {
+        let _navLeft = route.component.prototype._navLeft || (route.component.WrappedComponent && route.component.WrappedComponent.prototype._navLeft)
+        if (_navLeft)
+            return <NavBar icon={_navLeft} navigator={navigator} route={route} index={index} navState={navState}/>
+
         if (index > 0) {
             return (
                 <View style={styles.navContainer}>
@@ -48,10 +52,16 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
     }
 
     RightButton(route, navigator, index, navState) {
-        navigator.SceneConfigs
+        let _navRight = route.component.prototype._navRight || (route.component.WrappedComponent && route.component.WrappedComponent.prototype._navRight)
+        if (_navRight)
+            return <NavBar icon={_navRight} navigator={navigator} route={route} index={index} navState={navState}/>
     }
 
     Title(route, navigator, index, navState) {
+        let _navTitle = route.component.prototype._navTitle || (route.component.WrappedComponent && route.component.WrappedComponent.prototype._navTitle)
+        if (_navTitle)
+            return <NavBar icon={_navTitle} navigator={navigator} route={route} index={index} navState={navState}/>
+
         if (typeof(route.title) == 'string') {
             return (
                 <View style={{flex: 1, justifyContent: 'center'}}>
@@ -84,7 +94,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
             <Navigator
                 navigationBar={
                     <Navigator.NavigationBar
-                        style={this.props.barStyle || {backgroundColor: '#ff4971', flex: 1, height: 62,}}
+                        style={[{backgroundColor: '#ff4971', flex: 1, height: 62,}, this.props.barStyle]}
                         routeMapper={navBar}
                         navigationStyles={Navigator.NavigationBar.StylesIOS}/>
                 }
@@ -96,11 +106,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
         );
     }
 }
-
-const {connect} = require('react-redux');
-
-export default connect()(Nav);
-
 
 export var navPush = {
     push(props, component, title, other?: Object)

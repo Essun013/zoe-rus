@@ -12,12 +12,6 @@ const initialState = {
 //发现导航
 function findX(state = initialState, action) {
     switch (action.type) {
-        case find.NAV_SHAREWITH:
-            return {
-                reduxArgs: {
-                    shareWith: action.shareWith
-                },
-            }
         case find.NAV_TEXT:
             return {
                 reduxArgs: {

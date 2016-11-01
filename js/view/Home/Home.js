@@ -4,7 +4,7 @@
 
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Alert} from 'react-native'
+import {ScrollView, View, StyleSheet, Alert, TouchableOpacity, Image} from 'react-native'
 import {device, http, rcache, app, gps} from '../../common/util';
 import {Top} from './Top';
 import {Mom} from './Mom';
@@ -12,15 +12,15 @@ import {Box} from './Box';
 import {Check} from './Check';
 import {Clazz} from './Clazz';
 
-class Home extends Component {
-    constructor(props){
+export default class Home extends Component {
+    constructor(props) {
         super(props);
 
         /*gps.getLocation((d) => {
-            Alert.alert('location', JSON.stringify(d))
-        }, (e) => {
-            Alert.alert('error', e.message)
-        });*/
+         Alert.alert('location', JSON.stringify(d))
+         }, (e) => {
+         Alert.alert('error', e.message)
+         });*/
 
         this.state = {
             content: null
@@ -34,9 +34,10 @@ class Home extends Component {
                 var week = Math.floor(preDays / 7);
                 var days = preDays - (week * 7);
 
-                this.scroll(week+'', days+'', preDays+'');
+                this.scroll(week + '', days + '', preDays + '');
             }
         })
+
     }
 
     scroll(week, days, totalDay) {
@@ -56,12 +57,61 @@ class Home extends Component {
             {this.state.content}
         </View>
     }
+
+    _navRight(nav) {
+        return <View style={styles.rightContainer}>
+            <TouchableOpacity style={styles.bottomCenter}>
+                <Image source={require('./img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]}>
+                <Image source={require('./img/tips.png')} style={{width: 19, height: 21}} resizeMode='stretch'/>
+            </TouchableOpacity>
+        </View>
+    }
+
+    _navLeft(nav) {
+        return <View style={styles.leftContainer}>
+            <TouchableOpacity style={styles.bottomCenter} onPress={() => {
+                Alert.alert('_(:з」∠)_', '暂时还不能切换宝宝啦〜');
+            }}>
+                <Image source={require('./img/switch_baby.png')} style={{width: 30, height: 26}}
+                       resizeMode='stretch'/>
+            </TouchableOpacity>
+        </View>
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f5f5f5',
+    },
+    leftContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        marginLeft: 20,
+    },
+    // 导航栏
+    navContainer: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    // 左面导航按钮
+    leftNavButtonText: {
+        color: '#ffffff',
+        fontSize: 33,
+        paddingLeft: 5,
+        justifyContent: 'center',
+    },
+    rightContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        marginRight: 20,
+        flexDirection: 'row',
+    },
+    bottomCenter: {
+        justifyContent: 'center',
+    },
+    tipsBottom: {
+        marginLeft: 20
     }
 })
-
-export default Home

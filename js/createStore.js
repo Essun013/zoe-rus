@@ -1,8 +1,7 @@
 import { Platform } from 'react-native';
-import {createStore, applyMiddleware, combineReducers,compose} from 'redux';
+import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
 import thunk from 'redux-thunk';
 import devTools from 'remote-redux-devtools';
-// import todoApp from './reducers/home/reducers';
 import store from './reducers'
 
 const middleware = applyMiddleware(thunk);

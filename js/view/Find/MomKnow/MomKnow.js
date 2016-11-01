@@ -4,9 +4,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet,
-    ScrollView,
     View,
-    Text,
     TouchableOpacity,
     Image,
     WebView,
@@ -18,14 +16,7 @@ import {home, find} from '../../../actions';
 import app from '../../../common/util/app';
 
 class MomKnow extends Component {
-    // 默认属性
-    static defaultProps = {
-    }
-    // 属性类型
-    static propTypes = {
-    }
     constructor(props) {
-        console.log('---MomKnow---0.constructor------');
         super(props);
         this.state = {
             initWeek : this.props.initWeek, //初始化周数
@@ -35,20 +26,16 @@ class MomKnow extends Component {
     }
 
     componentWillMount() {
-        console.log('---MomKnow---1.componentWillMount------');
-        this.props.dispatch(find.navShareWith(this.navBarRightBottom()));
         //初始化加载
         this.loadBabyHtml(this.state.initWeek);
     }
 
     componentDidMount() {
-        console.log('---MomKnow---3.componentDidMount------');
         this.props.dispatch(home.hideMenu(true));
     }
 
     componentWillUnmount() {
         this.props.dispatch(home.hideMenu(false));
-        this.props.dispatch(find.navShareWith(null));
     }
 
     //加载文章
@@ -60,14 +47,12 @@ class MomKnow extends Component {
         apiHttp.apiPost('/kb/knowledge/find', params, (result)=>  {
                 if (result.code === 0) {
                     let uri = app.apiUrl + "kb/knowledge/html?id=" + result.data.id;
-                    console.log('---MomKnow---uri------'+uri);
                     //渲染WebView
                     this.setState({
                         selWeek: week,
                         webView: this.loadHtml(uri),
                     });
                 } else {
-                    console.log(result);
                     Alert.alert("系统提示", result.message);
                 }
             }, (err)=> {
@@ -88,7 +73,7 @@ class MomKnow extends Component {
     }
 
 
-    navBarRightBottom() {
+    _navRight(nav) {
         return (
             <View style={styles.rightContainer}>
                 <TouchableOpacity style={styles.bottomCenter}>
@@ -99,8 +84,6 @@ class MomKnow extends Component {
     }
 
     render() {
-        console.log('---MomKnow---2.render------');
-
         return (
             <View style={{flex:1}}>
                 <WeekTab ref="weekTab" week={this.state.selWeek} switchTab={week=>this.loadBabyHtml(week)}/>
@@ -117,9 +100,6 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor: 'rgb(240,240,240)',
         width: device.width(),
-        //borderWidth: 1,
-        //borderColor: 'green',
-        //backgroundColor: '#00ff00',
     },
     rightContainer: {
         flex: 1,
@@ -133,5 +113,4 @@ const styles = StyleSheet.create({
 });
 
 const {connect} = require('react-redux');
-
 module.exports = connect()(MomKnow);
