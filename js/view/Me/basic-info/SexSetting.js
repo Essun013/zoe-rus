@@ -3,10 +3,9 @@
  */
 import React, {Component} from 'react'
 import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio,Picker} from 'react-native'
-import {ImgButton} from '../../../components'
+import {ImgButton,ModalPicker} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
-
 
 
 class SexSetting extends Component {
@@ -21,21 +20,23 @@ class SexSetting extends Component {
         navPush.pop(this.props);
     }
     render() {
+        const data =[{key:0,label: '不详'},{key:1,label: '男'},
+                    {key:2,label: '女'}]
         return (
             <ScrollView style={styles.mainContainer}>
                 <View style={styles.container}>
                     <View style={styles.listView}>
                         <Text style={styles.title}>性别</Text>
-                        <View style={styles.textInput}>
-                            <Picker
-                                style={{width:240}}
-                                selectedValue={this.state.value}
-                                mode="dialog"
-                                onValueChange={(value,label) => this.setState({value: value,label:label})}>
-                                <Picker.Item label="男" value="1" />
-                                <Picker.Item label="女" value="2" />
-                            </Picker>
-                        </View>
+                        <ModalPicker
+                            data={data}
+                            initValue="Select something yummy!"
+                            onChange={(option)=>{ this.setState({label:option.label,value:option.key})}}>
+                            <TextInput
+                                style={{height: 40, fontSize: 15,width: 260,marginLeft: 10}}
+                                editable={false}
+                                underlineColorAndroid={'transparent'}
+                                value={this.state.label} />
+                            </ModalPicker>
                     </View>
                 </View>
                 <View style={styles.submitBut}>
