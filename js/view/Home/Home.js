@@ -58,7 +58,7 @@ export default class Home extends Component {
         </View>
     }
 
-    _navRight(nav) {
+    _navRight(nav, _p) {
         return <View style={styles.rightContainer}>
             <TouchableOpacity style={styles.bottomCenter}>
                 <Image source={require('./img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
@@ -69,7 +69,7 @@ export default class Home extends Component {
         </View>
     }
 
-    _navLeft(nav) {
+    _navLeft(nav, _p) {
         return <View style={styles.leftContainer}>
             <TouchableOpacity style={styles.bottomCenter} onPress={() => {
                 Alert.alert('_(:з」∠)_', '暂时还不能切换宝宝啦〜');

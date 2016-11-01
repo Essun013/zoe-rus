@@ -66,15 +66,14 @@ class Expectant extends Component {
         console.log('---Expectant---3.componentDidMount------');
     }
 
-    toAddPackageThings(){
-        Alert.alert('ok');
-        navPush.push(this.props, AddPackageThings, "添加待产包");
+    toAddPackageThings(o) {
+        navPush.push(o, AddPackageThings, "添加待产包");
     }
 
-    _navRight() {
+    _navRight(nav, _prototype) {
         return (
             <View style={styles.rightContainer}>
-                <TouchableOpacity style={styles.bottomCenter} onPress={this.toAddPackageThings}>
+                <TouchableOpacity style={styles.bottomCenter} onPress={() => {_prototype.toAddPackageThings(nav)}}>
                     <Text style={{color:'rgb(255,255,255)',fontSize:15}}>添加</Text>
                 </TouchableOpacity>
             </View>

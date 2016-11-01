@@ -27,9 +27,10 @@ export default class Nav extends Component {
     }
 
     LeftButton(route, navigator, index, navState) {
-        let _navLeft = route.component.prototype._navLeft || (route.component.WrappedComponent && route.component.WrappedComponent.prototype._navLeft)
-        if (_navLeft)
-            return <NavBar icon={_navLeft} navigator={navigator} route={route} index={index} navState={navState}/>
+        let _component = route.component.WrappedComponent || route.component;
+        let _prototype = _component.prototype;
+        if (_prototype._navLeft)
+            return _prototype._navLeft({route, navigator, index, navState}, _prototype)
 
         if (index > 0) {
             return (
@@ -52,15 +53,17 @@ export default class Nav extends Component {
     }
 
     RightButton(route, navigator, index, navState) {
-        let _navRight = route.component.prototype._navRight || (route.component.WrappedComponent && route.component.WrappedComponent.prototype._navRight)
-        if (_navRight)
-            return <NavBar icon={_navRight} navigator={navigator} route={route} index={index} navState={navState}/>
+        let _component = route.component.WrappedComponent || route.component;
+        let _prototype = _component.prototype;
+        if (_prototype._navRight)
+            return _prototype._navRight({route, navigator, index, navState}, _prototype)
     }
 
     Title(route, navigator, index, navState) {
-        let _navTitle = route.component.prototype._navTitle || (route.component.WrappedComponent && route.component.WrappedComponent.prototype._navTitle)
-        if (_navTitle)
-            return <NavBar icon={_navTitle} navigator={navigator} route={route} index={index} navState={navState}/>
+        let _component = route.component.WrappedComponent || route.component;
+        let _prototype = _component.prototype;
+        if (_prototype._navTitle)
+            return _prototype._navTitle({route, navigator, index, navState}, _prototype)
 
         if (typeof(route.title) == 'string') {
             return (
