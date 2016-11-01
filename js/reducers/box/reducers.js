@@ -16,12 +16,15 @@ function boxX(state = initialState, action){
             return {
                 addPackageThing: action.addPackageThing,
             }
+        case box.UN_PACKAGE:
+            return {
+                addPackageThing: action.addPackageThing,
+            }
         default:
             return {
                 ...state
             }
     }
-
 }
 
 

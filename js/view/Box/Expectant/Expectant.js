@@ -14,6 +14,7 @@ import device from '../../../common/util/device';
 import {find} from '../../../actions';
 import {navPush} from '../../../components/Nav/Nav';
 import AddPackageThings from './AddPackageThings';
+import {unPackage}  from '../../../actions/box/actions';
 import {connect} from 'react-redux';
 
 class Expectant extends Component {
@@ -194,13 +195,14 @@ class Expectant extends Component {
 
         //处理待添加的东西
         let things = this.props.addPackageThing;
-        if(things){
+        if(typeof things !== 'undefined'){
             console.log('thingName:'+things.addThingName);
             console.log('thingCount:'+things.addThingCount);
             console.log('thingCount:'+things.addThingClass);
             this.state.UnCheckedList.push({name:things.addThingName,number:things.addThingCount});
-            //用完一次就释放掉防止再次render
+            //TODO 用完一次就释放掉防止再次render  待解决
             //delete this.props.addPackageThing;
+            //this.props.dispatch(unPackage(null));
         }
 
         return (
@@ -305,6 +307,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(store) {
     //Alert.alert(JSON.stringify(store))
+    //Alert.alert(JSON.stringify(store.getState()))
     return {
         addPackageThing: store.boxX.addPackageThing,
     }
