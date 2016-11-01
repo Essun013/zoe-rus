@@ -29,21 +29,9 @@ class Expectant extends Component {
         super(props);
         this.switchCheckObj = this.switchCheckObj.bind(this);
         this.switchCheckThing = this.switchCheckThing.bind(this);
-        this.navBarRightBottom = this.navBarRightBottom.bind(this);
         this.toAddPackageThings = this.toAddPackageThings.bind(this);
 
         var checkedList = [{
-            name:'产妇卫生巾',
-            number:'3包',
-        }, {
-            name:'哺乳文胸',
-            number:'2包',
-        }, {
-            name:'月子帽',
-            number:'2顶',
-        }];
-
-        var UnCheckedList = [{
             name:'毛巾',
             number:'4条',
         }, {
@@ -52,6 +40,17 @@ class Expectant extends Component {
         }, {
             name:'睡衣',
             number:'4套',
+        }];
+
+        var UnCheckedList = [{
+            name:'产妇卫生巾',
+            number:'3包',
+        }, {
+            name:'哺乳文胸',
+            number:'2包',
+        }, {
+            name:'月子帽',
+            number:'2顶',
         }];
 
         this.state = {
@@ -63,19 +62,19 @@ class Expectant extends Component {
     }
 
     componentDidMount() {
-        console.log('---Expectant---3.componentDidMount------');
-        this.props.dispatch(find.navText(this.navBarRightBottom()));
 
+        console.log('---Expectant---3.componentDidMount------');
     }
 
     toAddPackageThings(){
+        Alert.alert('ok');
         navPush.push(this.props, AddPackageThings, "添加待产包");
     }
 
-    navBarRightBottom() {
+    _navRight() {
         return (
             <View style={styles.rightContainer}>
-                <TouchableOpacity style={styles.bottomCenter} onPress={()=>this.toAddPackageThings()}>
+                <TouchableOpacity style={styles.bottomCenter} onPress={this.toAddPackageThings}>
                     <Text style={{color:'rgb(255,255,255)',fontSize:15}}>添加</Text>
                 </TouchableOpacity>
             </View>
@@ -83,7 +82,6 @@ class Expectant extends Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch(find.navText(null));
     }
 
     //切换检查对象
@@ -179,15 +177,15 @@ class Expectant extends Component {
                 <Image source={require('../img/expectant/begin.png')} style={styles.prepareImg}></Image>
                 <Text style={styles.prepareText}>未准备</Text>
             </View>
-            {this.state.checkedList.map((obj, index)=>{
-                return this.renderCheckedThing(index, obj);
+            {this.state.UnCheckedList.map((obj, index)=>{
+                return this.renderUnCheckedThing(index, obj);
             })}
             <View style={styles.prepareTextArea}>
                 <Image source={require('../img/expectant/begin.png')} style={styles.prepareImg}></Image>
                 <Text style={styles.prepareText}>已准备</Text>
             </View>
-            {this.state.UnCheckedList.map((obj, index)=>{
-                return this.renderUnCheckedThing(index, obj);
+            {this.state.checkedList.map((obj, index)=>{
+                return this.renderCheckedThing(index, obj);
             })}
         </ScrollView>;
     }
@@ -201,6 +199,9 @@ class Expectant extends Component {
             console.log('thingName:'+things.addThingName);
             console.log('thingCount:'+things.addThingCount);
             console.log('thingCount:'+things.addThingClass);
+            this.state.UnCheckedList.push({name:things.addThingName,number:things.addThingCount});
+            //用完一次就释放掉防止再次render
+            //delete this.props.addPackageThing;
         }
 
         return (

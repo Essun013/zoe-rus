@@ -16,7 +16,7 @@ import {StyleSheet,
     } from 'react-native';
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
-import {ImgButton} from '../../../components';
+import {ImgButton, ModalPicker} from '../../../components';
 import {addPackage}  from '../../../actions/box/actions';
 
 class AddPackageThings extends Component {
@@ -53,6 +53,7 @@ class AddPackageThings extends Component {
     }
 
     render() {
+        const data = [{key:0, label: '待产妈妈'},{key:1,label: '新生宝宝'},{key:2,label: '宝爸'}];
 
         return (
             <View style={styles.container}>
@@ -68,11 +69,16 @@ class AddPackageThings extends Component {
                 </View>
                 <View style={styles.ItemList}>
                     <Text style={styles.ItemContent}>物品归类</Text>
-                    <Picker style={styles.ItemPicker} selectedValue={this.state.addThingClass} onValueChange={(tc) => this.setState({addThingClass: tc})}>
-                        <Picker.Item label="待产妈妈" value="待产妈妈" />
-                        <Picker.Item label="新生宝宝" value="新生宝宝" />
-                        <Picker.Item label="宝爸" value="宝爸" />
-                    </Picker>
+                    <ModalPicker style={styles.ThingClassPicker}
+                        data={data}
+                        initValue="Select something yummy!"
+                        onChange={(option)=>{ this.setState({addThingClass:option.label})}}>
+                        <TextInput
+                            style={{height: 40, fontSize: 15,width: 260,marginLeft: 10}}
+                            editable={false}
+                            underlineColorAndroid={'transparent'}
+                            value={this.state.addThingClass} />
+                    </ModalPicker>
                 </View>
                 <View style={styles.submitBut}>
                     <ImgButton text="保存" onClick={this.onSave}></ImgButton>
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
         fontSize:15,
         paddingTop: 10,
         paddingBottom: 10,
-        paddingLeft: 10,
+        paddingLeft: 14,
     },
     submitBut: {
         marginTop: 20,
@@ -122,8 +128,12 @@ const styles = StyleSheet.create({
         width:device.width()/3*2,
         //backgroundColor:'blue',
     },
+    ThingClassPicker: {
+        flex: 4,
+    },
 
-})
+
+});
 
 const {connect} = require('react-redux');
 module.exports = connect()(AddPackageThings);
