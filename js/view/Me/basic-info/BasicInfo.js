@@ -12,6 +12,8 @@ import PhoneSetting from './PhoneSetting';
 import NicknameSetting from './NicknameSetting';
 import SexSetting from './SexSetting';
 import PhotoSetting from './PhotoSetting';
+import ChildbirthSetting from './ChildbirthSetting';
+import PreHospitalSeting from './PreHospitalSeting';
 import {connect} from 'react-redux'
 
 const log = () => console.log('this is an example method')
@@ -30,13 +32,19 @@ class PersonalCenter extends Component {
     onSexPress() {
         navPush.push(this.props, SexSetting, '性别',{user:this.props.user});
     }
+    onChildbirth(){
+        navPush.push(this.props, ChildbirthSetting, '预产期',{childbirth:this.props.childbirth});
+    }
     onPhotoSetting(){
         navPush.push(this.props,PhotoSetting,'头像上传')
+    }
+    onPreHospital(){
+        navPush.push(this.props,PreHospitalSeting,'设置产检医院',{preHospitalName:'厦门市妇幼保健院'})
     }
     render() {
         let name = this.props.user.nick ;
         let gender = this.props.user.gender==1?'男':'女';
-        // let mobile=this.props.user.mobile;
+        let mobile=this.props.user.mobile;
         let childbirth = this.props.childbirth ;
         return (
             <ScrollView style={styles.mainContainer}>
@@ -56,26 +64,27 @@ class PersonalCenter extends Component {
                     <ListItem
                         title={"性别"}
                         rightTitle={gender ||false}
+                        rightTitleStyle={{paddingRight:30}}
                         titleStyle={{color: "#bbbbbb"}}
-                        onPress={this.onSexPress.bind(this)}
                     />
                     <ListItem
                         title={"预产期"}
                         rightTitle={childbirth || false}
                         titleStyle={{color: "#bbbbbb"}}
-                        onPress={log}
+                        onPress={this.onChildbirth.bind(this)}
                     />
                     <ListItem
                         title={"医院"}
                         rightTitle={"厦门市妇幼保健院"}
                         titleStyle={{color: "#bbbbbb"}}
-                        onPress={log}
+                        onPress={this.onPreHospital.bind(this)}
                     />
-                    {/*<ListItem*/}
-                        {/*title={"手机号"}*/}
-                        {/*rightTitle={mobile}*/}
-                        {/*titleStyle={{color: "#bbbbbb"}}*/}
-                    {/*/>*/}
+                    <ListItem
+                        title={"手机号"}
+                        rightTitle={mobile}
+                        rightTitleStyle={{paddingRight:30}}
+                        titleStyle={{color: "#bbbbbb"}}
+                    />
                 </List>
             </ScrollView>
         )
