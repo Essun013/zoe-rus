@@ -15,6 +15,7 @@ import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
+import SearchNav from '../Search/SearchNav';
 import DeviceInfo from 'react-native-device-info';
 import apiHttp from '../../common/util/http';
 import {rcache} from '../../common/util';
@@ -132,10 +133,16 @@ class Main extends Component {
                 rcache.put('firstChoose', 'no');
             }, 200);
         }
+
+
     }
 
     renderStatus() {
         return <StatusNav/>
+    }
+
+    _renderMain() {
+        return <SearchNav/>
     }
 
     renderMain() {
