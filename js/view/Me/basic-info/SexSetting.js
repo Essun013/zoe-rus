@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     listView: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        //justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 10,
         marginRight: 10,
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     title: {
+
         fontSize: 15,
         color: '#bbbbbb'
     },

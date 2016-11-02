@@ -90,7 +90,7 @@ const ListItem = ({
           )}
         </View>
         {
-          onPress && !hideChevron && (
+          (
             <View style={styles.chevronContainer}>
               <View style={styles.rightTitleContainer}>
               { rightTitle && rightTitle!='' && (
@@ -112,11 +112,12 @@ const ListItem = ({
                 )
 
                 }
-              <Icon
+                {onPress && !hideChevron &&(<Icon
                   style={styles.chevron}
                   size={28}
                   name={rightIcon}
-                  color={chevronColor} />
+                  color={chevronColor} />)}
+
                 </View>
             </View>
           )
