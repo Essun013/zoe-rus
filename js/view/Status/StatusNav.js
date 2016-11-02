@@ -6,7 +6,7 @@ import React, {Component} from 'react'
 import Status from './Status';
 import Nav from '../../components/Nav/Nav';
 
-export default class FindNav extends Component {
+export default class StatusNav extends Component {
     render() {
         return <Nav route={{component: Status, title: '状态选择'}} barStyle={{backgroundColor: '#ff5884'}}/>
     }

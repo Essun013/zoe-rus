@@ -23,11 +23,8 @@ class Main extends Component {
     constructor(props) {
         super(props);
 
-        let self = this;
-
         this.state = {
             selectedTab: 'home',
-            goHome: false,
             component: null
         };
 
@@ -39,11 +36,11 @@ class Main extends Component {
         }
         rcache.get('firstChoose', (err, result) => {
             if (!result) {
-               this.loginSys();
-            }else if (result === 'yes') {
-                self.setState({component: self.renderStatus});
-            }else  if (result === 'no') {
-                this.setState({component: self.renderMain});
+                this.loginSys();
+            } else if (result === 'yes') {
+                this.setState({component: this.renderStatus});
+            } else if (result === 'no') {
+                this.setState({component: this.renderMain});
             }
         });
         this.changeTab = this.changeTab.bind(this);
@@ -54,37 +51,27 @@ class Main extends Component {
         this.renderMain = this.renderMain.bind(this);
     }
 
-    loginSys(){
+    loginSys() {
         let params = {
             username: DeviceInfo.getUniqueID(),
             password: 1
         }
-        rcache.put('firstChoose', 'no');
         apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
             if (data.code == 0) {
+                rcache.put('firstChoose', 'no');
                 rcache.put("loginState", 'true');
                 rcache.put("user", JSON.stringify(data.data));
                 this.setState({component: this.renderMain});
-            }else {
+            } else {
                 this.setState({component: this.renderStatus});
             }
-        },(err)=> {
+        }, (err)=> {
             this.setState({component: this.renderStatus});
         });
     }
 
-    goHome() {
-        let self = this;
-        setTimeout(()=> {
-            self.setState({component: self.renderMain});
-            rcache.put('firstChoose', 'no');
-        }, 200);
-    }
-
     changeTab(selectedTab) {
-        this.setState({
-            selectedTab
-        });
+        this.setState({selectedTab});
     }
 
     home() {
@@ -129,14 +116,22 @@ class Main extends Component {
     }
 
     render() {
-        const {goHome, component} = this.state;
-
-        var reduxArgs = this.props.reduxArgs;
-
-        if (reduxArgs.goHome && !goHome)
-            this.goHome();
+        this.renderOther();
+        const {component} = this.state;
 
         return typeof(component) == 'function' ? component() : null;
+    }
+
+    renderOther() {
+        let _reduxArgs = this.props.reduxArgs;
+        let _goHome = _reduxArgs && _reduxArgs.goHome;
+        let _component = this.state.component;
+        if (_goHome && _component && _component.name.indexOf('renderMain') < 0) {
+            setTimeout(()=> {
+                this.setState({component: this.renderMain});
+                rcache.put('firstChoose', 'no');
+            }, 200);
+        }
     }
 
     renderStatus() {
