@@ -11,6 +11,9 @@ import {Mom} from './Mom';
 import {Box} from './Box';
 import {Check} from './Check';
 import {Clazz} from './Clazz';
+import Search from '../Search/Search';
+import Message from '../Me/Message/Message';
+import {navPush} from '../../components/Nav/Nav';
 
 export default class Home extends Component {
     constructor(props) {
@@ -37,6 +40,8 @@ export default class Home extends Component {
                 this.scroll(week + '', days + '', preDays + '');
             }
         })
+        this.toSearchKb = this.toSearchKb.bind(this);
+        this.toMyNotice = this.toMyNotice.bind(this);
 
     }
 
@@ -58,12 +63,23 @@ export default class Home extends Component {
         </View>
     }
 
+
+    toSearchKb(o) {
+        Alert.alert('点击了搜索!');
+        //navPush.push(o, Search, '搜索');
+    }
+
+    toMyNotice(o) {
+        //Alert.alert('点击了通知');
+        navPush.push(o, Message, '消息');
+    }
+
     _navRight(nav, _p) {
         return <View style={styles.rightContainer}>
-            <TouchableOpacity style={styles.bottomCenter}>
+            <TouchableOpacity style={styles.bottomCenter} onPress={() => {_p.toSearchKb(nav)}}>
                 <Image source={require('./img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]}>
+            <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={() => {_p.toMyNotice(nav)}}>
                 <Image source={require('./img/tips.png')} style={{width: 19, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
         </View>

@@ -7,6 +7,10 @@ import Find from './Find';
 import Nav from '../../components/Nav/Nav';
 
 export default class FindNav extends Component {
+
+
+
+
     render() {
         return <Nav route={{component: Find, title: '发现'}}/>
     }

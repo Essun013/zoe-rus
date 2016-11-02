@@ -41,11 +41,11 @@ class Topic extends Component {
 
     render() {
         return <View style={styles.container}>
-            <View style={styles.title}>
+            {/*<View style={styles.title}>
                 <View>
                     <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>文章推荐</Text>
                 </View>
-            </View>
+            </View>*/}
             <View style={styles.body}>
                 <Image source={require('../img/topic_top.png')} style={styles.img} />
                 <TouchableOpacity style={{marginRight: 0, flex: 1}}>
@@ -80,7 +80,7 @@ class Topic extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 10,
+        //marginTop: 10,
         width: device.width()
     },
     title: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 1,
-        marginTop: 1,
+        //marginTop: 1,
         backgroundColor: '#fff',
         width: device.width()
     },

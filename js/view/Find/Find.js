@@ -3,16 +3,38 @@
  */
 
 import React, {Component} from 'react'
-import {ScrollView, StyleSheet} from 'react-native'
+import {ScrollView, StyleSheet, View, TouchableOpacity, Image, Alert} from 'react-native'
 import {Box} from './Box';
 import {Topic} from './Topic';
+import {navPush} from '../../components/Nav/Nav';
+import Search from '../Search/Search'
 
 export default class Find extends Component {
+
+    constructor(props) {
+        super(props);
+        this.toSearchKb = this.toSearchKb.bind(this);
+    }
+
+    toSearchKb(o) {
+        //navPush.push(o, Search, '搜索');
+        Alert.alert('点击了搜索!');
+    }
+
+    _navRight(nav, _p) {
+        return <View style={styles.rightContainer}>
+            <TouchableOpacity style={styles.bottomCenter} onPress={() => {_p.toSearchKb(nav)}}>
+                <Image source={require('../Home/img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
+            </TouchableOpacity>
+        </View>
+    }
+
+
     render() {
         return (
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                <Box navigator={this.props.navigator} />
-                <Topic />
+                {/*<Box navigator={this.props.navigator} />*/}
+                <Topic navigator={this.props.navigator} />
             </ScrollView>
         )
     }
@@ -22,5 +44,14 @@ export default class Find extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f5f5f5'
-    }
+    },
+    rightContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        marginRight: 20,
+        flexDirection: 'row',
+    },
+    bottomCenter: {
+        justifyContent: 'center',
+    },
 })
