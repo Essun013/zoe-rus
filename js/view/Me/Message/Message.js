@@ -26,32 +26,32 @@ class Message extends Component {
                 msgImg: require('../img/msg/cjxx.png'),
                 summary:'到了12周，孕妈妈需要进行第一次产前检查了......',
                 msgTime:'上午08:20',
-                unRead: 3,
+                unRead: 13,
             },{
                 msgName:'儿童体检',
                 msgImg: require('../img/msg/ettj.png'),
                 summary:'宝宝体检时间快到了',
                 msgTime:'星期四',
-                unRead: 0,
+                unRead: 9,
             },{
                 msgName:'预防接种',
                 msgImg: require('../img/msg/yfjz.png'),
                 summary:'宝宝接种疫苗时间快到了',
                 msgTime:'星期一',
-                unRead: 0,
+                unRead: 4,
             },{
                 msgName:'事务性提醒',
                 msgImg: require('../img/msg/swxtx.png'),
                 summary:'亲爱滴宝妈，你的宝宝足月了吧？恭喜恭喜！.......',
                 msgTime:'09-19',
-                unRead: 0,
+                unRead: 44,
             }],
             msgRemindList:[{
                 msgName:'运动',
                 msgImg: require('../img/msg/yd.png'),
                 summary:'这个阶段，您可以适当的做些运动，让宝宝能了......',
                 msgTime:'上午10:00',
-                unRead: 0,
+                unRead: 21,
             },{
                 msgName:'喝水',
                 msgImg:require('../img/msg/hs.png'),
@@ -79,10 +79,23 @@ class Message extends Component {
         console.log(value + "   "+ index);
     }
 
+    renderUnRead(unRead){
+        if(unRead === 0){
+            return ;
+        } else {
+            return <View style={styles.unRead}>
+                <Text style={styles.unReadText}>{unRead}</Text>
+            </View>;
+        }
+    }
+
     renderMsgChkList(){
         return this.state.msgChkList.map((val, index)=>{
             return (<TouchableOpacity key={index} style={[styles.touchableView,{marginBottom:1}]} onPress={()=>this.toDetail(val.msgName, index)}>
-                <View style={{flex:1}}><Image source={val.msgImg} style={styles.msgImage}></Image></View>
+                <View style={{flex:1}}>
+                    <Image source={val.msgImg} style={styles.msgImage}></Image>
+                    {this.renderUnRead(val.unRead)}
+                </View>
                 <View style={{flex:5}}>
                     <View style={{flex:1, flexDirection:'row'}}>
                         <View style={{flex:5}}><Text style={styles.msgName} >{val.msgName}</Text></View>
@@ -99,7 +112,10 @@ class Message extends Component {
     renderMsgRemindList(){
         return this.state.msgRemindList.map((val, index)=>{
             return (<TouchableOpacity key={index} style={[styles.touchableView,{marginBottom:1,marginTop:index===0?7:0}]} onPress={()=>this.toDetail(val.msgName, index)}>
-                <View style={{flex:1}}><Image source={val.msgImg} style={styles.msgImage}></Image></View>
+                <View style={{flex:1}}>
+                    <Image source={val.msgImg} style={styles.msgImage}></Image>
+                    {this.renderUnRead(val.unRead)}
+                </View>
                 <View style={{flex:5}}>
                     <View style={{flex:1, flexDirection:'row'}}>
                         <View style={{flex:5}}><Text style={styles.msgName} >{val.msgName}</Text></View>
@@ -116,7 +132,10 @@ class Message extends Component {
     renderMsgSysList(){
         return this.state.msgSysList.map((val, index)=>{
             return (<TouchableOpacity key={index} style={[styles.touchableView,{marginBottom:1,marginTop:index===0?7:0}]} onPress={()=>this.toDetail(val.msgName, index)}>
-                <View style={{flex:1}}><Image source={val.msgImg} style={styles.msgImage}></Image></View>
+                <View style={{flex:1}}>
+                    <Image source={val.msgImg} style={styles.msgImage}></Image>
+                    {this.renderUnRead(val.unRead)}
+                </View>
                 <View style={{flex:5}}>
                     <View style={{flex:1, flexDirection:'row'}}>
                         <View style={{flex:5}}><Text style={styles.msgName} >{val.msgName}</Text></View>
@@ -183,6 +202,24 @@ const styles = StyleSheet.create({
         fontFamily: 'PingFang SC',
         color:'rgb(146,146,146)',
         fontSize:13,
+    },
+    unRead:{
+        width:18,
+        height:18,
+        backgroundColor:'rgb(255,0,0)',
+        borderColor:'rgb(255,0,0)',
+        borderWidth:1,
+        borderRadius:10,
+        justifyContent:'center',
+        alignItems:'center',
+        position: 'absolute',
+        right: 4,
+        top: 7
+    },
+    unReadText:{
+        fontFamily: 'PingFang SC',
+        color:'rgb(255,255,255)',
+        fontSize:10,
     }
 
 
