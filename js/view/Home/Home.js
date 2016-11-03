@@ -11,11 +11,11 @@ import {Mom} from './Mom';
 import {Box} from './Box';
 import {Check} from './Check';
 import {Clazz} from './Clazz';
-import Search from '../Search/Search';
+import {goSearch} from '../../actions/search/actions';
 import Message from '../Me/Message/Message';
 import {navPush} from '../../components/Nav/Nav';
 
-export default class Home extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
 
@@ -65,7 +65,9 @@ export default class Home extends Component {
 
 
     toSearchKb(o) {
-        Alert.alert('点击了搜索!');
+        //Alert.alert('点击了搜索!');
+        console.log(o);
+        this.props.dispatch(goSearch(true));
         //navPush.push(o, Search, '搜索');
     }
 
@@ -131,3 +133,6 @@ const styles = StyleSheet.create({
         marginLeft: 20
     }
 })
+
+const {connect} = require('react-redux');
+module.exports = connect()(Home);

@@ -127,10 +127,20 @@ class Main extends Component {
         let _reduxArgs = this.props.reduxArgs;
         let _goHome = _reduxArgs && _reduxArgs.goHome;
         let _component = this.state.component;
+        console.log(_reduxArgs);
         if (_goHome && _component && _component.name.indexOf('renderMain') < 0) {
             setTimeout(()=> {
                 this.setState({component: this.renderMain});
                 rcache.put('firstChoose', 'no');
+            }, 200);
+        }
+
+        //渲染搜索
+        let _goSearch = this.props.goSearch;
+        console.log(_goSearch);
+        if(_goSearch && _component.name.indexOf('renderSearch') < 0){
+            setTimeout(()=> {
+                this.setState({component: this.renderSearch});
             }, 200);
         }
 
@@ -141,7 +151,7 @@ class Main extends Component {
         return <StatusNav/>
     }
 
-    _renderMain() {
+    renderSearch() {
         return <SearchNav/>
     }
 
@@ -247,9 +257,10 @@ const styles = StyleSheet.create({
 
 const {connect} = require('react-redux');
 
-function select(state) {
+function select(store) {
     return {
-        reduxArgs: state.homeX.reduxArgs
+        reduxArgs: store.homeX.reduxArgs,
+        goSearch: store.searchX.goSearch,
     }
 }
 

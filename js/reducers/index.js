@@ -7,11 +7,13 @@ const me= require('./me/me');
 const find = require('./find/reducers');
 const status = require('./status/reducers');
 const box = require('./box/reducers');
+const search = require('./search/reducers');
 
 module.exports = {
     ...home,
     ...me,
     ...find,
     ...status,
-    ...box
+    ...box,
+    ...search
 }

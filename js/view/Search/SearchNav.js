@@ -14,14 +14,9 @@ import Nav from '../../components/Nav/Nav';
 class SearchNav extends Component {
 
     render() {
-        return <Navigator
-            style={styles.container}
-            navigationBarHidden={true}
-            initialRoute={{
-                title: '搜索',
-                component: Search,
-            }}/>
-         /*<Nav route={{component: Search, title: '搜索'}} barStyle={{backgroundColor: '#ff5884'}}/>*/
+        return /*<Navigator style={styles.container} navigationBarHidden={true} initialRoute={{
+                title: '搜索', component: Search, }}/>*/
+         <Nav route={{component: Search, title: '搜索'}} barStyle={{backgroundColor: '#ff5884'}}/>
     }
 }
 
@@ -30,7 +25,6 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'blue',
     }
-
 });
 
 module.exports = SearchNav;

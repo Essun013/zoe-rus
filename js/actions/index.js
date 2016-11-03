@@ -8,6 +8,7 @@ const home = require('./home/actions');
 const find = require('./find/actions');
 const status = require('./status/actions');
 const box = require('./box/actions');
+const search = require('./search/actions');
 
 module.exports = {
     home,
@@ -15,4 +16,5 @@ module.exports = {
     find,
     status,
     box,
+    search,
 }
