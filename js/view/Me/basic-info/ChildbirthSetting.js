@@ -5,14 +5,15 @@
  * Created by sea35 on 2016/10/10.
  */
 import React, {Component} from 'react'
-import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio} from 'react-native'
+import {ScrollView, StyleSheet, Image, TextInput, View, Text, PixelRatio,Alert} from 'react-native'
 import {ImgButton} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
 import DatePicker from '../../../components/DatePicker'
 import {BasicInfo} from './BasicInfo'
 import Moment from 'moment';
-
+import apiHttp from '../../../common/util/http';
+import { setChildbirth }  from '../../../actions/me/me';
 
 class ChildbirthSetting extends Component {
     constructor(props) {
@@ -21,8 +22,21 @@ class ChildbirthSetting extends Component {
             childbirth: this.props.childbirth
         }
     }
-    onBasicInfoPress() {
-        Alert.alert('系统提示','更新预产期');
+    onChildbirthPress() {
+        let params = {
+            childbirth: this.state.childbirth
+        }
+        apiHttp.apiPost('/uc/timeline/modify', params,(data)=>{
+            if(data.code==0){
+                this.props.dispatch(setChildbirth(params.childbirth));
+                navPush.pop(this.props,1);
+            }
+            else {
+                Alert.alert('系统提示','更新失败,'+data.message);
+            }
+        },(err)=>{
+            Alert.alert('系统提示',err.toString());
+        });
     }
     render() {
         const format = 'YYYY-MM-DD';
@@ -54,7 +68,7 @@ class ChildbirthSetting extends Component {
                     </View>
                 </View>
                 <View style={styles.submitBut}>
-                    <ImgButton text="提交" onClick={this.onBasicInfoPress.bind(this)}></ImgButton>
+                    <ImgButton text="提交" onClick={this.onChildbirthPress.bind(this)}></ImgButton>
                 </View>
 
             </ScrollView>
@@ -120,4 +134,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
-export default ChildbirthSetting
+const {connect} = require('react-redux');
+module.exports = connect()(ChildbirthSetting);

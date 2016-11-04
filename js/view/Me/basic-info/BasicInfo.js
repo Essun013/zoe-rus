@@ -33,7 +33,7 @@ class PersonalCenter extends Component {
         navPush.push(this.props, SexSetting, '性别',{user:this.props.user});
     }
     onChildbirth(){
-        navPush.push(this.props, ChildbirthSetting, '预产期',{childbirth:this.props.childbirth});
+        navPush.push(this.props, ChildbirthSetting, '预产期',{childbirth:this.props.c_childbirth ||this.props.childbirth});
     }
     onPhotoSetting(){
         navPush.push(this.props,PhotoSetting,'头像上传')
@@ -45,7 +45,7 @@ class PersonalCenter extends Component {
         let name = this.props.user.nick ;
         let gender = this.props.user.gender==1?'男':'女';
         let mobile=this.props.user.mobile;
-        let childbirth = this.props.childbirth ;
+        let childbirth = this.props.childbirth || this.props.c_childbirth;
         return (
             <ScrollView style={styles.mainContainer}>
                 <List style={styles.hero} containerStyle={{marginTop: 10}}>
@@ -104,7 +104,8 @@ styles = StyleSheet.create({
 
 function mapStateToProps(store) {
     return {
-        user:store.editMe.user
+        user:store.editMe.user,
+        childbirth:store.editMe.childbirth
     }
 }
 

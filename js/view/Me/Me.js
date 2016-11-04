@@ -39,10 +39,8 @@ class Me extends Component {
         }
         apiHttp.apiPost('/uc/timeline/get', {}, (data)=> {
                 if (data.code == 0) {
-                    let week = parseInt(data.data.day/7);
-                    let day = data.data.day%7;
-                    const childbirth = Moment().add(280-data.data.day, 'days').format('YYYY-MM-DD');
-                    this.setState({gestationalAge:week+'周+'+day+'天',childbirth:childbirth})
+                    var days = this.childbirthForme(data.data.day);
+                    this.setState(days);
                 }
             }
         )
@@ -50,7 +48,7 @@ class Me extends Component {
 
     onBasicInfoPress() {
         if (this.props.loginState) {//(this.state.loginState || this.props.loginState)
-            navPush.push(this.props, BasicInfo, '基本信息',{childbirth:this.state.childbirth});
+            navPush.push(this.props, BasicInfo, '基本信息',{c_childbirth:this.state.childbirth});
         }
         else {
             navPush.push(this.props, LoginSys, '登录');
@@ -60,9 +58,19 @@ class Me extends Component {
     onLoginSys() {
         navPush.push(this.props, LoginSys, '登录');
     }
-
+    childbirthForme(days){
+        let week = parseInt(days/7);
+        let day = days%7;
+        const childbirth = Moment().add(280-days, 'days').format('YYYY-MM-DD');
+        return {gestationalAge:week+'周+'+day+'天',childbirth:childbirth};
+    }
     render() {
         var loginButton;
+        var gestationalAge =this.state.gestationalAge;
+        if(this.props.childbirth){
+            let day = -Moment().diff(Moment(this.props.childbirth),'days');
+            gestationalAge =this.childbirthForme(day).gestationalAge;
+        }
         let state = this.props.loginState;//this.state.loginState || this.props.loginState;
         let user = this.props.user;//this.state.user || this.props.user;
         if (state) {
@@ -90,7 +98,7 @@ class Me extends Component {
                                     </Image>
                                 </Image>
                                 {loginButton}
-                                <Text style={styles.headerTxt}>怀孕{this.state.gestationalAge} | 厦门</Text>
+                                <Text style={styles.headerTxt}>怀孕{gestationalAge} | 厦门</Text>
                             </View>
                         </Image>
                     </Image>
@@ -180,7 +188,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(store) {
     return {
         user:store.editMe.user,
-        loginState: store.editMe.loginState
+        loginState: store.editMe.loginState,
+        childbirth:store.editMe.childbirth
     }
 }
 //
