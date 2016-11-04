@@ -3,11 +3,13 @@
  */
 
 import React, {Component, PropTypes} from 'react';
+import ViewPager from 'react-native-viewpager';
 import {View,
     StyleSheet,
     Image,
     Text,
     TouchableOpacity,
+    TouchableHighlight,
     ScrollView,
     Alert} from 'react-native';
 import {device, http, app} from '../../../common/util';
@@ -31,12 +33,31 @@ class Topic extends Component {
 
     constructor(props) {
         super(props);
+
+        var dataSource = new ViewPager.DataSource({
+            pageHasChanged: (p1, p2) => p1 !== p2,
+        });
+
+        var IMGS = [
+            app.apiUrl + '/kb/98测试数据/00测试推荐文章/00怀孕早期注意事项..md/image.png',
+            'https://images.unsplash.com/photo-1441742917377-57f78ee0e582?h=1024',
+            'https://images.unsplash.com/photo-1441716844725-09cedc13a4e7?h=1024',
+            'https://images.unsplash.com/photo-1441448770220-76743f9e6af6?h=1024',
+            'https://images.unsplash.com/photo-1441260038675-7329ab4cc264?h=1024',
+            'https://images.unsplash.com/photo-1441126270775-739547c8680c?h=1024',
+            'https://images.unsplash.com/photo-1440964829947-ca3277bd37f8?h=1024',
+            'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'];
+
         this.state = {
             days:60,
             pageNum:1,//初始化第一页
             topicList: null, //推荐文章列表
+            dataSource: dataSource.cloneWithPages(IMGS), //滚动文章
+            pageNow: 0,
+            pageSum: IMGS.length,
         };
         this.toTopicDetail = this.toTopicDetail.bind(this);
+
     }
 
     componentWillMount() {
@@ -66,6 +87,12 @@ class Topic extends Component {
         )
     }
 
+    _renderPage(data) {
+        return (
+            <Image source={{uri: data}} style={styles.scrollPages} />
+        );
+    }
+
     //跳转文章详细信息
     toTopicDetail(topicId, subject){
         //Alert.alert(topicId);
@@ -78,7 +105,7 @@ class Topic extends Component {
             return;
         }
         return topicList.map((val, index) => {
-            return <View style={{borderTopWidth: 1, borderTopColor: '#ededed'}} key={index}>
+            return <View style={{flex: 1,borderTopWidth: 1, borderTopColor: '#ededed'}} key={index}>
                 {this._renderTitleAndSummary(val.subject, val.summary, val.thumbnail, val.id)}
                 {this._renderViewAndStar(val.read, val.favorite)}
             </View>
@@ -128,12 +155,25 @@ class Topic extends Component {
     render() {
         //console.log('---render---' + this.state.topicList);
         return <View style={styles.container}>
-            <Image source={require('../img/topic_top.png')} style={styles.img} />
-            <TouchableOpacity style={{marginRight: 0, flex: 1}}>
+            <ViewPager
+                ref={(viewpager) => {this.viewpager = viewpager}}
+                style={this.props.style}
+                dataSource={this.state.dataSource}
+                renderPage={this._renderPage}
+                isLoop={false}
+                autoPlay={false}/>
+            <TouchableOpacity style={styles.topView} onPress={() => {
+                if(this.state.pageNow === this.state.pageSum - 1){
+                    this.state.pageNow = 0;
+                } else {
+                    this.state.pageNow = this.state.pageNow + 1;
+                }
+                this.viewpager.goToPage(this.state.pageNow);
+            }}>
                 <Text style={styles.listViewContentTitleTop}>提升幸福感的营养餐</Text>
                 <Text style={styles.listViewContentTop} ellipsizeMode='tail'>怀孕期间吃点什么好,水果蔬菜,哪些家常菜又营养又好做...</Text>
+                {this._renderViewAndStar(600, 60)}
             </TouchableOpacity>
-            {this._renderViewAndStar(856,320)}
             {this._renderToipcList(this.state.topicList)}
         </View>
     }
@@ -142,8 +182,8 @@ class Topic extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        width: device.width(),
         backgroundColor: '#fff',
-        width: device.width()
     },
     title: {
         paddingTop: 7,
@@ -155,10 +195,6 @@ const styles = StyleSheet.create({
     titleText: {
         fontFamily: 'PingFang SC',
         lineHeight: 20
-    },
-    img: {
-        width: device.width(),
-        height: device.width()/2
     },
     listView: {
         flex: 1,
@@ -174,7 +210,7 @@ const styles = StyleSheet.create({
         marginRight: 15
     },
     listViewContentTitleTop: {
-        paddingTop: 10,
+        marginTop: 35,
         paddingBottom: 10,
         paddingLeft: 15,
         paddingRight: 15,
@@ -222,7 +258,14 @@ const styles = StyleSheet.create({
     },
     msgOverImgView: {
         justifyContent: 'center'
-    }
+    },
+    scrollPages: {
+        width: device.width(),
+        height: device.width()/2,
+    },
+    topView: {
+        //marginRight: 0,
+    },
 
 });
 

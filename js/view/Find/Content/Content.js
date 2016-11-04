@@ -25,12 +25,11 @@ class Content extends Component {
     //加载WebView
     loadHtml(){
         let htmlUri = app.apiUrl + "kb/knowledge/html?id=" + this.state.topicId;
-        console.log(htmlUri);
+        //console.log(htmlUri);
         return (<WebView
             style={styles.webViewContainer}
             source={{uri: htmlUri}}
             onNavigationStateChange={this.onNavigationStateChange}
-            startInLoadingState={true}
             domStorageEnabled={true}
             javaScriptEnabled={true} />);
     }
@@ -48,6 +47,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         width: device.width()
+    },
+    webViewContainer: {
+        flex:1,
+        backgroundColor: 'rgb(240,240,240)',
+        width: device.width(),
     },
 
 

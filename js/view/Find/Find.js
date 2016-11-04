@@ -33,8 +33,8 @@ export default class Find extends Component {
 
     render() {
         return (
-            <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{flex:1, backgroundColor: '#f5f5f5'}}>
+                <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     {/*<Box navigator={this.props.navigator} />*/}
                     <Topic navigator={this.props.navigator} />
                 </ScrollView>
