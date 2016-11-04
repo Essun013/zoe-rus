@@ -14,11 +14,12 @@ export default class Find extends Component {
     constructor(props) {
         super(props);
         this.toSearchKb = this.toSearchKb.bind(this);
+
     }
 
     toSearchKb(o) {
         //navPush.push(o, Search, '搜索');
-        Alert.alert('点击了搜索!');
+        Alert.alert('你点击了搜索!');
     }
 
     _navRight(nav, _p) {
@@ -32,19 +33,18 @@ export default class Find extends Component {
 
     render() {
         return (
-            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                {/*<Box navigator={this.props.navigator} />*/}
-                <Topic navigator={this.props.navigator} />
-            </ScrollView>
+            <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    {/*<Box navigator={this.props.navigator} />*/}
+                    <Topic navigator={this.props.navigator} />
+                </ScrollView>
+            </View>
         )
     }
 }
 
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#f5f5f5'
-    },
     rightContainer: {
         flex: 1,
         justifyContent: 'center',
