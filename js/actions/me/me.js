@@ -4,6 +4,7 @@
 
 const LOGIN_SYS = 'LOGIN_SYS';
 const SET_USER = 'SET_USER';
+const SET_CHILDBIRTH ='SET_CHILDBIRTH';
 
 function loginSys(loginState) {
     return {
@@ -20,9 +21,18 @@ function setUser(user) {
     }
 }
 
+function setChildbirth(childbirth) {
+    return {
+        type:SET_CHILDBIRTH,
+        childbirth
+    }
+}
+
 module.exports ={
     loginSys,
     setUser,
+    setChildbirth,
     LOGIN_SYS,
-    SET_USER
+    SET_USER,
+    SET_CHILDBIRTH
 }
