@@ -70,7 +70,7 @@ class Topic extends Component {
             image: true,
         };
         //根据孕期请求文章推荐(顶部滚动图片文章现实)
-        http.apiPost('/kb/knowledge/query1', paramsTop, (result)=> {
+        http.apiPost('/kb/knowledge/query', paramsTop, (result)=> {
                 if (result.code == 0) {
                     //console.log(result);
                     //遍历结果构造出要显示的IMGS
@@ -88,6 +88,7 @@ class Topic extends Component {
                 }
             }, (err)=> {
                 //Alert.alert("系统提示", err);
+                console.log('请求出错/kb/knowledge/query' + err);
             }
         )
 
@@ -97,7 +98,7 @@ class Topic extends Component {
             pageSize: this.props.pageSize,
         };
         //根据孕期请求文章推荐
-        http.apiPost('/kb/knowledge/query1', paramsContent, (result)=> {
+        http.apiPost('/kb/knowledge/query', paramsContent, (result)=> {
                 if (result.code == 0) {
                     console.log(result);
                     // result.data.list.map((val, index)=>{
@@ -112,6 +113,7 @@ class Topic extends Component {
                 }
             }, (err)=> {
                 //Alert.alert("系统提示", err);
+            console.log('请求出错/kb/knowledge/query' + err);
             }
         )
 
