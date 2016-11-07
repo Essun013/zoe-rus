@@ -23,22 +23,22 @@ class Topic extends Component {
     // 默认属性
     static defaultProps = {
         pageSize: 10,//分页数量
+        dataSource: new ViewPager.DataSource({ //现实的数据源
+            pageHasChanged: (p1, p2) => p1 !== p2,
+        }),
     }
 
     // 属性类型
     static propTypes = {
         pageSize: PropTypes.number,
+        dataSource: PropTypes.object,
     }
 
 
     constructor(props) {
         super(props);
 
-        var dataSource = new ViewPager.DataSource({
-            pageHasChanged: (p1, p2) => p1 !== p2,
-        });
-
-        var IMGS = [
+        /* var IMGS = [
             app.apiUrl + '/kb/98测试数据/00测试推荐文章/00怀孕早期注意事项..md/image.png',
             'https://images.unsplash.com/photo-1441742917377-57f78ee0e582?h=1024',
             'https://images.unsplash.com/photo-1441716844725-09cedc13a4e7?h=1024',
@@ -46,15 +46,15 @@ class Topic extends Component {
             'https://images.unsplash.com/photo-1441260038675-7329ab4cc264?h=1024',
             'https://images.unsplash.com/photo-1441126270775-739547c8680c?h=1024',
             'https://images.unsplash.com/photo-1440964829947-ca3277bd37f8?h=1024',
-            'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'];
+            'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'];*/
 
         this.state = {
             days:60,
             pageNum:1,//初始化第一页
             topicList: null, //推荐文章列表
-            dataSource: dataSource.cloneWithPages(IMGS), //滚动文章
+            dataSource: this.props.dataSource.cloneWithPages([]), //滚动文章
             pageNow: 0,
-            pageSum: IMGS.length,
+            pageSum: 0,
         };
         this.toTopicDetail = this.toTopicDetail.bind(this);
 
@@ -62,13 +62,43 @@ class Topic extends Component {
 
     componentWillMount() {
         console.log('---componentWillMount---');
-        let params = {
+
+        let paramsTop = {
             day: this.state.days,
             pageNum: this.state.pageNum,
-            pageSize: this.props.pageSize
+            pageSize: this.props.pageSize,
+            image: true,
+        };
+        //根据孕期请求文章推荐(顶部滚动图片文章现实)
+        http.apiPost('/kb/knowledge/query', paramsTop, (result)=> {
+                if (result.code == 0) {
+                    //console.log(result);
+                    //遍历结果构造出要显示的IMGS
+                    let IMGS = [];
+                    result.data.list.map((val, index)=>{
+                        IMGS.push(app.apiUrl + val.image);
+                    });
+                    //根据孕期请求文章推荐(顶部滚动图片文章现实)
+                    this.setState({
+                        dataSource: this.props.dataSource.cloneWithPages(IMGS),
+                        pageSum:IMGS.length
+                    });
+                } else {
+                    Alert.alert("系统提示", result.message);
+                }
+            }, (err)=> {
+                //Alert.alert("系统提示", err);
+                console.log('请求出错/kb/knowledge/query' + err);
+            }
+        )
+
+        let paramsContent = {
+            day: this.state.days,
+            pageNum: this.state.pageNum,
+            pageSize: this.props.pageSize,
         };
         //根据孕期请求文章推荐
-        http.apiPost('/kb/knowledge/query', params, (result)=> {
+        http.apiPost('/kb/knowledge/query', paramsContent, (result)=> {
                 if (result.code == 0) {
                     console.log(result);
                     // result.data.list.map((val, index)=>{
@@ -82,9 +112,12 @@ class Topic extends Component {
                     Alert.alert("系统提示", result.message);
                 }
             }, (err)=> {
-                Alert.alert("系统提示", err);
+                //Alert.alert("系统提示", err);
+            console.log('请求出错/kb/knowledge/query' + err);
             }
         )
+
+
     }
 
     _renderPage(data) {
@@ -160,8 +193,8 @@ class Topic extends Component {
                 style={this.props.style}
                 dataSource={this.state.dataSource}
                 renderPage={this._renderPage}
-                isLoop={false}
-                autoPlay={false}/>
+                isLoop={true}
+                autoPlay={true}/>
             <TouchableOpacity style={styles.topView} onPress={() => {
                 if(this.state.pageNow === this.state.pageSum - 1){
                     this.state.pageNow = 0;
