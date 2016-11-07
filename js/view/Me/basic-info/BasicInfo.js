@@ -42,10 +42,11 @@ class PersonalCenter extends Component {
         navPush.push(this.props,PreHospitalSeting,'设置产检医院',{preHospitalName:'厦门市妇幼保健院'})
     }
     render() {
-        let name = this.props.user.nick ;
+        let name = this.props.user.nick||false;
         let gender = this.props.user.gender==1?'男':'女';
-        let mobile=this.props.user.mobile;
+        let mobile=this.props.user.mobile||false;
         let childbirth = this.props.childbirth || this.props.c_childbirth;
+
         return (
             <ScrollView style={styles.mainContainer}>
                 <List style={styles.hero} containerStyle={{marginTop: 10}}>

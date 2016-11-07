@@ -4,7 +4,7 @@
 
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Alert, TouchableOpacity, Image} from 'react-native'
+import {ScrollView, View, StyleSheet, Alert, TouchableOpacity, Image,Text} from 'react-native'
 import {device, http, rcache, app, gps} from '../../common/util';
 import {Top} from './Top';
 import {Mom} from './Mom';
@@ -14,6 +14,7 @@ import {Clazz} from './Clazz';
 import {goSearch} from '../../actions/search/actions';
 import Message from '../Me/Message/Message';
 import {navPush} from '../../components/Nav/Nav';
+import Moment from 'moment';
 
 class Home extends Component {
     constructor(props) {
@@ -37,7 +38,8 @@ class Home extends Component {
                 var week = Math.floor(preDays / 7);
                 var days = preDays - (week * 7);
 
-                this.scroll(week + '', days + '', preDays + '');
+                var scroll = this.scroll(week + '', days + '', preDays + '');
+                this.setState({content: scroll});
             }
         })
         this.toSearchKb = this.toSearchKb.bind(this);
@@ -53,13 +55,29 @@ class Home extends Component {
             <Check navigator={this.props.navigator} week={week} days={days}/>
             <Clazz navigator={this.props.navigator} week={week} totalDay={totalDay}/>
         </ScrollView>)
+        return scroll;
 
-        this.setState({content: scroll});
+    }
+
+    updateScroll(childbirths){
+        if(!childbirths){
+            return false;
+        }
+        let days = 280+Moment().diff(Moment(childbirths),'days')-1;
+        let week = parseInt(days/7);
+        let day = days%7;
+        return this.scroll(week + '', day + '', days + '');
     }
 
     render() {
+        var content;
+        if(this.props.childbirth){
+            content = this.updateScroll(this.props.childbirth);
+        }else{
+            content=  this.state.content;
+        }
         return <View style={{flex: 1}}>
-            {this.state.content}
+            {content }
         </View>
     }
 
@@ -135,4 +153,9 @@ const styles = StyleSheet.create({
 })
 
 const {connect} = require('react-redux');
-module.exports = connect()(Home);
+function mapStateToProps(store) {
+    return {
+        childbirth:store.editMe.childbirth
+    }
+}
+module.exports = connect(mapStateToProps)(Home);

@@ -26,7 +26,14 @@ class Top extends Component {
             }
         })
     }
-
+    componentWillReceiveProps(nextProps){
+        let week = nextProps.week;
+        let days = nextProps.days;
+        this.setState({
+            bornDistances: 280 - ((week * 7 + (days * 1)) || 1),
+            babyWeek: (week <= 0 ? '' : week + '周' + '+') + (days <= 0 ? '1天' : days + '天')
+        })
+    }
     render() {
         return <Image source={require('../img/background.png')} style={styles.bgImg}
                       resizeMode='stretch'>

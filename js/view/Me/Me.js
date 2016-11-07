@@ -68,7 +68,7 @@ class Me extends Component {
         var loginButton;
         var gestationalAge =this.state.gestationalAge;
         if(this.props.childbirth){
-            let day = -Moment().diff(Moment(this.props.childbirth),'days');
+            let day = 280+Moment().diff(Moment(this.props.childbirth),'days')-1;
             gestationalAge =this.childbirthForme(day).gestationalAge;
         }
         let state = this.props.loginState;//this.state.loginState || this.props.loginState;
