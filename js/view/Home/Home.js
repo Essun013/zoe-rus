@@ -82,10 +82,10 @@ class Home extends Component {
     }
 
 
-    toSearchKb(o) {
+    toSearchKb(o, c) {
         //Alert.alert('点击了搜索!');
-        console.log(o);
-        this.props.dispatch(goSearch(true));
+        let s = this;
+        c.props.dispatch(goSearch(true));
         //navPush.push(o, Search, '搜索');
     }
 
@@ -94,9 +94,9 @@ class Home extends Component {
         navPush.push(o, Message, '消息');
     }
 
-    _navRight(nav, _p) {
+    _navRight(nav, _p, _c) {
         return <View style={styles.rightContainer}>
-            <TouchableOpacity style={styles.bottomCenter} onPress={() => {_p.toSearchKb(nav)}}>
+            <TouchableOpacity style={styles.bottomCenter} onPress={() => {_p.toSearchKb(nav, _c)}}>
                 <Image source={require('./img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={() => {_p.toMyNotice(nav)}}>
@@ -115,6 +115,7 @@ class Home extends Component {
             </TouchableOpacity>
         </View>
     }
+
 }
 
 const styles = StyleSheet.create({

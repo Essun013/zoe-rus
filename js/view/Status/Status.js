@@ -79,7 +79,7 @@ class Status extends Component {
 
 const styles = StyleSheet.create({
     bg: {
-        height: device.height() - 62,
+        height: device.height() - 50,
         width: device.width(),
     },
     bgView: {
@@ -109,5 +109,4 @@ const styles = StyleSheet.create({
 });
 
 const {connect} = require('react-redux');
-
 module.exports = connect()(Status);

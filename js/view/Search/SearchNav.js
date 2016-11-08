@@ -3,28 +3,14 @@
  */
 
 import React, {Component} from 'react';
-import {View,
-    StyleSheet,
-    Image,
-    Navigator,
-    } from 'react-native';
 import Search from './Search';
-import Nav from '../../components/Nav/Nav';
+import INav from '../../components/Nav/INav';
 
 class SearchNav extends Component {
 
     render() {
-        return /*<Navigator style={styles.container} navigationBarHidden={true} initialRoute={{
-                title: '搜索', component: Search, }}/>*/
-         <Nav route={{component: Search, title: '搜索'}} barStyle={{backgroundColor: '#ff5884'}}/>
+        return <INav route={{component: Search, title: '搜索'}} barStyle={{backgroundColor: '#ff5884'}} titleCenter={true}/>
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        backgroundColor:'blue',
-    }
-});
 
 module.exports = SearchNav;

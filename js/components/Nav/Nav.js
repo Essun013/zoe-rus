@@ -5,7 +5,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import NavBar from './NavBar'
 
 export default class Nav extends Component {
     static propTypes = {

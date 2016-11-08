@@ -15,7 +15,6 @@ import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
 import RecordNav from '../Record/RecordNav';
 import StatusNav from '../Status/StatusNav';
-import SearchNav from '../Search/SearchNav';
 import DeviceInfo from 'react-native-device-info';
 import apiHttp from '../../common/util/http';
 import {rcache} from '../../common/util';
@@ -134,25 +133,10 @@ class Main extends Component {
                 rcache.put('firstChoose', 'no');
             }, 200);
         }
-
-        //渲染搜索
-        let _goSearch = this.props.goSearch;
-        console.log(_goSearch);
-        if(_goSearch && _component.name.indexOf('renderSearch') < 0){
-            setTimeout(()=> {
-                this.setState({component: this.renderSearch});
-            }, 200);
-        }
-
-
     }
 
     renderStatus() {
         return <StatusNav/>
-    }
-
-    renderSearch() {
-        return <SearchNav/>
     }
 
     renderMain() {
@@ -259,8 +243,7 @@ const {connect} = require('react-redux');
 
 function select(store) {
     return {
-        reduxArgs: store.homeX.reduxArgs,
-        goSearch: store.searchX.goSearch,
+        reduxArgs: store.homeX.reduxArgs
     }
 }
 

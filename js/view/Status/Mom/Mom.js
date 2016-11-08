@@ -11,8 +11,7 @@ import {navPush} from '../../../components/Nav/Nav';
 import DatePicker from '../../../components/DatePicker'
 import {goHome} from '../../../actions/home/actions';
 import DeviceInfo from 'react-native-device-info';
-import apiHttp from '../../../common/util/http';
-import {rcache, synccache, converter} from '../../../common/util';
+import {rcache, synccache, converter, http, gps} from '../../../common/util';
 import Moment from 'moment';
 
 class Mom extends Component {
@@ -21,8 +20,34 @@ class Mom extends Component {
         this.state = {
             childbirth: null,
             lmp: null,
-            hidePreCalc: true
+            hidePreCalc: true,
+            nation: null,
+            province: null,
+            city: null,
+            county: null,
         };
+
+        gps.getLocation((d) => {
+            http.apiPost('/geocoder/address', {lat: d.lat, lng: d.lng}, (data) => {
+                if (data.code == 0) {
+                    let _component = data.data.component;
+                    let _region = data.data.region;
+                    // Alert.alert('当前城市', _component.nation + ' ' + _component.province + ' ' + _component.city + ' ' + _component.district)
+                    // Alert.alert('当前城市', JSON.stringify(_region))
+                    this.setState({
+                        nation: {..._region[0]},
+                        province: {..._region[1]},
+                        city: {..._region[2]},
+                        county: {..._region[3]}
+                    })
+                } else {
+                    Alert.alert('当前城市', '获取位置失败')
+                }
+            })
+        }, (e) => {
+            Alert.alert('当前城市', '定位失败')
+        });
+
         this.pushMain = this.pushMain.bind(this);
         this.pushLogin = this.pushLogin.bind(this);
     }
@@ -36,7 +61,7 @@ class Mom extends Component {
             username: DeviceInfo.getUniqueID(),
             gender: 2
         }
-        apiHttp.apiPost('/uc/user/macid', params, (data)=> {
+        http.apiPost('/uc/user/macid', params, (data)=> {
                 if (data.code == 0) {
                     rcache.put("user", JSON.stringify(data.data));
                     this.createTimeLine();
@@ -47,7 +72,6 @@ class Mom extends Component {
                         Alert.alert("系统提示", data.message);
                     }
                 }
-
             }, (err)=> {
                 Alert.alert("系统提示", err);
             }
@@ -59,7 +83,7 @@ class Mom extends Component {
             childbirth: this.state.childbirth,
             lmp: this.state.lmp
         }
-        apiHttp.apiPost('/uc/timeline/create', params, (data)=> {
+        http.apiPost('/uc/timeline/create', params, (data)=> {
             if (data.code == 0) {
                 this.props.dispatch(goHome(true));
             }
@@ -68,7 +92,7 @@ class Mom extends Component {
                     username: DeviceInfo.getUniqueID(),
                     password: 1
                 }
-                apiHttp.apiPost('/uc/user/sign-in', params, (data)=> {
+                http.apiPost('/uc/user/sign-in', params, (data)=> {
                     rcache.put("user", JSON.stringify(data.data));
                     this.createTimeLine();
                 })
@@ -81,9 +105,16 @@ class Mom extends Component {
     pushLogin() {
         navPush.push(this.props, Login, '登录');
     }
-    
+
     push2Hospital() {
-        navPush.push(this.props, Hospital, '选择产检医院');
+        let _param = {
+            county: this.state.county,
+            city: this.state.city,
+            province: this.state.province,
+            nation: this.state.nation,
+        }
+
+        navPush.push(this.props, Hospital, '选择产检医院', _param);
     }
 
     render() {
@@ -129,8 +160,10 @@ class Mom extends Component {
                     </View>
                     <View>
                         <View style={styles.cacleView}>
-                            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => {this.setState({hidePreCalc: !this.state.hidePreCalc})}}>
-                                <Image source={require('../img/cacle.png')} style={styles.cacleImg}/>
+                            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => {
+                                this.setState({hidePreCalc: !this.state.hidePreCalc})
+                            }}>
+                                <Image source={require('../img/cacle.png')} style={styles.cacleImg}></Image>
                                 <Text style={styles.cacleTx}>预产期计算器</Text>
                             </TouchableOpacity>
                         </View>
@@ -162,8 +195,11 @@ class Mom extends Component {
                     </View>
                     <View>
                         <View style={styles.cacleView}>
-                            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => {this.push2Hospital()}}>
-                                <Text style={styles.cacleTx}>{preHospitalName ? '产检医院：' + preHospitalName : '选择产检医院'}</Text>
+                            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => {
+                                this.push2Hospital()
+                            }}>
+                                <Text
+                                    style={styles.cacleTx}>{preHospitalName ? '产检医院：' + preHospitalName : '选择产检医院'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -219,7 +255,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     bg: {
-        height: device.height() - 62,
+        height: device.height() - 50,
         width: device.width(),
     },
     bgView: {

@@ -4,11 +4,11 @@
 
 import React, {Component} from 'react';
 import Record from './Record';
-import Nav from '../../components/Nav/Nav';
+import INav from '../../components/Nav/INav';
 
 
 export default class RecordNav extends Component {
     render() {
-        return <Nav route={{component: Record, title: '记录'}}/>
+        return <INav route={{component: Record, title: '记录'}} titleCenter={true}/>
     }
 }

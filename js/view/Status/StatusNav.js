@@ -4,10 +4,10 @@
 
 import React, {Component} from 'react'
 import Status from './Status';
-import Nav from '../../components/Nav/Nav';
+import INav from '../../components/Nav/INav';
 
 export default class StatusNav extends Component {
     render() {
-        return <Nav route={{component: Status, title: '状态选择'}} barStyle={{backgroundColor: '#ff5884'}}/>
+        return <INav route={{component: Status, title: '状态选择'}} barStyle={{backgroundColor: '#ff5884'}} titleCenter={true}/>
     }
 }

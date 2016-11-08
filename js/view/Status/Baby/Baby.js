@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     bg: {
-        height: device.height() - 62,
+        height: device.height() - 50,
         width: device.width(),
     },
     bgView: {

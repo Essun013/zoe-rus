@@ -4,10 +4,10 @@
 
 import React, {Component} from 'react';
 import Me from './Me';
-import Nav from '../../components/Nav/Nav';
+import INav from '../../components/Nav/INav';
 
 export default class MeNav extends Component {
     render() {
-        return <Nav route={{component: Me, title: '我'}} />
+        return <INav route={{component: Me, title: '我'}} titleCenter={true}/>
     }
 }

@@ -4,14 +4,10 @@
 
 import React, {Component} from 'react'
 import Find from './Find';
-import Nav from '../../components/Nav/Nav';
+import INav from '../../components/Nav/INav';
 
 export default class FindNav extends Component {
-
-
-
-
     render() {
-        return <Nav route={{component: Find, title: '发现'}}/>
+        return <INav route={{component: Find, title: '发现'}} titleCenter={true}/>
     }
 }

@@ -26,6 +26,8 @@ class BabyGrow extends Component {
             selWeek : this.props.initWeek,  //用户选中的周数
             webView: null, //WebView组件
         };
+
+        this.props.iNavBar(this, {right: this._navRight.bind(this)})
     }
 
     componentWillMount() {
@@ -86,9 +88,9 @@ class BabyGrow extends Component {
 
     }
 
-    _navRight(nav) {
+    _navRight(route, navigator, index) {
         return <View style={styles.rightContainer}>
-            <TouchableOpacity style={styles.bottomCenter}>
+            <TouchableOpacity>
                 <Image source={require('../img/share.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
         </View>
@@ -103,12 +105,8 @@ const styles = StyleSheet.create({
     },
     rightContainer: {
         flex: 1,
+        marginRight: 15,
         justifyContent: 'center',
-        marginRight: 20,
-        flexDirection: 'row',
-    },
-    bottomCenter: {
-        justifyContent: 'center'
     },
 })
 
