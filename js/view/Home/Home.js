@@ -77,7 +77,7 @@ class Home extends Component {
             content=  this.state.content;
         }
         return <View style={{flex: 1}}>
-            {content }
+            {content}
         </View>
     }
 

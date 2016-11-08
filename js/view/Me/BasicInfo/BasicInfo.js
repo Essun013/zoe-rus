@@ -33,7 +33,7 @@ class PersonalCenter extends Component {
         navPush.push(this.props, SexSetting, '性别',{user:this.props.user});
     }
     onChildbirth(){
-        navPush.push(this.props, ChildbirthSetting, '预产期',{childbirth:this.props.c_childbirth ||this.props.childbirth});
+        navPush.push(this.props, ChildbirthSetting, '预产期',{childbirth:this.props.childbirth||this.props.c_childbirth});
     }
     onPhotoSetting(){
         navPush.push(this.props,PhotoSetting,'头像上传')

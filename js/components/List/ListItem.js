@@ -191,7 +191,8 @@ styles = StyleSheet.create({
     })
   },
   titleContainer: {
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width:300
   },
   chevronContainer: {
     flex: 1,

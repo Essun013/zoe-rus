@@ -6,10 +6,12 @@ import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
 
 import {ListItem, List, Text} from '../../components';
-import BasicInfo from './basic-info/BasicInfo';
+import BasicInfo from './BasicInfo/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
+import Message from './Message/Message';
 import LoginSys from './LoginSys';
+import Collection from  './Collection/Collection';
 import {Provider, connect} from 'react-redux'
 import apiHttp from '../../common/util/http';
 import Moment from 'moment';
@@ -55,9 +57,18 @@ class Me extends Component {
         }
     }
 
+    onMessagePress(){
+        navPush.push(this.props, Message, '提醒');
+    }
+
     onLoginSys() {
         navPush.push(this.props, LoginSys, '登录');
     }
+
+    onCollectionPress(){
+        navPush.push(this.props,Collection,'收藏');
+    }
+
     childbirthForme(days){
         let week = parseInt(days/7);
         let day = days%7;
@@ -121,13 +132,14 @@ class Me extends Component {
                         <ListItem
                             imgSource={require('./img/my-collection.png')}
                             title={"我的收藏"}
+                            onPress={this.onCollectionPress.bind(this)}
                         />
                     </List>
                     <List containerStyle={{marginTop: 10}}>
                         <ListItem
                             imgSource={require('./img/reminder-settings.png')}
                             title={"我的提醒"}
-                            onPress={this.onBasicInfoPress.bind(this)}
+                            onPress={this.onMessagePress.bind(this)}
                         />
                     </List>
                 </ScrollView>
