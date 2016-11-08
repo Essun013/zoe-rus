@@ -17,13 +17,18 @@ const hospitals = [
     {title: '厦门市第二医院', location: '厦门市镇海路55号'},
 ];
 
+var cityTemp;
+
 class Hospital extends Component {
+    static propTypes = {
+        callback: React.PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
             showMask: false,
-            city: this.props.city.name,
             hospitalList: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
             provinceCode: this.props.province.id,
             cityCode: this.props.city.id,
@@ -37,7 +42,18 @@ class Hospital extends Component {
     }
 
     chooseHospital(name) {
-        this.props.dispatch(switchHospital(name));
+        if (!cityTemp)
+            cityTemp = {};
+        if (!cityTemp['nation'])
+            cityTemp['nation'] = null;
+        if (!cityTemp['province'])
+            cityTemp['province'] = {id: this.props.province.id, name: this.props.province.name}
+        if (!cityTemp['city'])
+            cityTemp['city'] = {id: this.props.city.id, name: this.props.city.name}
+        if (!cityTemp['county'])
+            cityTemp['county'] = {id: this.props.county.id, name: this.props.county.name}
+
+        this.props.callback({...cityTemp, hospitalName: name});
         navPush.pop(this.props);
     }
 
@@ -50,8 +66,9 @@ class Hospital extends Component {
         </TouchableOpacity>
     }
 
-    hideCityPicker() {
-        this.setState({showMask: false})
+    hideCityPicker(rel) {
+        cityTemp = rel;
+        this.setState({showMask: false, city: rel.city.name})
     }
 
     city() {
@@ -70,7 +87,7 @@ class Hospital extends Component {
                     }}>
                         <Image source={require('../img/location.png')} style={{width: 13, height: 18, marginRight: 10}}
                                resizeMode='stretch'/>
-                        <Text style={{fontSize: 14}}>{this.state.city}</Text>
+                        <Text style={{fontSize: 14}}>{this.props.city.name}</Text>
                     </TouchableOpacity>
                     <TextInput style={styles.searchHospital} placeholder={'请输入医院名称'}
                                placeholderTextColor={'rgb(146,146,146)'} underlineColorAndroid={'transparent'}/>
@@ -175,5 +192,4 @@ const styles = StyleSheet.create({
 });
 
 const {connect} = require('react-redux');
-
 module.exports = connect()(Hospital);

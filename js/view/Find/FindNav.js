@@ -8,6 +8,6 @@ import INav from '../../components/Nav/INav';
 
 export default class FindNav extends Component {
     render() {
-        return <INav route={{component: Find, title: '发现'}} titleCenter={true}/>
+        return <INav route={{component: Find, title: '发现'}} titleCenter={true} statusBarColor={'#ff4971'} barStyle={{backgroundColor: '#ff4971'}}/>
     }
 }

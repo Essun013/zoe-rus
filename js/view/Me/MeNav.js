@@ -8,6 +8,6 @@ import INav from '../../components/Nav/INav';
 
 export default class MeNav extends Component {
     render() {
-        return <INav route={{component: Me, title: '我'}} titleCenter={true}/>
+        return <INav route={{component: Me, title: '我'}} titleCenter={true} statusBarColor={'#ff4971'} barStyle={{backgroundColor: '#ff4971'}}/>
     }
 }

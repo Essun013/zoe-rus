@@ -25,6 +25,7 @@ class Mom extends Component {
             province: null,
             city: null,
             county: null,
+            preHospitalName: null
         };
 
         gps.getLocation((d) => {
@@ -32,8 +33,6 @@ class Mom extends Component {
                 if (data.code == 0) {
                     let _component = data.data.component;
                     let _region = data.data.region;
-                    // Alert.alert('当前城市', _component.nation + ' ' + _component.province + ' ' + _component.city + ' ' + _component.district)
-                    // Alert.alert('当前城市', JSON.stringify(_region))
                     this.setState({
                         nation: {..._region[0]},
                         province: {..._region[1]},
@@ -112,6 +111,9 @@ class Mom extends Component {
             city: this.state.city,
             province: this.state.province,
             nation: this.state.nation,
+            callback: (c) => {
+                this.setState({preHospitalName: c.hospitalName})
+            }
         }
 
         navPush.push(this.props, Hospital, '选择产检医院', _param);
@@ -120,8 +122,6 @@ class Mom extends Component {
     render() {
         rcache.put('childBirth', this.state.childbirth || '')
         rcache.put('lpmDate', this.state.lmp || '')
-
-        let preHospitalName = this.props.reduxArgs.name;
 
         const format = 'YYYY-MM-DD';
         const childbirthMin = Moment().format(format);
@@ -199,7 +199,7 @@ class Mom extends Component {
                                 this.push2Hospital()
                             }}>
                                 <Text
-                                    style={styles.cacleTx}>{preHospitalName ? '产检医院：' + preHospitalName : '选择产检医院'}</Text>
+                                    style={styles.cacleTx}>{this.state.preHospitalName ? '产检医院：' + this.state.preHospitalName : '选择产检医院'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -344,12 +344,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const {connect} = require('react-redux');
-
-function select(state) {
-    return {
-        reduxArgs: state.statusX.reduxArgs
-    }
-}
-
-module.exports = connect(select)(Mom);
+module.exports = Mom;

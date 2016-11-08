@@ -24,6 +24,10 @@ export default class CityPicker extends Component {
             currentProvince: this.props.province,
             currentCity: this.props.city,
             currentCounty: this.props.county,
+            callbackNation: null,
+            callbackProvince: null,
+            callbackCity: null,
+            callbackCounty: null
         };
 
         http.apiPost('/classify/tree', {key: 'region'}, (data) => {
@@ -43,8 +47,6 @@ export default class CityPicker extends Component {
                         break;
                     }
                 }
-
-                // Alert.alert('city', JSON.stringify(_citys))
 
                 this.setState({
                     provinceList: this.state.provinceList.cloneWithRows(provinces),
@@ -84,7 +86,8 @@ export default class CityPicker extends Component {
         this.setState({
             provinceList: this.state.provinceList.cloneWithRows(_provinces),
             currentProvince: row.id,
-            cityList: this.state.cityList.cloneWithRows(row.children)
+            cityList: this.state.cityList.cloneWithRows(row.children),
+            callbackProvince: row,
         });
     }
 
@@ -101,23 +104,47 @@ export default class CityPicker extends Component {
             cityList: this.state.cityList.cloneWithRows(JSON.parse(JSON.stringify(_city || []))),
             currentCity: row.id,
             city: row.name,
-            countyList: this.state.countyList.cloneWithRows(row.children || [])
+            countyList: this.state.countyList.cloneWithRows(row.children || []),
+            callbackCity: row,
         });
     }
 
     countyList(row) {
         return <TouchableOpacity style={styles.cityBottom} onPress={() => {
-            this.setState({currentCounty: row.id, county: row.name})
-            this.props.hide()
+            this.setState({currentCounty: row.id, currentCounty: row});
+            this.callback();
         }}>
             <Text style={[styles.cityTx, this.state.currentCounty == row.id && {color: '#ff7aa2'}]}>{row.name}</Text>
         </TouchableOpacity>
     }
 
+    callback() {
+        var nation = this.state.callbackNation,
+            province = this.state.callbackProvince,
+            city = this.state.callbackCity,
+            county = this.state.currentCounty;
+
+        if (!nation)
+            ;
+        if (!province)
+            province = this.state.currentProvince;
+        if (!city)
+            city = this.state.currentCity;
+        if (!county)
+            county = this.state.currentCounty;
+
+        this.props.hide({
+            nation: nation,
+            province: {id: province.id, name: province.name},
+            city: {id: city.id, name: city.name},
+            county: {id: county.id, name: county.name}
+        })
+    }
+
     renderLocation() {
         return (
             <TouchableOpacity style={styles.maskView} activeOpacity={1} onPress={() => {
-                this.props.hide();
+                this.callback();
             }}>
                 <View style={{flexDirection: 'row', backgroundColor: '#fff', height: 176, flex: 1}}>
                     <ListView dataSource={this.state.provinceList} renderRow={(row) => this.provinceList(row)}

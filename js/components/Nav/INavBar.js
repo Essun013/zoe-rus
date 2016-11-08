@@ -31,7 +31,8 @@ export default class INavBar extends Component {
         this.state = {
             body: <this.props.body iNavBar={this.iNavBar}
                                    navigator={this.props.iNavigator} {...this.props.iRoute.passProps}/>,
-            bar: this.init()
+            bar: this.init(),
+
         }
     }
 
@@ -68,8 +69,10 @@ export default class INavBar extends Component {
         if (this.state.statusBarColor === 'default')
             return null;
 
-        if (this.state.statusBarColor)
-            return <StatusBar backgroundColor={this.state.statusBarColor}/>
+        let _color = this.state.statusBarColor || this.props.statusBarColor;
+
+        if (_color)
+            return <StatusBar backgroundColor={_color}/>
     }
 
     iNavBar(target, bar) {
@@ -130,7 +133,7 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         top: 0,
-        zIndex: 998
+        zIndex: 998,
     },
     rightButton: {
         position: 'absolute',

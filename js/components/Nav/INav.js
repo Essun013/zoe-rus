@@ -5,7 +5,8 @@
 import React, {Component, PropTypes} from 'react'
 import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import INavBar from './INavBar'
+import INavBar from './INavBar';
+var ColorPropType = require('ColorPropType');
 
 export default class INav extends Component {
     static propTypes = {
@@ -14,7 +15,8 @@ export default class INav extends Component {
         configureScene: PropTypes.func,
         barStyle: PropTypes.object,
         hideBar: PropTypes.bool,
-        titleCenter: PropTypes.bool
+        titleCenter: PropTypes.bool,
+        statusBarColor: ColorPropType
     };
 
     constructor(props) {
@@ -34,13 +36,14 @@ export default class INav extends Component {
                         body={route.component}
                         hide={this.props.hideBar}
                         titleCenter={this.props.titleCenter}
+                        statusBarColor={this.props.statusBarColor}
                         {...this.props}/>
     }
 
     left(route, navigator, index) {
         if (index > 0) {
             return (
-                <View>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <TouchableOpacity
                         underlayColor='transparent'
                         onPress={() => {
@@ -61,7 +64,7 @@ export default class INav extends Component {
     title(route, navigator, index) {
         if (typeof(route.title) == 'string') {
             return (
-                <View style={{flex: 1, alignItems: 'center'}}>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <Text style={styles.navBarTitle}>
                         {route.title}
                     </Text>
