@@ -6,7 +6,7 @@
 
 var ColorPropType = require('ColorPropType');
 import React, {Component, PropTypes} from 'react'
-import {StatusBar, View, StyleSheet, Platform, TouchableOpacity} from 'react-native';
+import {StatusBar, View, StyleSheet, Platform, TouchableOpacity, Alert} from 'react-native';
 
 export default class INavBar extends Component {
     static propTypes = {
@@ -29,23 +29,28 @@ export default class INavBar extends Component {
         this.iNavBar = this.iNavBar.bind(this);
 
         this.state = {
-            body: <this.props.body iNavBar={this.iNavBar}
-                                   navigator={this.props.iNavigator} {...this.props.iRoute.passProps}/>,
-            bar: this.init(),
-
+            body: <this.props.body iNavBar={this.iNavBar} navigator={this.props.iNavigator} {...this.props.iRoute.passProps}/>,
+            bar: this.init(this.props.hide, this.props.left, this.props.title, this.props.right),
         }
     }
 
-    init() {
-        if (!this.props.hide) {
-            let _left = this.props.left && this.props.left(this.props.iRoute, this.props.iNavigator, this.props.iRoute.__navigatorRouteID);
-            let _title = this.props.title && this.props.title(this.props.iRoute, this.props.iNavigator, this.props.iRoute.__navigatorRouteID);
-            let _right = this.props.right && this.props.right(this.props.iRoute, this.props.iNavigator, this.props.iRoute.__navigatorRouteID);
+    init(hide, left, title, right) {
+        if (!hide) {
+            let index = 0;
+
+            for(var i = 0; i < this.props.iNavigator.state.routeStack.length; i++) {
+                if (this.props.iNavigator.state.routeStack[i] == this.props.iRoute) {
+                    index = i;
+                    break;
+                }
+            }
+
+            let _left = left && left(this.props.iRoute, this.props.iNavigator, index, this.props.iNavigator.state);
+            let _title = title && title(this.props.iRoute, this.props.iNavigator, index, this.props.iNavigator.state);
+            let _right = right && right(this.props.iRoute, this.props.iNavigator, index, this.props.iNavigator.state);
 
             return this.navBar(_left, _title, _right)
         }
-
-        return null;
     }
 
     navBar(left, title, right) {
@@ -83,20 +88,14 @@ export default class INavBar extends Component {
 
             if (!bar.hide) {
                 let leftFn = bar.left || this.props.left;
-                let _left = leftFn && leftFn(this.props.iRoute, this.props.iNavigator, this.props.iRoute.__navigatorRouteID);
-
                 let titleFn = bar.title || this.props.title;
-                let _title = titleFn && titleFn(this.props.iRoute, this.props.iNavigator, this.props.iRoute.__navigatorRouteID);
-
                 let rightFn = bar.right || this.props.right;
-                let _right = rightFn && rightFn(this.props.iRoute, this.props.iNavigator, this.props.iRoute.__navigatorRouteID);
-
-                _bar = this.navBar(_left, _title, _right)
+                _bar = this.init(bar.hide, leftFn, titleFn, rightFn)
             }
         }
 
         setTimeout(() => {
-            this.setState({bar: _bar, statusBarColor: bar.statusBarColor || this.props.statusBarColor})
+            this.setState({bar: _bar, statusBarColor: _statusBarColor})
         }, 1);
     }
 
@@ -116,7 +115,7 @@ const styles = StyleSheet.create({
         height: 50,
         ...Platform.select({
             ios: {
-                paddingTop: 20
+                paddingTop: 15
             }
         }),
     },

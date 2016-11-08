@@ -42,9 +42,11 @@ class Home extends Component {
                 this.setState({content: scroll});
             }
         })
-        this.toSearchKb = this.toSearchKb.bind(this);
-        this.toMyNotice = this.toMyNotice.bind(this);
 
+        this.props.iNavBar(this, {
+            right: this._navRight.bind(this),
+            left: this._navLeft.bind(this),
+        })
     }
 
     scroll(week, days, totalDay) {
@@ -82,30 +84,26 @@ class Home extends Component {
     }
 
 
-    toSearchKb(o, c) {
-        //Alert.alert('点击了搜索!');
-        let s = this;
-        c.props.dispatch(goSearch(true));
-        //navPush.push(o, Search, '搜索');
+    toSearchKb() {
+        this.props.dispatch(goSearch(true));
     }
 
-    toMyNotice(o) {
-        //Alert.alert('点击了通知');
-        navPush.push(o, Message, '消息');
+    toMyNotice() {
+        navPush.push(this.props, Message, '消息');
     }
 
-    _navRight(nav, _p, _c) {
+    _navRight(route, navigator, index, navState) {
         return <View style={styles.rightContainer}>
-            <TouchableOpacity style={styles.bottomCenter} onPress={() => {_p.toSearchKb(nav, _c)}}>
+            <TouchableOpacity style={styles.bottomCenter} onPress={this.toSearchKb.bind(this)}>
                 <Image source={require('./img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={() => {_p.toMyNotice(nav)}}>
+            <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={this.toMyNotice.bind(this)}>
                 <Image source={require('./img/tips.png')} style={{width: 19, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
         </View>
     }
 
-    _navLeft(nav, _p) {
+    _navLeft(route, navigator, index, navState) {
         return <View style={styles.leftContainer}>
             <TouchableOpacity style={styles.bottomCenter} onPress={() => {
                 Alert.alert('_(:з」∠)_', '暂时还不能切换宝宝啦〜');

@@ -28,7 +28,7 @@ export default class INav extends Component {
     }
 
     renderScene(route, navigator) {
-        return <INavBar barStyle={{backgroundColor: '#ff5884'}}
+        return <INavBar barStyle={this.props.barStyle}
                         left={this.left.bind(this)}
                         title={this.title.bind(this)}
                         iRoute={route}
@@ -40,7 +40,7 @@ export default class INav extends Component {
                         {...this.props}/>
     }
 
-    left(route, navigator, index) {
+    left(route, navigator, index, navState) {
         if (index > 0) {
             return (
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -61,7 +61,7 @@ export default class INav extends Component {
         }
     }
 
-    title(route, navigator, index) {
+    title(route, navigator, index, navState) {
         if (typeof(route.title) == 'string') {
             return (
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
