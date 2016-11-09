@@ -22,7 +22,7 @@ class Topic extends Component {
 
     // 默认属性
     static defaultProps = {
-        pageSize: 10,//分页数量
+        pageSize: 3,//分页数量
         dataSource: new ViewPager.DataSource({ //现实的数据源
             pageHasChanged: (p1, p2) => p1 !== p2,
         }),
