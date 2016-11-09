@@ -28,7 +28,8 @@ const ListItem = ({
   fontFamily,
   imgSource,
   rightImg,
-  rightImgStyle
+  rightImgStyle,
+  titleContainerStyle
 }) => {
   let Component = onPress ? TouchableHighlight : View
   if (component) {
@@ -71,7 +72,7 @@ const ListItem = ({
           )
         
         }
-        <View style={styles.titleContainer}>
+        <View style={[styles.titleContainer,titleContainerStyle && titleContainerStyle]}>
           <Text
             style={[
               styles.title,
@@ -152,7 +153,8 @@ ListItem.propTypes = {
   chevronColor: PropTypes.string,
   roundAvatar: PropTypes.bool,
   rightTitle:PropTypes.any,
-  rightTitleStyle:PropTypes.any
+  rightTitleStyle:PropTypes.any,
+  titleContainerStyle:PropTypes.any,
 }
 
 styles = StyleSheet.create({
@@ -192,7 +194,6 @@ styles = StyleSheet.create({
   },
   titleContainer: {
     justifyContent: 'center',
-    width:300
   },
   chevronContainer: {
     flex: 1,

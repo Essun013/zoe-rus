@@ -31,6 +31,7 @@ class Favorite extends Component {
                         width: 60,
                         height: 60
                     }}
+                    titleContainerStyle={{width: 300}}
                     onPress={()=>this._openContent(rowData.id)}
                 />
         )
