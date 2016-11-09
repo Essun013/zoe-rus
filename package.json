@@ -27,7 +27,10 @@
     "redux-actions": "0.11.0",
     "redux-logger": "~2.6.1",
     "redux-persist": "~3.2.2",
-    "redux-thunk": "~2.1.0"
+    "redux-thunk": "~2.1.0",
+    "bluebird": "^3.4.1",
+    "superagent": "^1.8.3",
+    "superagent-bluebird-promise": "^3.0.0"
   },
   "devDependencies": {
     "remote-redux-devtools": "^0.5.1",

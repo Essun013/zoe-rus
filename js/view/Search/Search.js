@@ -1,7 +1,7 @@
 /**
  * Created by linys on 2016/11/1.
  */
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {View,
     StyleSheet,
     Image,
@@ -13,16 +13,30 @@ import {View,
     Platform,
     Alert} from 'react-native';
 import device from '../../common/util/device';
+import http from '../../common/util/http';
 import {navPush} from '../../components/Nav/Nav';
 import INav from '../../components/Nav/INav';
 
 //搜索界面
 class Search extends Component {
+
+    // 默认属性
+    static defaultProps = {};
+
+    // 属性类型
+    static propTypes = {
+        textChangeHandler: PropTypes.func
+    };
+
+
     constructor(props) {
         super(props);
         this.state = {
-            textPlaceholder:'孕期能不能吃螃蟹？',//搜索框默认现实的值
+            textPlaceholder:'',//搜索框默认现实的值
+            kw:'',
             hotWords: ['奶粉','产后塑身','纸尿裤','黄疸','鱼肝油','坐月子','等等等等','啊啊啊啊'],
+            loading: false,
+            searchRequest: undefined,
         };
 
         this.props.iNavBar(this, {
@@ -40,17 +54,60 @@ class Search extends Component {
     }
 
     toSearch(hotWord){
-        Alert.alert(hotWord);
+        this.setState({
+            kw: hotWord
+        });
+        //Alert.alert(hotWord);
+    }
+
+    //获取输入框的值
+    text() {
+        return this._textfield.value;
+    }
+
+    //自定义搜索方法
+    didChangeText(text) {
+        //Alert.alert("你搜索了：" + text);
+        if (this.state.searchRequest){
+            this.state.searchRequest.cancel();
+        }
+        var promise = http.apiFetch('kb/knowledge/search?', {kw: text}, (result, error) => {
+            if (result) {
+                console.log('搜索完毕！结果：' + JSON.stringify(result));
+                this.setState({
+                    loading: false,
+                    kw: text,
+                });
+            }
+        });
+        this.setState({
+            loading: true,
+            searchRequest: promise,
+            kw: text,
+        })
+
     }
 
     _navTitle(){
+
+        const placeholderColor = 'rgb(200,200,200)';
+
         return <View style={styles.searchRow}>
             <TextInput
-                autoCapitalize="none"
-                autoCorrect={false}
-                clearButtonMode="always"
-                placeholder={this.state.textPlaceholder}
+                ref={(ref)=>{this._textfield = ref}}
+                autoCorrect={true}
+                autoFocus={true}
                 style={styles.searchTextInput}
+                placeholder='请输入关键词'
+                placeholderTextColor={placeholderColor}
+                returnKeyType='search'
+                multiline = {false}
+                keyboardType = "default"
+                underlineColorAndroid='white'
+                //value={this.state.kw}
+                onChangeText={(newText)=>{
+                    this.didChangeText(newText)
+                }}
             />
 
             <TouchableOpacity style={{flex:1,justifyContent:'center'}} onPress={()=>{this.toCancel()}} >
@@ -136,6 +193,7 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         borderWidth: 1,
         height: 22,
+        paddingLeft: 5,
         fontFamily: 'PingFang SC',
         fontSize: 14,
         //lineHeight: 3,

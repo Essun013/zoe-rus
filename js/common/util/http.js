@@ -4,6 +4,7 @@
 'use strict';
 
 const localApp = require('./app');
+import request from 'superagent-bluebird-promise'
 import DeviceInfo from 'react-native-device-info';
 
 const httpHeader = {
@@ -25,6 +26,18 @@ var http = {
     apiPost(uri, params, suc, err?: (err: Error) => void) {
         handleHttp('POST', getUrl(uri), procArgs(params), suc, err);
     },
+
+    apiFetch(uri, params, fetchCallback){
+        var url = localApp.apiUrl + uri + procArgs(params);
+        url = encodeURI(url);
+        console.log("url----" + url);
+        return request.get(url).then(res => {
+            fetchCallback(JSON.parse(res.text), null);
+        },error =>{
+            fetchCallback(null, error)
+        });
+    },
+
 };
 
 
@@ -58,6 +71,7 @@ function login(method,uri,params,callback,err) {
     });
 
 }
+
 function handleHttp(method, uri, params, callback, err?: (err: Error) => void) {
     var header = Object.assign({}, httpHeader, {method: method});
     
@@ -80,4 +94,17 @@ function handleHttp(method, uri, params, callback, err?: (err: Error) => void) {
         });
 }
 
+function fetchSearchWithKeyword(text,fetchCallback){
+
+    var url = localApp.apiUrl + '/kb/knowledge/search?kw=' + text;
+    url = encodeURI(url);
+    return request.get(url).then(res => {
+            fetchCallback(res.body,null)
+        },error =>{
+            fetchCallback(null,error)
+        });
+
+}
+
+export default fetchSearchWithKeyword;
 module.exports = http;
