@@ -11,7 +11,7 @@ import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
 import Message from './Message/Message';
 import LoginSys from './LoginSys';
-import Collection from  './Collection/Collection';
+import Collection from  './Favorite/Favorite';
 import {Provider, connect} from 'react-redux'
 import apiHttp from '../../common/util/http';
 import Moment from 'moment';
