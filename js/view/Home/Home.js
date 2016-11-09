@@ -13,6 +13,7 @@ import {Check} from './Check';
 import {Clazz} from './Clazz';
 import {goSearch} from '../../actions/search/actions';
 import Message from '../Me/Message/Message';
+import Search from '../Search/Search';
 import {navPush} from '../../components/Nav/Nav';
 import Moment from 'moment';
 
@@ -85,7 +86,8 @@ class Home extends Component {
 
 
     toSearchKb() {
-        this.props.dispatch(goSearch(true));
+        //this.props.dispatch(goSearch(true));
+        navPush.push(this.props, Search, '搜索');
     }
 
     toMyNotice() {

@@ -68,11 +68,14 @@ export default class Find extends Component {
         this.onRefresh = this.onRefresh.bind(this);
         this.toTopicDetail = this.toTopicDetail.bind(this);
 
+        //导航栏
+        this.props.iNavBar(this, {right: this._navRight.bind(this)});
+
     }
 
-    toSearchKb(o) {
-        //navPush.push(o, Search, '搜索');
-        Alert.alert('你点击了搜索!');
+    toSearchKb() {
+        navPush.push(this.props, Search, '搜索');
+        //Alert.alert('你点击了搜索!');
     }
 
     componentWillMount() {
@@ -80,9 +83,9 @@ export default class Find extends Component {
         this.loadTopImageAndTopics();//回掉的时候再调用this.onRefresh();
     }
 
-    _navRight(nav, _p) {
+    _navRight(route, navigator, index) {
         return <View style={styles.rightContainer}>
-            <TouchableOpacity style={styles.bottomCenter} onPress={() => {_p.toSearchKb(nav)}}>
+            <TouchableOpacity style={styles.bottomCenter} onPress={this.toSearchKb}>
                 <Image source={require('../Home/img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
         </View>
