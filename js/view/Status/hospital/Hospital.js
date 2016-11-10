@@ -3,10 +3,10 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, TextInput, ListView, Alert} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, TextInput, ListView, Alert, Platform} from 'react-native';
 import {device, http, gps} from '../../../common/util';
 import {navPush} from '../../../components/Nav/Nav';
-import {CityPicker, city, cityCacheKey} from '../../../components/CityPicker'
+import {CityPicker, cityUtil} from '../../../components/CityPicker'
 
 var cityInfo = {};
 
@@ -25,11 +25,11 @@ class Hospital extends Component {
         };
 
         // 缓存中获取个人保存的城市信息
-        city.get(cityCacheKey.SINGLE_LOCAL_CACHE, (d) => {
+        cityUtil.get((d) => {
             if (d) {
                 this.queryHospital(d);
             } else {
-                city.gps((d) => {
+                cityUtil.gps((d) => {
                     if (d) {
                         Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
                         this.queryHospital(d);
@@ -51,7 +51,7 @@ class Hospital extends Component {
     }
 
     chooseHospital(name) {
-        city.save(cityCacheKey.SINGLE_LOCAL_CACHE, cityInfo.nation, cityInfo.province, cityInfo.city, cityInfo.county);
+        cityUtil.save(cityInfo.nation, cityInfo.province, cityInfo.city, cityInfo.county);
 
         this.props.callback({...cityInfo, hospitalName: name});
         navPush.pop(this.props);
@@ -105,6 +105,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: device.height() - 50,
+        ...Platform.select({
+            ios: {
+                height: device.height() - 60
+            }
+        }),
         backgroundColor: '#fff'
     },
     topView: {

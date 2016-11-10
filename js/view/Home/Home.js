@@ -52,7 +52,7 @@ class Home extends Component {
 
     scroll(week, days, totalDay) {
         let scroll = (<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-            <Top navigator={this.props.navigator} week={week} days={days}/>
+            <Top navigator={this.props.navigator} week={week} days={days} totalDay={totalDay}/>
             <Mom navigator={this.props.navigator} week={week} days={days}/>
             <Box navigator={this.props.navigator} week={week} days={days}/>
             <Check navigator={this.props.navigator} week={week} days={days}/>

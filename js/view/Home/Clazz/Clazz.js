@@ -13,21 +13,33 @@ class Clazz extends Component {
 
         this.state = {
             list: null
-        }
+        };
 
+        this.query(props.totalDay);
+    }
+
+    query(totalDay) {
         let params = {
             pageSize: 2,
             pageNum: 1,
-            day: this.props.totalDay,
+            day: totalDay,
             classify: '名词解释'
         }
 
         http.apiPost('/kb/knowledge/query', params, (data) => {
-            if (data.count)
-                this.setState({list: this.renderList(data.list)})
-            else
+            if (data.code == 0) {
+                if (data.data.count)
+                    this.setState({list: this.renderList(data.data.list)})
+                else
+                    this.setState({list: this.renderList([])})
+            } else {
                 this.setState({list: this.renderList([])})
+            }
         })
+    }
+
+    componentWillReceiveProps(props) {
+        this.query(props.totalDay);
     }
 
     detail(id) {
@@ -35,35 +47,12 @@ class Clazz extends Component {
     }
 
     renderList(list) {
-        /*let _list = [
-            {
-                title: '吃什么对胎儿头发好？',
-                content: '想要宝贝以后头发长得好，准妈妈们从孕期就需要补充营养，比如维生素......',
-                img: require('../img/ketang1.png'),
-                over: 56,
-                collect: 56,
-            },
-            {
-                title: '吃什么对胎儿头发好？',
-                content: '想要宝贝以后头发长得好，准妈妈们从孕期就需要补充营养，比如维生素......',
-                img: require('../img/ketang2.png'),
-                over: 56,
-                collect: 56,
-            },
-        ];*/
-
-        /*list.map((l, i) => {
-            _list[i].title = l.subject || _list[i].title;
-            _list[i].img = l.thumbnail ? {uri: app.apiUrl + l.thumbnail} : _list[i].img;
-            _list[i].content = l.summary || _list[i].content;
-        });*/
-
         let style = {borderTopWidth: 1, borderTopColor: '#ededed'};
 
         return (
             <View style={styles.body}>
                 {
-                    list ? list.map((l, i) => {
+                    list && list.length > 0 ? list.map((l, i) => {
                         return (
                             <TouchableOpacity activeOpacity={0.6} key={i} style={[i && style]} onPress={() => {this.detail(l.id)}}>
                                 <View style={styles.listView}>

@@ -3,18 +3,18 @@
  */
 
 import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, ListView, Alert} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, ListView, Alert, Platform} from 'react-native';
 import {device, http, rcache, gps} from '../../common/util';
 
 const cityCacheKey = {
     SINGLE_LOCAL_CACHE : 'single_local_cache'
 };
-const city = {
-    save(key, nation, province, city, county) {
-        rcache.put(key, JSON.stringify({nation, province, city, county}))
+const cityUtil = {
+    save(nation, province, city, county) {
+        rcache.put(cityCacheKey.SINGLE_LOCAL_CACHE, JSON.stringify({nation, province, city, county}))
     },
-    get(key, callback) {
-        rcache.get(key, (err, result) => {
+    get(callback) {
+        rcache.get(cityCacheKey.SINGLE_LOCAL_CACHE, (err, result) => {
             var _result = null;
             try {
                 if (result)
@@ -27,7 +27,7 @@ const city = {
     gps(callback) {
         gps.getLocation((d) => {
             // lat: 24.489114503076085,  lng: 118.18957659957918
-            http.apiPost('/geocoder/address', {lat: d.lat, lng: d.lng}, (data) => {
+            http.apiPost('/geocoder/address', {lat: '24.489114503076085',  lng: '118.18957659957918'}, (data) => {
                 if (data.code == 0) {
                     var _region = data.data.region;
                     var _data = {
@@ -64,7 +64,7 @@ class CityPicker extends Component {
         };
 
         // 缓存中获取个人保存的城市信息
-        city.get(cityCacheKey.SINGLE_LOCAL_CACHE, (d) => {
+        cityUtil.get((d) => {
             if (d)
                 returnBack = d;
         });
@@ -201,6 +201,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: device.height() - 50,
+        ...Platform.select({
+            ios: {
+                height: device.height() - 60
+            }
+        }),
         // backgroundColor: '#fff',
         // backgroundColor: 'rgba(0,0,0,0)',
         position: 'absolute',
@@ -295,4 +300,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = {CityPicker, city, cityCacheKey}
+module.exports = {CityPicker, cityUtil}

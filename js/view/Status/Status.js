@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Platform, Image, Text, TouchableOpacity, Alert, ScrollView} from 'react-native';
+import {View, StyleSheet, Platform, Image, Text, TouchableOpacity, Alert} from 'react-native';
 import device from '../../common/util/device';
 import {navPush} from '../../components/Nav/Nav';
 import Mom from './Mom/Mom';
@@ -80,6 +80,11 @@ class Status extends Component {
 const styles = StyleSheet.create({
     bg: {
         height: device.height() - 50,
+        ...Platform.select({
+            ios: {
+                height: device.height() - 60
+            }
+        }),
         width: device.width(),
     },
     bgView: {

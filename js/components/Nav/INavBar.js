@@ -6,7 +6,7 @@
 
 var ColorPropType = require('ColorPropType');
 import React, {Component, PropTypes} from 'react'
-import {StatusBar, View, StyleSheet, Platform, TouchableOpacity, Alert} from 'react-native';
+import {StatusBar, View, StyleSheet, Platform} from 'react-native';
 
 export default class INavBar extends Component {
     static propTypes = {

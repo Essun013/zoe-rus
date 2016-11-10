@@ -13,7 +13,7 @@ class Mom extends Component {
     constructor(props) {
         super(props);
 
-        let week = this.props.week;
+        let week = props.week;
         week = week <= 0 ? 1 : week;
 
         this.state = {
@@ -22,6 +22,19 @@ class Mom extends Component {
             week: week,
         };
 
+        this.query(week);
+
+        this.babyGrow = this.babyGrow.bind(this);
+        this.momKnow = this.momKnow.bind(this);
+    }
+
+    componentWillReceiveProps(props) {
+        let week = props.week;
+
+        this.query(week <= 0 ? 1 : week);
+    }
+
+    query(week) {
         http.apiPost('/kb/knowledge/find', {subject: '孕妈早知道' + week + '周'}, (data) => {
             if (data.code == 0)
                 this.setState({momSummary: data.data.summary})
@@ -31,9 +44,6 @@ class Mom extends Component {
             if (data.code == 0)
                 this.setState({babySummary: data.data.summary})
         });
-
-        this.babyGrow = this.babyGrow.bind(this);
-        this.momKnow = this.momKnow.bind(this);
     }
 
     render() {

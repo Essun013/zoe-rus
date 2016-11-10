@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Platform, Image, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import {View, StyleSheet, Platform, Image, Text, TouchableOpacity, TextInput} from 'react-native';
 import device from '../../../common/util/device';
 import Login from '../../Me/LoginSys';
 import {navPush} from '../../../components/Nav/Nav';
@@ -96,6 +96,11 @@ const styles = StyleSheet.create({
     },
     bg: {
         height: device.height() - 50,
+        ...Platform.select({
+            ios: {
+                height: device.height() - 60
+            }
+        }),
         width: device.width(),
     },
     bgView: {

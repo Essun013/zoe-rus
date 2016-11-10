@@ -26,7 +26,6 @@ var loadCount=0;//当前加载文章条数
 var topics;
 
 export default class Find extends Component {
-
     // 默认属性
     static defaultProps = {
         pageSize: 5, //分页数量

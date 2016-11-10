@@ -3,16 +3,15 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
-import device from '../../../common/util/device';
+import {View, StyleSheet, Image, Text, TouchableOpacity, Alert, Platform} from 'react-native';
 import Login from '../../Me/LoginSys';
 import Hospital from '../hospital/Hospital';
 import {navPush} from '../../../components/Nav/Nav';
 import DatePicker from '../../../components/DatePicker'
 import {goHome} from '../../../actions/home/actions';
 import DeviceInfo from 'react-native-device-info';
-import {rcache, synccache, converter, http, gps} from '../../../common/util';
-import {city, cityCacheKey} from '../../../components/CityPicker';
+import {rcache, synccache, converter, http, gps, device} from '../../../common/util';
+import {cityUtil} from '../../../components/CityPicker';
 import Moment from 'moment';
 
 var cityInfo = {};
@@ -26,11 +25,11 @@ class Mom extends Component {
             preHospitalName: null
         };
 
-        city.gps((d) => {
+        cityUtil.gps((d) => {
             if (d) {
                 Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
                 cityInfo = d;
-                city.save(cityCacheKey.SINGLE_LOCAL_CACHE, d.nation, d.province, d.city, d.county);
+                cityUtil.save(d.nation, d.province, d.city, d.county);
             } else {
                 Alert.alert('Error', '定位失败');
             }
@@ -97,7 +96,6 @@ class Mom extends Component {
     push2Hospital() {
         let _param = {
             callback: (c) => {
-                Alert.alert('rel', JSON.stringify(c))
                 this.setState({preHospitalName: c.hospitalName})
             }
         };
@@ -242,6 +240,11 @@ const styles = StyleSheet.create({
     },
     bg: {
         height: device.height() - 50,
+        ...Platform.select({
+            ios: {
+                height: device.height() - 60
+            }
+        }),
         width: device.width(),
     },
     bgView: {

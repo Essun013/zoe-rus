@@ -10,13 +10,14 @@ class Top extends Component {
     constructor(props) {
         super(props);
 
-        let week = this.props.week;
-        let days = this.props.days;
+        let week = parseInt(this.props.week);
+        let days = parseInt(this.props.days);
+        let totalDay = parseInt(this.props.totalDay);
 
         this.state = {
             babyImg: require('../img/baby.png'),
-            bornDistances: 280 - ((week * 7 + (days * 1)) || 1),
-            babyWeek: (week <= 0 ? '' : week + '周' + '+') + (days <= 0 ? '1天' : days + '天'),
+            bornDistances: 280 - totalDay,
+            babyWeek: (week <= 0 ? '' : week + '周') + (days <= 0 ? '' : '+' + days + '天'),
             tag: '顶臂长：0mm | 体 重：0kg'
         };
 
@@ -27,11 +28,13 @@ class Top extends Component {
         })
     }
     componentWillReceiveProps(nextProps){
-        let week = nextProps.week;
-        let days = nextProps.days;
+        let week = parseInt(nextProps.week);
+        let days = parseInt(nextProps.days);
+        let totalDay = parseInt(nextProps.totalDay);
+
         this.setState({
-            bornDistances: 280 - ((week * 7 + (days * 1)) || 1),
-            babyWeek: (week <= 0 ? '' : week + '周' + '+') + (days <= 0 ? '1天' : days + '天')
+            bornDistances: 280 - totalDay,
+            babyWeek: (week <= 0 ? '' : week + '周') + (days <= 0 ? '' : '+' + days + '天')
         })
     }
     render() {

@@ -3,11 +3,19 @@
  */
 
 import React, {Component} from 'react'
+import {Platform} from 'react-native';
 import Status from './Status';
 import INav from '../../components/Nav/INav';
 
 export default class StatusNav extends Component {
     render() {
-        return <INav route={{component: Status, title: '状态选择'}} barStyle={{backgroundColor: '#ff5884'}} titleCenter={true} statusBarColor={'#ff5884'}/>
+        return <INav route={{component: Status, title: '状态选择'}} barStyle={{
+            backgroundColor: '#ff5884',
+            ...Platform.select({
+                ios: {
+                    height: 60
+                }
+            })
+        }} titleCenter={true} statusBarColor={'#ff5884'}/>
     }
 }
