@@ -112,10 +112,13 @@ export default class INavBar extends Component {
 
 const styles = StyleSheet.create({
     bar: {
-        height: 50,
         ...Platform.select({
             ios: {
-                paddingTop: 15
+                paddingTop: 15,
+                height: 60
+            },
+            android: {
+                height: 40,
             }
         }),
     },

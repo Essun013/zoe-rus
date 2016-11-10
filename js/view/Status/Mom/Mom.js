@@ -239,10 +239,12 @@ const styles = StyleSheet.create({
         flex: 1
     },
     bg: {
-        height: device.height() - 50,
         ...Platform.select({
             ios: {
                 height: device.height() - 60
+            },
+            android: {
+                height: device.height() - 40,
             }
         }),
         width: device.width(),

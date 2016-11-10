@@ -122,10 +122,12 @@ class Hospital extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: device.height() - 50,
         ...Platform.select({
             ios: {
                 height: device.height() - 60
+            },
+            android: {
+                height: device.height() - 40,
             }
         }),
         backgroundColor: '#fff'

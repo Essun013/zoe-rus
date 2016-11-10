@@ -11,15 +11,6 @@ export default class HomeNav extends Component {
     render() {
         let now = new Date();
         let title = (now.getMonth() + 1) + '月' + now.getDate() + '日';
-        return <INav route={{component: Home, title: title}}
-                     barStyle={{
-                         backgroundColor: '#ff4971',
-                         ...Platform.select({
-                             ios: {
-                                 height: 60
-                             }
-                         })
-                     }} titleCenter={true}
-                     statusBarColor={'#ff4971'}/>;
+        return <INav route={{component: Home, title: title}} barStyle={{backgroundColor: '#ff4971'}} titleCenter={true} statusBarColor={'#ff4971'}/>;
     }
 }
