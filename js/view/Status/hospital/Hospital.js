@@ -8,7 +8,7 @@ import {device, http, gps} from '../../../common/util';
 import {navPush} from '../../../components/Nav/Nav';
 import {CityPicker, city, cityCacheKey} from '../../../components/CityPicker'
 
-var cityTemp, cityInfo = {};
+var cityInfo = {};
 
 class Hospital extends Component {
     static propTypes = {
@@ -27,24 +27,27 @@ class Hospital extends Component {
         // 缓存中获取个人保存的城市信息
         city.get(cityCacheKey.SINGLE_LOCAL_CACHE, (d) => {
             if (d) {
-                cityInfo = d;
-                http.apiPost('/kb/hospital/query', {region: cityInfo.city.id}, (data) => {
-                    if (data.code == 0)
-                        this.setState({hospitalList: this.state.hospitalList.cloneWithRows(data.data)})
-                })
-                this.setState({cityName: d.city.name})
+                this.queryHospital(d);
             } else {
                 city.gps((d) => {
                     if (d) {
                         Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
-                        cityInfo = d;
-                        this.setState({cityName: d.city.name})
+                        this.queryHospital(d);
                     } else {
                         Alert.alert('Error', '定位失败');
                     }
                 });
             }
         });
+    }
+
+    queryHospital(d) {
+        cityInfo = d;
+        http.apiPost('/kb/hospital/query', {region: cityInfo.city.id}, (data) => {
+            if (data.code == 0)
+                this.setState({hospitalList: this.state.hospitalList.cloneWithRows(data.data)})
+        })
+        this.setState({cityName: d.city.name})
     }
 
     chooseHospital(name) {

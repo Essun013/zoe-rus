@@ -131,7 +131,7 @@ class Main extends Component {
             setTimeout(()=> {
                 this.setState({component: this.renderMain});
                 rcache.put('firstChoose', 'no');
-            }, 200);
+            }, 1);
         }
     }
 

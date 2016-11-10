@@ -48,7 +48,7 @@ const city = {
     }
 };
 
-var _tmpProvinces, _tmpCity, returnBack = {};
+var _tmpProvinces, _tmpCity, returnBack;
 class CityPicker extends Component {
     static propTypes = {
         hide: PropTypes.func.isRequired,
@@ -73,19 +73,22 @@ class CityPicker extends Component {
         http.apiPost('/classify/tree', {key: 'region'}, (data) => {
             if (data.code == 0) {
                 _tmpProvinces = data.data[0]['children'];
-                if (returnBack)
-                for(var i = 0; i < _tmpProvinces.length; i++) {
-                    if (_tmpProvinces[i].id == returnBack.province.id) {
-                        _tmpCity = _tmpProvinces[i].children;
-                        break;
+                var _county;
+                if (!returnBack)
+                    returnBack = {};
+                else {
+                    for(var i = 0; i < _tmpProvinces.length; i++) {
+                        if (_tmpProvinces[i].id == returnBack.province.id) {
+                            _tmpCity = _tmpProvinces[i].children;
+                            break;
+                        }
                     }
-                }
 
-                var _county = [];
-                for(var j = 0; j< _tmpCity.length; j++) {
-                    if (_tmpCity[j].id == returnBack.city.id) {
-                        _county = _tmpCity[j].children;
-                        break;
+                    for(var j = 0; j< _tmpCity.length; j++) {
+                        if (_tmpCity[j].id == returnBack.city.id) {
+                            _county = _tmpCity[j].children;
+                            break;
+                        }
                     }
                 }
 

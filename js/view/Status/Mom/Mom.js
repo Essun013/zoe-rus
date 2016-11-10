@@ -28,7 +28,7 @@ class Mom extends Component {
 
         city.gps((d) => {
             if (d) {
-                // Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
+                Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
                 cityInfo = d;
                 city.save(cityCacheKey.SINGLE_LOCAL_CACHE, d.nation, d.province, d.city, d.county);
             } else {
@@ -330,4 +330,5 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Mom;
+const {connect} = require('react-redux');
+module.exports = connect()(Mom);
