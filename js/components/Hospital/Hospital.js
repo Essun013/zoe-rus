@@ -102,7 +102,7 @@ class Hospital extends Component {
                     <TouchableOpacity style={styles.locationBotton} onPress={() => {
                         this.setState({showMask: true})
                     }}>
-                        <Image source={require('../img/location.png')} style={{width: 13, height: 18, marginRight: 10}}
+                        <Image source={require('./img/location.png')} style={{width: 13, height: 18, marginRight: 10}}
                                resizeMode='stretch'/>
                         <Text style={{fontSize: 14}}>{this.state.cityName}</Text>
                     </TouchableOpacity>
