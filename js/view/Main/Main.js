@@ -131,7 +131,7 @@ class Main extends Component {
             setTimeout(()=> {
                 this.setState({component: this.renderMain});
                 rcache.put('firstChoose', 'no');
-            }, 1);
+            }, 200);
         }
     }
 
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
 const {connect} = require('react-redux');
 
 function select(store) {
+    Alert.alert('store', JSON.stringify(store))
     return {
         reduxArgs: store.homeX.reduxArgs
     }
