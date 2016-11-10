@@ -5,7 +5,8 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
 import {device, http, app} from '../../../common/util';
-import {navPush} from '../../../components/Nav/Nav'
+import Content from '../../Find/Content/Content'
+import {navPush} from '../../../components/Nav/Nav';
 
 class Clazz extends Component {
     constructor(props) {
@@ -42,8 +43,8 @@ class Clazz extends Component {
         this.query(props.totalDay);
     }
 
-    detail(id) {
-
+    detail(id, title) {
+        navPush.push(this.props, Content, title || '', {topicId: id})
     }
 
     renderList(list) {
@@ -54,7 +55,7 @@ class Clazz extends Component {
                 {
                     list && list.length > 0 ? list.map((l, i) => {
                         return (
-                            <TouchableOpacity activeOpacity={0.6} key={i} style={[i && style]} onPress={() => {this.detail(l.id)}}>
+                            <TouchableOpacity activeOpacity={0.6} key={i} style={[i && style]} onPress={() => {this.detail(l.id, l.subject)}}>
                                 <View style={styles.listView}>
                                     <Image source={l.thumbnail ? {uri: app.apiUrl + l.thumbnail} : require('../img/ketang1.png')} style={styles.listViewImg}/>
                                     <View style={{marginRight: 0, flex: 1}}>
