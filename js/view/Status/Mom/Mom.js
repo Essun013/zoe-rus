@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, Alert, Platform} from 'react-native';
 import Login from '../../Me/LoginSys';
-import Hospital from '../hospital/Hospital';
+import {Hospital} from '../../../components/Hospital';
 import {navPush} from '../../../components/Nav/Nav';
 import DatePicker from '../../../components/DatePicker'
 import {goHome} from '../../../actions/home/actions';

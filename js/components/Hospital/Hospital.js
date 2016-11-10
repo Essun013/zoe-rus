@@ -4,12 +4,29 @@
 
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, TextInput, ListView, Alert, Platform} from 'react-native';
-import {device, http, gps} from '../../../common/util';
-import {navPush} from '../../../components/Nav/Nav';
-import {CityPicker, cityUtil} from '../../../components/CityPicker'
+import {device, http, gps, rcache} from '../../common/util';
+import {navPush} from '../Nav/Nav';
+import {CityPicker, cityUtil} from '../CityPicker'
+
+const hospitalCacheKey = {HOSPITAL_INFO: 'hospital_info'}
+const hospitalUtil = {
+    save(name) {
+        rcache.put(hospitalCacheKey.HOSPITAL_INFO, JSON.stringify({name}))
+    },
+    get(callback) {
+        rcache.get(hospitalCacheKey.HOSPITAL_INFO, (err, r) => {
+            var _result = null;
+            try {
+                if (r)
+                    _result = JSON.parse(r);
+            } catch (e) {
+            }
+            callback(_result);
+        });
+    }
+}
 
 var cityInfo = {};
-
 class Hospital extends Component {
     static propTypes = {
         callback: React.PropTypes.func.isRequired
@@ -52,6 +69,7 @@ class Hospital extends Component {
 
     chooseHospital(name) {
         cityUtil.save(cityInfo.nation, cityInfo.province, cityInfo.city, cityInfo.county);
+        hospitalUtil.save(name);
 
         this.props.callback({...cityInfo, hospitalName: name});
         navPush.pop(this.props);
@@ -197,4 +215,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Hospital;
+module.exports = {Hospital, hospitalUtil};

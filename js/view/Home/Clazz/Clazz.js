@@ -20,7 +20,7 @@ class Clazz extends Component {
 
     query(totalDay) {
         let params = {
-            pageSize: 2,
+            pageSize: 5,
             pageNum: 1,
             day: totalDay,
             classify: '名词解释'
