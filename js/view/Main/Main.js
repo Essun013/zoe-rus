@@ -242,7 +242,6 @@ const styles = StyleSheet.create({
 const {connect} = require('react-redux');
 
 function select(store) {
-    Alert.alert('store', JSON.stringify(store))
     return {
         reduxArgs: store.homeX.reduxArgs
     }
