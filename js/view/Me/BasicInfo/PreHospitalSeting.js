@@ -7,7 +7,7 @@ import {ImgButton} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
 import {BasicInfo} from './BasicInfo'
-import Hospital from '../../Status/hospital/Hospital';
+// import Hospital from '../../Status/hospital/Hospital';
 
 const log = () => console.log('this is an example method')
 
@@ -40,7 +40,7 @@ class PreHospitalSeting extends Component {
     }
 
     push2Hospital() {
-        navPush.push(this.props, Hospital, '选择产检医院');
+        // navPush.push(this.props, Hospital, '选择产检医院');
     }
 
     render() {
