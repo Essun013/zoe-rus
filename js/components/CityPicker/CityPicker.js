@@ -3,15 +3,55 @@
  */
 
 import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, TextInput, ListView, Alert} from 'react-native';
-import {device, http} from '../../common/util';
+import {View, StyleSheet, Text, TouchableOpacity, ListView, Alert} from 'react-native';
+import {device, http, rcache, gps} from '../../common/util';
 
-var provinces, _city;
+const cityCacheKey = {
+    SINGLE_LOCAL_CACHE : 'single_local_cache'
+};
+const city = {
+    save(key, nation, province, city, county) {
+        rcache.put(key, JSON.stringify({nation, province, city, county}))
+    },
+    get(key, callback) {
+        rcache.get(key, (err, result) => {
+            var _result = null;
+            try {
+                if (result)
+                    _result = JSON.parse(result);
+            } catch (e) {
+            }
+            callback(_result);
+        })
+    },
+    gps(callback) {
+        gps.getLocation((d) => {
+            // lat: 24.489114503076085,  lng: 118.18957659957918
+            http.apiPost('/geocoder/address', {lat: d.lat, lng: d.lng}, (data) => {
+                if (data.code == 0) {
+                    var _region = data.data.region;
+                    var _data = {
+                        nation: {..._region[0]},
+                        province: {..._region[1]},
+                        city: {..._region[2]},
+                        county: {..._region[3]}
+                    }
 
-export default class CityPicker extends Component {
+                    callback(_data);
+                } else {
+                    callback(null);
+                }
+            })
+        }, (e) => {
+            callback(null);
+        });
+    }
+};
+
+var _tmpProvinces, _tmpCity, returnBack = {};
+class CityPicker extends Component {
     static propTypes = {
         hide: PropTypes.func.isRequired,
-        show: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -21,43 +61,44 @@ export default class CityPicker extends Component {
             provinceList: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
             cityList: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
             countyList: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
-            currentProvince: this.props.province,
-            currentCity: this.props.city,
-            currentCounty: this.props.county,
-            callbackNation: null,
-            callbackProvince: null,
-            callbackCity: null,
-            callbackCounty: null
         };
 
+        // 缓存中获取个人保存的城市信息
+        city.get(cityCacheKey.SINGLE_LOCAL_CACHE, (d) => {
+            if (d)
+                returnBack = d;
+        });
+
+        // 获取全国城市信息
         http.apiPost('/classify/tree', {key: 'region'}, (data) => {
             if (data.code == 0) {
-                provinces = data.data[0]['children'];
-                var _citys, _countys;
-                for (let i in provinces) {
-                    if (provinces[i]['id'] == this.state.currentProvince) {
-                        _city = _citys = provinces[i].children;
+                _tmpProvinces = data.data[0]['children'];
+                if (returnBack)
+                for(var i = 0; i < _tmpProvinces.length; i++) {
+                    if (_tmpProvinces[i].id == returnBack.province.id) {
+                        _tmpCity = _tmpProvinces[i].children;
                         break;
                     }
                 }
 
-                for (let i in _citys) {
-                    if (_citys[i]['id'] == this.state.currentCity) {
-                        _countys = _citys[i].children;
+                var _county = [];
+                for(var j = 0; j< _tmpCity.length; j++) {
+                    if (_tmpCity[j].id == returnBack.city.id) {
+                        _county = _tmpCity[j].children;
                         break;
                     }
                 }
 
                 this.setState({
-                    provinceList: this.state.provinceList.cloneWithRows(provinces),
-                    cityList: this.state.cityList.cloneWithRows(_citys || []),
-                    countyList: this.state.countyList.cloneWithRows(_countys || []),
-                })
+                    provinceList: this.state.provinceList.cloneWithRows(_tmpProvinces),
+                    cityList: this.state.cityList.cloneWithRows(_tmpCity || []),
+                    countyList: this.state.countyList.cloneWithRows(_county || [])
+                });
             } else {
-                Alert.alert('', '城市信息获取失败' + JSON.stringify(data))
+                Alert.alert('', '城市信息获取失败' + JSON.stringify(data));
             }
         }, (e) => {
-            Alert.alert('错误', '城市信息获取失败' + e.message)
+            Alert.alert('错误', '城市信息获取失败' + e.message);
         });
     }
 
@@ -72,72 +113,60 @@ export default class CityPicker extends Component {
     }
 
     provinceList(row) {
+        var selected = returnBack.province && returnBack.province.id == row.id;
+        if (selected) {
+            returnBack.province = row;
+            _tmpCity = row.children || [];
+        }
+
         return <TouchableOpacity style={[styles.provinceBottom]} onPress={() => {
-            this.changeSelectProvince(row)
+            this.changeProvince(row)
         }} activeOpacity={0.9}>
-            <Text
-                style={[styles.provinceTx, this.state.currentProvince == row.id && {color: 'rgb(1,1,1)'}]}>{row.name}</Text>
+            <Text style={[styles.provinceTx, selected && {color: 'rgb(1,1,1)'}]}>{row.name}</Text>
         </TouchableOpacity>
     }
 
-    changeSelectProvince(row) {
-        let _provinces = JSON.parse(JSON.stringify(provinces || []));
-        _city = row.children;
+    changeProvince(row) {
+        let _tmpProvinces = JSON.parse(JSON.stringify(_tmpProvinces || []));
+        returnBack.province = row;
         this.setState({
-            provinceList: this.state.provinceList.cloneWithRows(_provinces),
-            currentProvince: row.id,
-            cityList: this.state.cityList.cloneWithRows(row.children),
-            callbackProvince: row,
+            provinceList: this.state.provinceList.cloneWithRows(_tmpProvinces),
         });
     }
 
     cityList(row) {
-        return <TouchableOpacity style={styles.cityBottom} onPress={() => {
-            this.changeCity(row)
-        }}>
-            <Text style={[styles.cityTx, this.state.currentCity == row.id && {color: '#ff7aa2'}]}>{row.name}</Text>
+        var selected = returnBack.city && returnBack.city.id == row.id;
+        if (selected) {
+            returnBack.city = row;
+        }
+
+        return <TouchableOpacity style={styles.cityBottom} onPress={() => {this.changeCity(row)}}>
+            <Text style={[styles.cityTx, selected && {color: '#ff7aa2'}]}>{row.name}</Text>
         </TouchableOpacity>
     }
 
     changeCity(row) {
+        returnBack.city = row;
         this.setState({
-            cityList: this.state.cityList.cloneWithRows(JSON.parse(JSON.stringify(_city || []))),
-            currentCity: row.id,
-            city: row.name,
-            countyList: this.state.countyList.cloneWithRows(row.children || []),
-            callbackCity: row,
+            cityList: this.state.cityList.cloneWithRows(JSON.parse(JSON.stringify(_tmpCity || []))),
         });
     }
 
     countyList(row) {
         return <TouchableOpacity style={styles.cityBottom} onPress={() => {
-            this.setState({currentCounty: row.id, currentCounty: row});
+            returnBack.county = row;
             this.callback();
         }}>
-            <Text style={[styles.cityTx, this.state.currentCounty == row.id && {color: '#ff7aa2'}]}>{row.name}</Text>
+            <Text style={[styles.cityTx, returnBack.county.id == row.id && {color: '#ff7aa2'}]}>{row.name}</Text>
         </TouchableOpacity>
     }
 
     callback() {
-        var nation = this.state.callbackNation,
-            province = this.state.callbackProvince,
-            city = this.state.callbackCity,
-            county = this.state.currentCounty;
-
-        if (!nation)
-            ;
-        if (!province)
-            province = this.state.currentProvince;
-        if (!city)
-            city = this.state.currentCity;
-        if (!county)
-            county = this.state.currentCounty;
-
         this.props.hide({
-            nation: nation,
-            province: {id: province.id, name: province.name},
-            city: {id: city.id, name: city.name},
-            county: {id: county.id, name: county.name}
+            nation: returnBack.nation,
+            province: {id: returnBack.province.id, name: returnBack.province.name},
+            city: {id: returnBack.city.id, name: returnBack.city.name},
+            county: {id: returnBack.county.id, name: returnBack.county.name}
         })
     }
 
@@ -169,7 +198,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: device.height() - 50,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
+        // backgroundColor: 'rgba(0,0,0,0)',
+        position: 'absolute',
+        zIndex: 9,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
     },
     topView: {
         flexDirection: 'row',
@@ -255,3 +291,5 @@ const styles = StyleSheet.create({
         color: 'rgb(1,1,1)'
     }
 });
+
+module.exports = {CityPicker, city, cityCacheKey}

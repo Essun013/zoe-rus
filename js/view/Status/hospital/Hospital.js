@@ -4,20 +4,11 @@
 
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, TextInput, ListView, Alert} from 'react-native';
-import {device, http} from '../../../common/util';
+import {device, http, gps} from '../../../common/util';
 import {navPush} from '../../../components/Nav/Nav';
-import {switchHospital} from '../../../actions/status/actions';
-import CityPicker from '../../../components/CityPicker'
+import {CityPicker, city, cityCacheKey} from '../../../components/CityPicker'
 
-const hospitals = [
-    {title: '厦门市妇幼保健院', location: '厦门市镇海路55号'},
-    {title: '厦门大学附属第一医院', location: '厦门市镇海路55号'},
-    {title: '厦门市中医院', location: '厦门市镇海路55号'},
-    {title: '解放军第一七四医院', location: '厦门市镇海路55号'},
-    {title: '厦门市第二医院', location: '厦门市镇海路55号'},
-];
-
-var cityTemp;
+var cityTemp, cityInfo = {};
 
 class Hospital extends Component {
     static propTypes = {
@@ -30,30 +21,36 @@ class Hospital extends Component {
         this.state = {
             showMask: false,
             hospitalList: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
-            provinceCode: this.props.province.id,
-            cityCode: this.props.city.id,
-            countyCode: this.props.county.id
+            cityName: null
         };
 
-        http.apiPost('/kb/hospital/query', {region: this.props.county.parent}, (data) => {
-            if (data.code == 0)
-                this.setState({hospitalList: this.state.hospitalList.cloneWithRows(data.data)})
-        })
+        // 缓存中获取个人保存的城市信息
+        city.get(cityCacheKey.SINGLE_LOCAL_CACHE, (d) => {
+            if (d) {
+                cityInfo = d;
+                http.apiPost('/kb/hospital/query', {region: cityInfo.city.id}, (data) => {
+                    if (data.code == 0)
+                        this.setState({hospitalList: this.state.hospitalList.cloneWithRows(data.data)})
+                })
+                this.setState({cityName: d.city.name})
+            } else {
+                city.gps((d) => {
+                    if (d) {
+                        Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
+                        cityInfo = d;
+                        this.setState({cityName: d.city.name})
+                    } else {
+                        Alert.alert('Error', '定位失败');
+                    }
+                });
+            }
+        });
     }
 
     chooseHospital(name) {
-        if (!cityTemp)
-            cityTemp = {};
-        if (!cityTemp['nation'])
-            cityTemp['nation'] = null;
-        if (!cityTemp['province'])
-            cityTemp['province'] = {id: this.props.province.id, name: this.props.province.name}
-        if (!cityTemp['city'])
-            cityTemp['city'] = {id: this.props.city.id, name: this.props.city.name}
-        if (!cityTemp['county'])
-            cityTemp['county'] = {id: this.props.county.id, name: this.props.county.name}
+        city.save(cityCacheKey.SINGLE_LOCAL_CACHE, cityInfo.nation, cityInfo.province, cityInfo.city, cityInfo.county);
 
-        this.props.callback({...cityTemp, hospitalName: name});
+        this.props.callback({...cityInfo, hospitalName: name});
         navPush.pop(this.props);
     }
 
@@ -67,27 +64,26 @@ class Hospital extends Component {
     }
 
     hideCityPicker(rel) {
-        cityTemp = rel;
+        cityInfo = rel;
         this.setState({showMask: false, city: rel.city.name})
     }
 
     city() {
         if (this.state.showMask)
-            return <CityPicker show={this.state.showMask} hide={this.hideCityPicker.bind(this)} province={this.state.provinceCode} city={this.state.cityCode} county={this.state.countyCode}/>
+            return <CityPicker hide={this.hideCityPicker.bind(this)}/>
+        else return null
     }
 
     render() {
         return (
             <View style={styles.container}>
-                {this.city()}
-
                 <View style={styles.topView}>
                     <TouchableOpacity style={styles.locationBotton} onPress={() => {
                         this.setState({showMask: true})
                     }}>
                         <Image source={require('../img/location.png')} style={{width: 13, height: 18, marginRight: 10}}
                                resizeMode='stretch'/>
-                        <Text style={{fontSize: 14}}>{this.props.city.name}</Text>
+                        <Text style={{fontSize: 14}}>{this.state.cityName}</Text>
                     </TouchableOpacity>
                     <TextInput style={styles.searchHospital} placeholder={'请输入医院名称'}
                                placeholderTextColor={'rgb(146,146,146)'} underlineColorAndroid={'transparent'}/>
@@ -95,6 +91,8 @@ class Hospital extends Component {
 
                 <ListView style={styles.hospitalView} dataSource={this.state.hospitalList} enableEmptySections={true}
                           renderRow={(row) => this.hospitalList(row)}/>
+
+                {this.city()}
             </View>
         )
     }
@@ -191,5 +189,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const {connect} = require('react-redux');
-module.exports = connect()(Hospital);
+module.exports = Hospital;

@@ -2,6 +2,6 @@
  * Created by ianchen on 2016/11/4.
  */
 
-const CityPicker = require('./CityPicker');
+import {CityPicker, city, cityCacheKey} from './CityPicker';
 
-module.exports = CityPicker
+module.exports = {CityPicker, city, cityCacheKey}

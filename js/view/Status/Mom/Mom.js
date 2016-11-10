@@ -12,8 +12,10 @@ import DatePicker from '../../../components/DatePicker'
 import {goHome} from '../../../actions/home/actions';
 import DeviceInfo from 'react-native-device-info';
 import {rcache, synccache, converter, http, gps} from '../../../common/util';
+import {city, cityCacheKey} from '../../../components/CityPicker';
 import Moment from 'moment';
 
+var cityInfo = {};
 class Mom extends Component {
     constructor(props) {
         super(props);
@@ -21,30 +23,17 @@ class Mom extends Component {
             childbirth: null,
             lmp: null,
             hidePreCalc: true,
-            nation: null,
-            province: null,
-            city: null,
-            county: null,
             preHospitalName: null
         };
 
-        gps.getLocation((d) => {
-            http.apiPost('/geocoder/address', {lat: d.lat, lng: d.lng}, (data) => {
-                if (data.code == 0) {
-                    let _component = data.data.component;
-                    let _region = data.data.region;
-                    this.setState({
-                        nation: {..._region[0]},
-                        province: {..._region[1]},
-                        city: {..._region[2]},
-                        county: {..._region[3]}
-                    })
-                } else {
-                    Alert.alert('当前城市', '获取位置失败')
-                }
-            })
-        }, (e) => {
-            Alert.alert('当前城市', '定位失败')
+        city.gps((d) => {
+            if (d) {
+                // Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
+                cityInfo = d;
+                city.save(cityCacheKey.SINGLE_LOCAL_CACHE, d.nation, d.province, d.city, d.county);
+            } else {
+                Alert.alert('Error', '定位失败');
+            }
         });
 
         this.pushMain = this.pushMain.bind(this);
@@ -107,14 +96,11 @@ class Mom extends Component {
 
     push2Hospital() {
         let _param = {
-            county: this.state.county,
-            city: this.state.city,
-            province: this.state.province,
-            nation: this.state.nation,
             callback: (c) => {
+                Alert.alert('rel', JSON.stringify(c))
                 this.setState({preHospitalName: c.hospitalName})
             }
-        }
+        };
 
         navPush.push(this.props, Hospital, '选择产检医院', _param);
     }

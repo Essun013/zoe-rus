@@ -103,9 +103,9 @@ class Check extends Component {
                             <Image source={require('../img/location.png')} style={styles.locationImg} resizeMode='stretch'/>
                             <Text style={[styles.aides, {marginLeft: 2}]}>怎么去</Text>
                         </Text>
-                        <TouchableOpacity style={styles.aidesButton} activeOpacity={0.6}>
+                        {/*<TouchableOpacity style={styles.aidesButton} activeOpacity={0.6}>
                             <Text style={styles.aidesButtonText}>参加宣教课程</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity>*/}
                     </View>
                     <View style={styles.oddsView}>
                         <View style={{flexDirection: 'row'}}>
