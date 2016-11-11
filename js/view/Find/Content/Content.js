@@ -131,9 +131,10 @@ const styles = StyleSheet.create({
     },
     subject: {
         justifyContent: 'center',
-        textAlign:'center',
+        textAlign:'left',
+        marginLeft: 14,
         fontFamily: 'PingFang SC',
-        fontSize: 25,
+        fontSize: 22,
         color:'rgb(0,0,0)'
     },
     lineStyle: {

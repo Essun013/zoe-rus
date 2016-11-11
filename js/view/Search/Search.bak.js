@@ -56,7 +56,8 @@ class Search extends Component {
     //渲染导航栏
     _renderINav(){
         this.props.iNavBar(this, {
-            hide:true,
+            title: this._navTitle.bind(this),
+            left: ()=>{},
         });
     }
 
@@ -125,8 +126,29 @@ class Search extends Component {
     //导航栏搜索
     _navTitle(){
         //Alert.alert('title', JSON.stringify(this.state))
-        //console.log('render..._navTitle');
-        //return null;
+        console.log('render..._navTitle');
+        return <View style={styles.searchRow}>
+            <TextInput
+                ref='_textInput'
+                autoCorrect={true}
+                autoFocus={true}
+                multiline = {false}
+                autoCapitalize = 'none'
+                style={styles.searchTextInput}
+                placeholder='请输入关键词'
+                placeholderTextColor='rgb(200,200,200)'
+                returnKeyType='search'
+                keyboardType = "default"
+                underlineColorAndroid='white'
+                value={this.state.kw}
+                onChangeText={(newText)=>this.didChangeText(newText)}
+                onEndEditing={()=>this.onEndEditText()}
+            />
+
+            <TouchableOpacity style={{flex:1,justifyContent:'center'}} onPress={()=>{this.toCancel()}} >
+                <Text style={styles.cancel}>取消</Text>
+            </TouchableOpacity>
+        </View>
     }
 
     //首次进来默认渲染关键热词
@@ -172,29 +194,7 @@ class Search extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.searchRow}>
-                    <TextInput
-                        ref='_textInput'
-                        autoCorrect={true}
-                        autoFocus={true}
-                        multiline = {false}
-                        autoCapitalize = 'none'
-                        style={styles.searchTextInput}
-                        placeholder='请输入关键词'
-                        placeholderTextColor='rgb(200,200,200)'
-                        returnKeyType='search'
-                        keyboardType = "default"
-                        underlineColorAndroid='white'
-                        value={this.state.kw}
-                        onChangeText={(newText)=>this.didChangeText(newText)}
-                        onEndEditing={()=>this.onEndEditText()}
-                    />
-
-                    <TouchableOpacity style={{flex:1,justifyContent:'center'}} onPress={()=>{this.toCancel()}} >
-                        <Text style={styles.cancel}>取消</Text>
-                    </TouchableOpacity>
-                </View>
-
+                
                 {contentPage}
             </View>
         );
@@ -217,7 +217,6 @@ const styles = StyleSheet.create({
         color: 'rgb(255,255,255)',
         fontFamily: 'PingFang SC',
         fontSize: 17,
-        paddingTop: 24,
         paddingLeft: 8,
     },
     searchTextInput: {
@@ -226,8 +225,6 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         borderWidth: 1,
         height: 24,
-        marginTop: 30,
-        marginLeft: 10,
         paddingLeft: 5,
         fontFamily: 'PingFang SC',
         fontSize: 14,
@@ -236,12 +233,10 @@ const styles = StyleSheet.create({
         width:device.width()/6*5,
     },
     searchRow: {
-        backgroundColor: 'rgb(255,85,127)',
+        backgroundColor: 'transparent',
         flexDirection: 'row',
-        //marginLeft: 10,
-        //marginTop: 27,
-        height:60,
-        width:device.width(),
+        marginLeft: 10,
+        marginTop: 8,
     },
     searchHotText: {
         paddingTop:8,
