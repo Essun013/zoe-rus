@@ -43,8 +43,14 @@ class Clazz extends Component {
         this.query(props.totalDay);
     }
 
-    detail(id, title) {
-        navPush.push(this.props, Content, title || '', {topicId: id})
+    detail(id, title, read, favorite) {
+        let topicDetailInfo = {
+            topicId: id,
+            subject: title,
+            read: read,
+            favorite: favorite,
+        }
+        navPush.push(this.props, Content, "内容详情", topicDetailInfo);
     }
 
     renderList(list) {
@@ -55,7 +61,7 @@ class Clazz extends Component {
                 {
                     list && list.length > 0 ? list.map((l, i) => {
                         return (
-                            <TouchableOpacity activeOpacity={0.6} key={i} style={[i && style]} onPress={() => {this.detail(l.id, l.subject)}}>
+                            <TouchableOpacity activeOpacity={0.6} key={i} style={[i && style]} onPress={() => {this.detail(l.id, l.subject, l.read, l.favorite)}}>
                                 <View style={styles.listView}>
                                     <Image source={l.thumbnail ? {uri: app.apiUrl + l.thumbnail} : require('../img/ketang1.png')} style={styles.listViewImg}/>
                                     <View style={{marginRight: 0, flex: 1}}>
@@ -70,14 +76,14 @@ class Clazz extends Component {
                                             <Image source={require('../img/over.png')} style={styles.msgOverImg}
                                                    resizeMode='stretch'/>
                                         </View>
-                                        <Text style={styles.msgOverText}>{l.over || 56}</Text>
+                                        <Text style={styles.msgOverText}>{l.read}</Text>
                                     </View>
                                     <View style={[styles.msgOver, {marginLeft: 20}]}>
                                         <View style={styles.msgOverImgView}>
                                             <Image source={require('../img/collection.png')} style={styles.msgOverImg}
                                                    resizeMode='stretch'/>
                                         </View>
-                                        <Text style={styles.msgOverText}>{l.collect || 56}</Text>
+                                        <Text style={styles.msgOverText}>{l.favorite}</Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>

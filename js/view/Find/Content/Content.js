@@ -87,7 +87,7 @@ class Content extends Component {
         var read = this.props.read; //阅读
         var favorite = this.props.favorite; //收藏
         var renderViewAndStar = null;
-        if(read && favorite){
+        if(typeof read !=='undefined' && typeof favorite !=='undefined'){
             renderViewAndStar = this._renderViewAndStar(read, favorite);
         }
 
