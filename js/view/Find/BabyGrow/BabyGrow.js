@@ -51,7 +51,7 @@ class BabyGrow extends Component {
         };
         apiHttp.apiPost('/kb/knowledge/find', params, (result)=>  {
                 if (result.code === 0) {
-                    let uri = app.apiUrl + "kb/knowledge/html?id=" + result.data.id;
+                    let uri = app.apiUrl + "kb/knowledge/html?id=" + result.data.id+"&&css=glossary";;
                     //渲染WebView
                     this.setState({
                         selWeek: week,

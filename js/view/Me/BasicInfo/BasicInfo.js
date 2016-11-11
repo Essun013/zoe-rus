@@ -13,7 +13,7 @@ import NicknameSetting from './NicknameSetting';
 import SexSetting from './SexSetting';
 import PhotoSetting from './PhotoSetting';
 import ChildbirthSetting from './ChildbirthSetting';
-import PreHospitalSeting from './PreHospitalSeting';
+import Hospital from '../../Status/hospital/Hospital';
 import {connect} from 'react-redux'
 
 const log = () => console.log('this is an example method')
@@ -22,6 +22,10 @@ const log = () => console.log('this is an example method')
 class PersonalCenter extends Component {
     constructor(props){
         super(props);
+        this.state={
+            preHospitalName:''
+        }
+
     }
     onPhonePress() {
         navPush.push(this.props, PhoneSetting, '手机号',{user:this.props.user});
@@ -38,8 +42,15 @@ class PersonalCenter extends Component {
     onPhotoSetting(){
         navPush.push(this.props,PhotoSetting,'头像上传')
     }
-    onPreHospital(){
-        navPush.push(this.props,PreHospitalSeting,'设置产检医院',{preHospitalName:'厦门市妇幼保健院'})
+
+    push2Hospital() {
+        let _param = {
+            callback: (c) => {
+                this.setState({preHospitalName: c.hospitalName})
+            }
+        };
+
+        navPush.push(this.props, Hospital, '选择产检医院', _param);
     }
     render() {
         let name = this.props.user.nick||false;
@@ -76,9 +87,9 @@ class PersonalCenter extends Component {
                     />
                     <ListItem
                         title={"医院"}
-                        rightTitle={"厦门市妇幼保健院"}
+                        rightTitle={this.state.preHospitalName || false}
                         titleStyle={{color: "#bbbbbb"}}
-                        onPress={this.onPreHospital.bind(this)}
+                        onPress={this.push2Hospital.bind(this)}
                     />
                     <ListItem
                         title={"手机号"}
