@@ -151,14 +151,14 @@ class Topic extends Component {
             <View style={[styles.msgOverView, styles.msgOver]}>
                 <View style={styles.msgOver}>
                     <View style={styles.msgOverImgView}>
-                        <Image source={require('../img/view_count.png')} style={styles.msgOverImg}
+                        <Image source={require('../img/read_count.png')} style={styles.msgOverImg}
                                resizeMode='stretch'/>
                     </View>
                     <Text style={styles.msgOverText}>{read}</Text>
                 </View>
                 <View style={[styles.msgOver, {marginLeft: 20}]}>
                     <View style={styles.msgOverImgView}>
-                        <Image source={require('../img/zan_count.png')} style={styles.msgOverImg}
+                        <Image source={require('../img/favorite_count.png')} style={styles.msgOverImg}
                                resizeMode='stretch'/>
                     </View>
                     <Text style={styles.msgOverText}>{favorite}</Text>

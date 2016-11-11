@@ -221,7 +221,7 @@ export default class Find extends Component {
     _renderToipcList(val){
         console.log("渲染文章列表..." + val);
         return <View style={{flex: 1,borderTopWidth: 1, borderTopColor: '#ededed'}} >
-            {this._renderTitleAndSummary(val.subject, val.summary, val.thumbnail, val.id)}
+            {this._renderTitleAndSummary(val.subject, val.summary, val.thumbnail, val.id, val.read, val.favorite)}
             {this._renderViewAndStar(val.read, val.favorite)}
         </View>
     }
@@ -314,9 +314,9 @@ export default class Find extends Component {
     }
 
     //跳转文章详细信息
-    toTopicDetail(topicId, subject){
+    toTopicDetail(topicDetailInfo){
         //Alert.alert(topicId);
-        navPush.push(this.props, Content, subject, {topicId: topicId});
+        navPush.push(this.props, Content, "内容详情", topicDetailInfo);
     }
 
     _renderViewAndStar(read, favorite){
@@ -324,14 +324,14 @@ export default class Find extends Component {
             <View style={[styles.msgOverView, styles.msgOver]}>
                 <View style={styles.msgOver}>
                     <View style={styles.msgOverImgView}>
-                        <Image source={require('./img/view_count.png')} style={styles.msgOverImg}
+                        <Image source={require('./img/read_count.png')} style={styles.msgOverImg}
                                resizeMode='stretch'/>
                     </View>
                     <Text style={styles.msgOverText}>{read}</Text>
                 </View>
                 <View style={[styles.msgOver, {marginLeft: 20}]}>
                     <View style={styles.msgOverImgView}>
-                        <Image source={require('./img/zan_count.png')} style={styles.msgOverImg}
+                        <Image source={require('./img/favorite_count.png')} style={styles.msgOverImg}
                                resizeMode='stretch'/>
                     </View>
                     <Text style={styles.msgOverText}>{favorite}</Text>
@@ -340,14 +340,22 @@ export default class Find extends Component {
         );
     }
 
-    _renderTitleAndSummary(subject, summary, thumbnail, topicId){
+    _renderTitleAndSummary(subject, summary, thumbnail, topicId, read, favorite){
         //摘要裁剪处理
         if(typeof summary ==='string' && summary != '' && summary.length > 50){
             summary = summary.substr(1, 46)+'......';
         }
 
+        //跳转文章详情的基本信息
+        let topicDetailInfo = {
+            topicId:topicId,
+            subject:subject,
+            read:read,
+            favorite:favorite,
+        }
+
         return (
-            <TouchableOpacity style={styles.listView} onPress={()=>this.toTopicDetail(topicId, subject)}>
+            <TouchableOpacity style={styles.listView} onPress={()=>this.toTopicDetail(topicDetailInfo)}>
                 <Image source={thumbnail?{uri: app.apiUrl+thumbnail}:require('./img/topic_01.png')} style={styles.listViewImg}/>
                 <View style={{marginRight: 0, flex: 1}}>
                     <Text style={styles.listViewContentTitle}>{subject}</Text>
