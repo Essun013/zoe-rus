@@ -9,7 +9,7 @@ import {ListItem, List, Text} from '../../components';
 import BasicInfo from './BasicInfo/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
 import device from '../../common/util/device';
-import Message from './Message/Message';
+import Remind from './Remind/Remind';
 import LoginSys from './LoginSys';
 import Collection from  './Favorite/Favorite';
 import {Provider, connect} from 'react-redux'
@@ -58,7 +58,7 @@ class Me extends Component {
     }
 
     onMessagePress(){
-        navPush.push(this.props, Message, '提醒');
+        navPush.push(this.props, Remind, '提醒设置');
     }
 
     onLoginSys() {
