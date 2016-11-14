@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Platform} from 'react-native'
-import PregnancyCheck from '../Find/PregnancyCheck/PregnancyCheck'
+import PregnancyCheck from './PregnancyCheck/PregnancyCheck'
 
 import {
     Text,

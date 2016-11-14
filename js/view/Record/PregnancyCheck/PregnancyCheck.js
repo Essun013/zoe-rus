@@ -3,11 +3,15 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
-import ScrollTabBar from '../ScrollTabBar/ScrollTabBar';
+import {View,
+    StyleSheet,
+    Image,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    Alert} from 'react-native';
 import Content from './Content/Content';
-import Top from './Top/Top'
-import {hideMenu} from '../../../actions';
+import Top from './Top/Top';
 
 class PregnancyCheck extends Component {
 

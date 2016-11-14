@@ -6,7 +6,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert, Platform} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
-import PregnancyCheck from '../../Find/PregnancyCheck/PregnancyCheck';
+import PregnancyCheck from '../../Record/PregnancyCheck/PregnancyCheck';
 
 class Check extends Component {
     constructor(props) {
