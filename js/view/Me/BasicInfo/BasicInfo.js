@@ -13,7 +13,7 @@ import NicknameSetting from './NicknameSetting';
 import SexSetting from './SexSetting';
 import PhotoSetting from './PhotoSetting';
 import ChildbirthSetting from './ChildbirthSetting';
-import Hospital from '../../../components/Hospital/Hospital';
+import {Hospital} from '../../../components/Hospital/Hospital';
 import {connect} from 'react-redux'
 
 const log = () => console.log('this is an example method')

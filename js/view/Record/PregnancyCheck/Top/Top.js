@@ -3,22 +3,45 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, Alert} from 'react-native';
+import {View,
+    StyleSheet,
+    Image,
+    Text,
+    TouchableOpacity,
+    Alert} from 'react-native';
 import device from '../../../../common/util/device';
+import {navPush} from '../../../../components/Nav/Nav';
+import {Hospital} from '../../../../components/Hospital/Hospital';
 
 class Top extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {initPage : 7, week : 8, date: 1};
+        this.state = {
+            week : 8,
+            date: 1,
+            selHospitalName: '思明区妇幼保健院', //初始化选择的医院
+        };
+        this.toLocateHospital = this.toLocateHospital.bind(this);
+    }
+
+
+    toLocateHospital(){
+        let _param = {
+            callback: (c) => {
+                this.setState({selHospitalName: c.hospitalName})
+            }
+        };
+        navPush.push(this.props, Hospital, '选择产检医院', _param);
     }
 
     render() {
+
         return (
             <View style={styles.title}>
-                <Text style={styles.titlelocalText}>产检医院  思明区妇幼保健院</Text>
+                <Text style={styles.titlelocalText}>产检医院  {this.state.selHospitalName}</Text>
                 <View style={styles.titlelocal}>
-                    <TouchableOpacity style={{flexDirection: 'row'}}>
+                    <TouchableOpacity style={{flexDirection: 'row'}} onPress={this.toLocateHospital}>
                         <Image source={require('../../img/locate.png')} style={styles.localImg}></Image>
                         <Text style={styles.titleGoThere}>到这里去</Text>
                     </TouchableOpacity>

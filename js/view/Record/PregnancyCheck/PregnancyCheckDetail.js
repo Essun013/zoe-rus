@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
-import PregnancyCheckedImage from '../PregnancyCheckedImage';
+import PregnancyCheckedImage from './PregnancyCheckedImage';
 
 class PregnancyCheckDetail extends Component {
 
