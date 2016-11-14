@@ -44,7 +44,7 @@ class Content extends Component {
     _navRight(route, navigator, index, navState) {
         return <View style={styles.rightContainer}>
             <TouchableOpacity style={styles.bottomCenter} onPress={()=>Alert.alert('收藏')}>
-                <Image source={require('../../Home/img/search.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
+                <Image source={require('../img/favorite.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={()=>Alert.alert('分享')}>
                 <Image source={require('../img/share.png')} style={{width: 19, height: 21}} resizeMode='stretch'/>

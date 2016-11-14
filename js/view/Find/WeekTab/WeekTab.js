@@ -52,8 +52,8 @@ class WeekTab extends Component {
         //this.weekTabRender();
         //this.getBabyGrowDataByWeek(this.state.initTab);
         let scrollToX = this.state.currentTab<3?0:this.state.currentTab-3;
-        if(scrollToX >= 43){
-            scrollToX = 45;
+        if(scrollToX >= 38){
+            scrollToX = 40;
         }
 
         if(Platform.OS === 'ios'){
@@ -89,8 +89,8 @@ class WeekTab extends Component {
         //触发父组件加载网页内容
         this.props.switchTab(week);
         let scrollToX = week<3?0:week-3;
-        if(scrollToX >= 41){
-            scrollToX = 40;
+        if(scrollToX >= 36){
+            scrollToX = 35;
         }
         this.refs._scrollView.scrollTo({x:this.props.scrollCellWidth*scrollToX,y:0,animated:true});
     }
@@ -113,8 +113,8 @@ class WeekTab extends Component {
 
     weekTabRender() {
         var listView = [];
-        //一共只有45周内容
-        for (let j = 1; j < 46; listView.push(j), j++);
+        //一共只有40周内容
+        for (let j = 1; j <= 40; listView.push(j), j++);
         return (
             <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}
                         ref='_scrollView' >
