@@ -342,8 +342,8 @@ export default class Find extends Component {
 
     _renderTitleAndSummary(subject, summary, thumbnail, topicId, read, favorite){
         //摘要裁剪处理
-        if(typeof summary ==='string' && summary != '' && summary.length > 50){
-            summary = summary.substr(1, 46)+'......';
+        if(typeof summary ==='string' && summary != '' && summary.length > 36){
+            summary = summary.substr(1, 33)+'...';
         }
 
         //跳转文章详情的基本信息
@@ -357,7 +357,7 @@ export default class Find extends Component {
         return (
             <TouchableOpacity style={styles.listView} onPress={()=>this.toTopicDetail(topicDetailInfo)}>
                 <Image source={thumbnail?{uri: app.apiUrl+thumbnail}:require('./img/topic_01.png')} style={styles.listViewImg}/>
-                <View style={{marginRight: 0, flex: 1}}>
+                <View style={{flex: 1}}>
                     <Text style={styles.listViewContentTitle}>{subject}</Text>
                     <Text style={styles.listViewContent} ellipsizeMode='tail'>{summary}</Text>
                 </View>
@@ -397,16 +397,17 @@ const styles = StyleSheet.create({
     listView: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: 15,
-        marginLeft: 15,
+        marginTop: 10,
+        marginLeft: 10,
         marginRight: 10,
         marginBottom: 6,
         //backgroundColor: 'blue'
     },
     listViewImg: {
-        width: device.width()/3,
-        height: 110,
-        marginRight: 15
+        width: device.width()/4,
+        height: 70,
+        marginRight: 15,
+        borderRadius: 3,
     },
     listViewContentTitleTop: {
         marginTop: 20,
@@ -419,8 +420,8 @@ const styles = StyleSheet.create({
         //backgroundColor:'blue',
     },
     listViewContentTitle: {
-        paddingTop: 7,
-        paddingBottom: 7,
+        //paddingTop: 7,
+        paddingBottom: 5,
         fontSize: 15,
         fontFamily: 'PingFang SC',
         color: 'rgb(0,0,0)'
@@ -433,7 +434,7 @@ const styles = StyleSheet.create({
         lineHeight: 20
     },
     listViewContent: {
-        paddingBottom: 7,
+        //paddingBottom: 7,
         fontSize: 13,
         color: 'rgb(146,146,146)',
         lineHeight: 20
