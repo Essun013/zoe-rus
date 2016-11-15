@@ -88,7 +88,7 @@ class Box extends Component {
                 </View>
                 <View style={styles.titleBotton}>
                     <TouchableOpacity onPress={this.toAddBox}>
-                        <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>添加</Text>
+                        <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>更多</Text>
                     </TouchableOpacity>
                 </View>
             </View>

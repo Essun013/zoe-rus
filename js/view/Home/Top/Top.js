@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     babyImg: {
-        width: 120,
-        height: 120,
-        borderRadius: 55
+        marginTop: 6,
+        width: 113,
+        height: 113
     },
     bgImg: {
         height: 210,
