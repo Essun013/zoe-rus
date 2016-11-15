@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     babyImg: {
-        width: 120,
-        height: 120,
-        borderRadius: 60
+        marginTop: 6,
+        width: 113,
+        height: 113
     },
     bgImg: {
         height: 210,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         backgroundColor: 'transparent',
         fontFamily: 'PingFang SC',
-        marginTop: 6,
+        marginTop: 5,
     }
 });
 
