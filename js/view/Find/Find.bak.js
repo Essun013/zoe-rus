@@ -15,19 +15,17 @@ import {View,
     ListView,
     RefreshControl} from 'react-native';
 import {Box} from './Box';
-import {home} from '../../actions';
 import {navPush} from '../../components/Nav/Nav';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import Search from '../Search/Search'
 import {device, http, app} from '../../common/util';
 import Content from './Content/Content';
-import {homeUtil} from '../Home/Home'
 
 var count=0;//文章总数
-var loadedCount=0;//当前加载文章条数
+var loadCount=0;//当前加载文章条数
 var topics;
 
-class Find extends Component {
+export default class Find extends Component {
     // 默认属性
     static defaultProps = {
         pageSize: 5, //分页数量
@@ -43,13 +41,7 @@ class Find extends Component {
 
     constructor(props) {
         super(props);
-
         let days = 60; //怀孕天数可变的
-        homeUtil.getInfo((d) => {
-            if (d) {
-                days = d.totalDays;
-            }
-        })
 
         this.state = {
             days:days,
@@ -122,13 +114,13 @@ class Find extends Component {
                                 console.log("loadTopImageAndTopics获取文章成功！" + result.data.list);
                                 this.count = result.data.count;
                                 this.topics = result.data.list;
-                                this.loadedCount = result.data.list.length;
+                                this.loadCount = (this.state.pageNum===1)?result.data.list.length:
+                                    (this.state.pageNum-1) * this.props.pageSize + result.data.list.length;
                                 //设置获取推荐文章列表
                                 this.setState({
                                     topImgList: this.state.topImgList.cloneWithPages(IMGS),
                                     topImgPageSum: IMGS.length,
                                     topicList: this.state.topicList.cloneWithRows(this.topics),
-                                    pageNum: 2,
                                     isLoad: true,
                                 });
                             } else {
@@ -139,7 +131,6 @@ class Find extends Component {
                             console.log('请求/kb/knowledge/query出错||' + err);
                         }
                     );
-
                 } else {
                     Alert.alert("系统提示", result.message);
                 }
@@ -167,7 +158,7 @@ class Find extends Component {
                         console.log("下拉刷新重新获取文章成功！" + result.data.list);
                         this.count = result.data.count;
                         this.topics = result.data.list;
-                        this.loadedCount = result.data.list.length;
+                        this.loadCount = result.data.list.length;
                         //设置获取推荐文章列表
                         this.setState({
                             topicList: this.state.topicList.cloneWithRows(this.topics),
@@ -188,8 +179,8 @@ class Find extends Component {
 
     //加载更多文章
     loadMore(){
-        console.log('loadMoreFun...total:'+this.count+'...loadedCount:'+this.loadedCount);
-        if(this.count <= this.loadedCount){
+        console.log('loadMoreFun...total:'+this.count+'...loadCount:'+this.loadCount);
+        if(this.count <= this.loadCount){
             //原则上加载到最大数便不再加载文章了！
             this.setState({isLoadMore: false});
             return ;
@@ -198,16 +189,16 @@ class Find extends Component {
         setTimeout(() => {
             let paramsContent = {
                 day: this.state.days,
-                pageNum: this.state.pageNum,
+                pageNum: this.state.pageNum + 1,
                 pageSize: this.props.pageSize,
             };
             //根据孕期请求文章推荐
             http.apiPost('/kb/knowledge/query', paramsContent, (result)=> {
                     if (result.code == 0) {
                         console.log('上拉分页获取文章成功！' + result.data.list);
-                        console.log('当前pageNum:' + (this.state.pageNum));
+                        console.log('this.state.pageNum:' + this.state.pageNum);
                         this.topics = this.topics.concat(result.data.list);
-                        this.loadedCount = (this.state.pageNum===1)? result.data.list.length:
+                        this.loadCount = (this.state.pageNum===1)? result.data.list.length:
                             (this.state.pageNum-1) * this.props.pageSize + result.data.list.length;
                         //设置获取推荐文章列表
                         this.setState({
@@ -223,12 +214,12 @@ class Find extends Component {
                     console.log('请求/kb/knowledge/query出错||' + err);
                 }
             );
-        }, 5000);
+        }, 3000);
     }
 
     //渲染文章列表
     _renderToipcList(val){
-        //console.log("渲染文章列表..." + val);
+        console.log("渲染文章列表..." + val);
         return <View style={{flex: 1,borderTopWidth: 1, borderTopColor: '#ededed'}} >
             {this._renderTitleAndSummary(val.subject, val.summary, val.thumbnail, val.id, val.read, val.favorite)}
             {this._renderViewAndStar(val.read, val.favorite)}
@@ -241,50 +232,52 @@ class Find extends Component {
         let topContent2 = <Text style={styles.listViewContentTop} ellipsizeMode='tail'>怀孕期间吃点什么好,水果蔬菜,哪些家常菜又营养又好做...</Text>;
 
         return (
-            <View style={styles.container}>
-                <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={this.state.isRefreshing}
-                                onRefresh={this.onRefresh}
-                                title= {'加载数据中...'}
-                                tintColor='rgb(146,146,146)'
-                                //enabled={this.props.needRefresh}
-                                colors={['rgb(146,146,146)']}
-                                progressBackgroundColor="#ffffff"
-                            />
-                        } >
-                    <ViewPager
-                        ref={(viewpager) => {this.viewpager = viewpager}}
-                        dataSource={this.state.topImgList}
-                        renderPage={this._renderImagePage}
-                        isLoop={false}
-                        autoPlay={false}/>
-                    <TouchableOpacity style={styles.topView} onPress={() => {
-                        if(this.state.topImgPageNow === this.state.topImgPageSum - 1){
-                            this.state.topImgPageNow = 0;
-                        } else {
-                            this.state.topImgPageNow = this.state.topImgPageNow + 1;
-                        }
-                        this.viewpager.goToPage(this.state.topImgPageNow);
-                    }}>
-                        {topContent1}
-                        {topContent2}
-                        {this._renderViewAndStar(600, 60)}
-                    </TouchableOpacity>
-                </ScrollView>
+            <View style={{flex:1, backgroundColor: '#f5f5f5'}}>
+                <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.isRefreshing}
+                                    onRefresh={this.onRefresh}
+                                    title= {'加载数据中...'}
+                                    tintColor='rgb(146,146,146)'
+                                    //enabled={this.props.needRefresh}
+                                    colors={['rgb(146,146,146)']}
+                                    progressBackgroundColor="#ffffff"
+                                />
+                            } >
+                    <View style={styles.container}>
 
-                <View style={{height:device.height()/2-15,width:device.width()}}>
-                    <ListView contentContainerStyle={{}}
-                          dataSource={this.state.topicList}
-                          renderRow={(row) => this._renderToipcList(row)}
-                          renderFooter={()=>this.renderFooter()}
-                          onScroll={()=>{this.props.dispatch(home.hideMenu(true))}}
-                          onEndReached={()=>this.loadMore()}
-                          onEndReachedThreshold={1}
-                          //refreshControl={this.renderTopicRefresh()}
-                    />
-                </View>
+                        <ViewPager
+                            ref={(viewpager) => {this.viewpager = viewpager}}
+                            dataSource={this.state.topImgList}
+                            renderPage={this._renderImagePage}
+                            isLoop={false}
+                            autoPlay={false}/>
+                        <TouchableOpacity style={styles.topView} onPress={() => {
+                            if(this.state.topImgPageNow === this.state.topImgPageSum - 1){
+                                this.state.topImgPageNow = 0;
+                            } else {
+                                this.state.topImgPageNow = this.state.topImgPageNow + 1;
+                            }
+                            this.viewpager.goToPage(this.state.topImgPageNow);
+                        }}>
+                            {topContent1}
+                            {topContent2}
+                            {this._renderViewAndStar(600, 60)}
+                        </TouchableOpacity>
+
+                        <View>
+                            <ListView contentContainerStyle={{backgroundColor:'transparent', flexWrap: 'wrap'}}
+                                  dataSource={this.state.topicList}
+                                  renderRow={(row) => this._renderToipcList(row)}
+                                  renderFooter={()=>this.renderFooter()}
+                                  onEndReached={()=>this.loadMore()}
+                                  onEndReachedThreshold={1}
+                                  //refreshControl={this.renderTopicRefresh()}
+                            />
+                        </View>
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -389,7 +382,6 @@ const styles = StyleSheet.create({
     container: {
         width: device.width(),
         backgroundColor: '#fff',
-
     },
     title: {
         paddingTop: 7,
@@ -483,6 +475,3 @@ const styles = StyleSheet.create({
     },
 
 })
-
-const {connect} = require('react-redux');
-module.exports = connect()(Find);

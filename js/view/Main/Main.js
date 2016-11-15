@@ -126,7 +126,7 @@ class Main extends Component {
         let _reduxArgs = this.props.reduxArgs;
         let _goHome = _reduxArgs && _reduxArgs.goHome;
         let _component = this.state.component;
-        console.log(_reduxArgs);
+        //console.log(_reduxArgs);
         if (_goHome && _component && _component.name.indexOf('renderMain') < 0) {
             setTimeout(()=> {
                 this.setState({component: this.renderMain});

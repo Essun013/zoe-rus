@@ -14,6 +14,7 @@ import React, { Component , PropTypes } from 'react';
 const ButtonWidth = 60;
 const IconWidth = 45;
 
+//分享按钮封装
 class ShareActionButton extends Component {
   // 默认属性
   static defaultProps = {};

@@ -25,7 +25,7 @@ const ShareType = {
     QQ: Symbol('QQ'),
     QQZone: Symbol('QQZone'),
 };
-const SelfHeight = 180; //206
+const SelfHeight = 150; //206
 var ShareManager = NativeModules.ShareManager;
 
 //外壳用来展示文章详细内容
@@ -51,6 +51,7 @@ class Content extends Component {
         super(props);
         this.state = {
             topicId: this.props.topicId, //文章Id
+            isFavorite: this.props.isFavorite?this.props.isFavorite:false,
             onShow: false, //展示分享页面
             maskViewAlpha: new Animated.Value(0),
             allowShareTypes: [ShareType.Wechat, ShareType.WechatFriend, ShareType.QQ, ShareType.QQZone],
@@ -60,6 +61,7 @@ class Content extends Component {
         this.showAction = this.showAction.bind(this);
         this.dismissAction = this.dismissAction.bind(this);
         this.didSelectedType = this.didSelectedType.bind(this);
+        this.switchFavorite = this.switchFavorite.bind(this);
         this._getAllowShareTypesFromPlaforms();
 
     }
@@ -173,9 +175,8 @@ class Content extends Component {
                 toValue: 0.3,
                 duration: 300,//250
             }).start();
-
         } else {
-            console.log('手机没有安装分享应用')
+            console.log('手机没有安装分享应用');
         }
     }
     //取消分享
@@ -194,38 +195,55 @@ class Content extends Component {
     didSelectedType(shareType) {
         switch (shareType) {
             case ShareType.WechatFriend:
-                this.actionShare(ShareManager.WechatFriend);
+                //this.actionShare(ShareManager.WechatFriend);
+                this.actionShare("WechatFriend");
                 break;
             case ShareType.QQ:
-                this.actionShare(ShareManager.QQ);
+                //this.actionShare(ShareManager.QQ);
+                this.actionShare("QQ");
                 break;
             case ShareType.QQZone:
-                this.actionShare(ShareManager.QQZone);
+                //this.actionShare(ShareManager.QQZone);
+                this.actionShare("QQZone");
                 break;
             default:
-                this.actionShare(ShareManager.Wechat);
+                //this.actionShare(ShareManager.Wechat);
+                this.actionShare("Wechat");
         }
     }
 
+    //调用其他APP(待研究)
     actionShare(type){
         if(Platform.OS === 'android'){
-             ShareManager.shareContent(this.props.shareObject,type);
+            Alert.alert('android分享成功 ' + type);
+             //ShareManager.shareContent(this.props.shareObject, type);
         }else{
-             ShareManager.shareContent(this.props.shareObject,type).then(()=> {
-             console.log('分享成功')
+            Alert.alert('IOS分享成功 ' + type);
+             //ShareManager.shareContent(this.props.shareObject, type).then(()=> {
              //this.refs.hudView.showSuccess()
-             }, (errerStateStr)=> {
+             //}, (errerStateStr)=> {
              //this.refs.hudView.showError()
-             console.log(errerStateStr)
-             })
-             console.log(ShareManager.Weibo)
+             //console.log(errerStateStr)
+             //})
         }
+        this.setState({
+            onShow: false
+        });
+
+    }
+
+    //切换收藏
+    switchFavorite(){
+        this.setState({
+            isFavorite: !this.state.isFavorite
+        });
+        this.state.isFavorite?Alert.alert("取消收藏！"):Alert.alert("收藏成功！");
     }
 
     _navRight(route, navigator, index, navState) {
         return <View style={styles.rightContainer}>
-            <TouchableOpacity style={styles.bottomCenter} onPress={()=>Alert.alert('收藏')}>
-                <Image source={require('../img/favorite.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
+            <TouchableOpacity style={styles.bottomCenter} onPress={this.switchFavorite}>
+                <Image source={this.state.isFavorite?require('../img/favorited.png'):require('../img/favorite.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={this.showAction}>
                 <Image source={require('../img/share.png')} style={{width: 19, height: 21}} resizeMode='stretch'/>
@@ -372,7 +390,7 @@ const styles = StyleSheet.create({
         left: 0,
         top: 0,
         width: device.width(),
-        height: device.height(),
+        height: device.height() - 50,
         justifyContent: "center",
     },
     bottomContainer: {
@@ -381,7 +399,7 @@ const styles = StyleSheet.create({
         //justifyContent: 'space-between',
         height: SelfHeight,
         paddingVertical: 10,
-        marginBottom: -100,
+        marginBottom: -SelfHeight+50,
     },
     topTitle: {
         fontSize: 18,
