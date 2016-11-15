@@ -33,7 +33,7 @@ class Checked extends Component {
             <View style={styles.body}>
                 <View style={{marginTop: 5, marginBottom: -8}}>
                     <Image source={require('../img/zouqiyu.png')} resizeMode='stretch' style={{width: device.width() - 30, height: 3}}/>
-                    <Image source={require('../img/zhouqi.png')} resizeMode='stretch' style={{width: 16, height: 16, position: 'relative', top: -9, left: 1}}/>
+                    <Image source={require('../img/zhouqi.png')} resizeMode='stretch' style={{width: 16, height: 16, position: 'relative', top: -10, left: 1}}/>
                 </View>
                 <View style={[styles.dashed, styles.clockView]}>
                     <View style={[{borderBottomWidth: 1, borderColor: '#ffc4d6'}, styles.flexRow]}>
