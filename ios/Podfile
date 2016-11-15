@@ -1,0 +1,5 @@
+platform :ios, '8.0'
+target 'RUS' do
+pod 'RSKImageCropper','~> 1.5.1'
+pod 'QBImagePickerController','~> 3.4.0'
+end
