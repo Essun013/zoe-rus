@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import {Platform} from 'react-native';
-import Home from './Home';
+import {Home} from './Home';
 import INav from '../../components/Nav/INav';
 
 export default class HomeNav extends Component {

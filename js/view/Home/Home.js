@@ -177,4 +177,8 @@ function mapStateToProps(store) {
         childbirth: store.editMe.childbirth
     }
 }
-module.exports = connect(mapStateToProps)(Home);
+
+module.exports = {
+    Home: connect(mapStateToProps)(Home),
+    homeUtil: homeUtil
+};
