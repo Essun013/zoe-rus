@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     babyImg: {
         width: 120,
         height: 120,
-        borderRadius: 55
+        borderRadius: 60
     },
     bgImg: {
         height: 210,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         backgroundColor: 'transparent',
         fontFamily: 'PingFang SC',
-        marginTop: 5,
+        marginTop: 6,
     }
 });
 
