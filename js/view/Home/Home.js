@@ -4,18 +4,35 @@
 
 
 import React, {Component} from 'react'
-import {ScrollView, View, StyleSheet, Alert, TouchableOpacity, Image,Text} from 'react-native'
+import {ScrollView, View, StyleSheet, Alert, TouchableOpacity, Image, Text} from 'react-native'
 import {device, http, rcache, app, gps} from '../../common/util';
 import {Top} from './Top';
 import {Mom} from './Mom';
 import {Box} from './Box';
 import {Check, Checked} from './Check';
 import {Clazz} from './Clazz';
-import {goSearch} from '../../actions/search/actions';
 import Message from '../Me/Message/Message';
 import Search from '../Search/Search';
 import {navPush} from '../../components/Nav/Nav';
 import Moment from 'moment';
+
+const homeCacheKey = {SINGLE_DAYS_INFO: 'single_days_info'}
+const homeUtil = {
+    getInfo(callback) {
+        rcache.get(homeCacheKey.SINGLE_DAYS_INFO, (err, r) => {
+            var _result = null;
+            try {
+                if (r)
+                    _result = JSON.parse(r)
+            } catch (e) {
+            }
+            callback(_result)
+        })
+    },
+    saveInfo(o) {
+        rcache.put(homeCacheKey.SINGLE_DAYS_INFO, JSON.stringify(o));
+    }
+}
 
 class Home extends Component {
     constructor(props) {
@@ -32,7 +49,6 @@ class Home extends Component {
         };
 
         http.apiPost('/uc/timeline/get', {}, (data) => {
-
             if (data.code === 0) {
                 var preDays = data.data.day;
 
@@ -40,6 +56,9 @@ class Home extends Component {
                 var days = preDays - (week * 7);
 
                 var scroll = this.scroll(week + '', days + '', preDays + '');
+
+                homeUtil.saveInfo({week: week, days: days, totalDays: preDays})
+
                 this.setState({content: scroll});
             }
         })
@@ -63,31 +82,29 @@ class Home extends Component {
 
     }
 
-    updateScroll(childbirths){
-        if(!childbirths){
+    updateScroll(childbirths) {
+        if (!childbirths) {
             return false;
         }
-        let days = 280+Moment().diff(Moment(childbirths),'days')-1;
-        let week = parseInt(days/7);
-        let day = days%7;
+        let days = 280 + Moment().diff(Moment(childbirths), 'days') - 1;
+        let week = parseInt(days / 7);
+        let day = days % 7;
         return this.scroll(week + '', day + '', days + '');
     }
 
     render() {
         var content;
-        if(this.props.childbirth){
+        if (this.props.childbirth) {
             content = this.updateScroll(this.props.childbirth);
-        }else{
-            content=  this.state.content;
+        } else {
+            content = this.state.content;
         }
         return <View style={{flex: 1}}>
             {content}
         </View>
     }
 
-
     toSearchKb() {
-        //this.props.dispatch(goSearch(true));
         navPush.push(this.props, Search, '搜索');
     }
 
@@ -157,7 +174,7 @@ const styles = StyleSheet.create({
 const {connect} = require('react-redux');
 function mapStateToProps(store) {
     return {
-        childbirth:store.editMe.childbirth
+        childbirth: store.editMe.childbirth
     }
 }
 module.exports = connect(mapStateToProps)(Home);
