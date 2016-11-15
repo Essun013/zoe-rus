@@ -16,6 +16,7 @@ import {View,
     Alert} from 'react-native';
 import {device, http, app} from '../../../common/util';
 import {navPush} from '../../../components/Nav/Nav';
+import {home, find} from '../../../actions';
 import ShareActionButton from './ShareActionButton';
 import Symbol from 'es6-symbol';
 const ShareType = {
@@ -61,6 +62,14 @@ class Content extends Component {
         this.didSelectedType = this.didSelectedType.bind(this);
         this._getAllowShareTypesFromPlaforms();
 
+    }
+
+    componentDidMount() {
+        this.props.dispatch(home.hideMenu(true));
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(home.hideMenu(false));
     }
 
     //以后还要判断根据手机已有按照的应用来分享
@@ -393,4 +402,5 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = Content;
+const {connect} = require('react-redux');
+module.exports = connect()(Content);
