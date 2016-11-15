@@ -2,12 +2,11 @@
  * Created by sea35 on 2016/10/21.
  */
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, Image,View,NativeModules} from 'react-native';
+import {ScrollView, StyleSheet, Image,View} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {ImgButton} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
-import {SquareImageCropper} from  '../../../components/ImageCrop/ImageCrop'
 
 class  PhotoSetting extends Component {
     constructor(props) {
@@ -18,9 +17,6 @@ class  PhotoSetting extends Component {
     }
     onBasicInfoPress() {
         navPush.pop(this.props);
-    }
-    onImageCrop(){
-        navPush.push(this.props,SquareImageCropper,'图片选择');
     }
     pickSingle() {
         ImagePicker.openPicker({
@@ -49,12 +45,11 @@ class  PhotoSetting extends Component {
                     {this.renderImage(this.state.image)}
                 </View>
                 <View style={styles.submitBut}>
-                    <ImgButton text="选择图片" onClick={this.onImageCrop.bind(this)}></ImgButton>
+                    <ImgButton text="选择图片" onClick={this.pickSingle.bind(this)}></ImgButton>
                 </View>
                 <View style={styles.submitBut}>
                     <ImgButton text="提交" onClick={this.onBasicInfoPress.bind(this)}></ImgButton>
                 </View>
-                <SquareImageCropper />
             </ScrollView>
         )
     }
@@ -67,7 +62,9 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 10,
         width: device.width(),
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     listView: {
         flexDirection: 'row',

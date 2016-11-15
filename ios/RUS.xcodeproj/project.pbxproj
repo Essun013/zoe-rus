@@ -31,7 +31,9 @@
 		7F11AA3E45AD414CBE57EC6A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 660AE9B4151C40CEAE76A7F0 /* Zocial.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		83EA91F25BC84483BCA65B32 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4735DB549384230B4D2C7DD /* EvilIcons.ttf */; };
+		903FEA2A1C2C43AAB473E5C7 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5483482D83FC4A32A3DE4F46 /* libimageCropPicker.a */; };
 		BDFC0E871DB5FB470046AB8F /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDFC0E851DB5F9720046AB8F /* libRNDeviceInfo.a */; };
+		C997D1ABE5C51F47FE56AA15 /* libPods-RUS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EB761A064E543C0C0E1860 /* libPods-RUS.a */; };
 		D4B899DACED0448BB5CC56EB /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE87A1ACC2FC45E8A22038F5 /* Ionicons.ttf */; };
 /* End PBXBuildFile section */
 
@@ -120,6 +122,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		BDB5F5561DDA9C3600FFAD7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA227699C2254C8698DEA9F0 /* ImageCropPicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3400A8081CEB54A6008A0BC7;
+			remoteInfo = imageCropPicker;
+		};
 		BDFC0E841DB5F9720046AB8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDFC0E761DB5F9710046AB8F /* RNDeviceInfo.xcodeproj */;
@@ -151,16 +160,21 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2D4441F2F555445B8BE56B2E /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		31394064FA2747A0AE4763EF /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		34DC9C48B3C22D308A2BD97E /* Pods-RUS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RUS.release.xcconfig"; path = "Pods/Target Support Files/Pods-RUS/Pods-RUS.release.xcconfig"; sourceTree = "<group>"; };
 		462599F25422488A921091A3 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		5483482D83FC4A32A3DE4F46 /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
 		660AE9B4151C40CEAE76A7F0 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		793C031DD7384E5389AD2141 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		BA227699C2254C8698DEA9F0 /* ImageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ImageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 		BDFC0E761DB5F9710046AB8F /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		BE87A1ACC2FC45E8A22038F5 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		D4735DB549384230B4D2C7DD /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		D80AE5B0BE074526808EA804 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		D88CD31FBA30F977C320C19D /* Pods-RUS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RUS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RUS/Pods-RUS.debug.xcconfig"; sourceTree = "<group>"; };
 		E61C3FCB66314E6C83CC1AC3 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		F4EB761A064E543C0C0E1860 /* libPods-RUS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RUS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA6DA2FBE5064698A60F9C3D /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +203,8 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				57F27384D34340AD9369787C /* libRNVectorIcons.a in Frameworks */,
+				C997D1ABE5C51F47FE56AA15 /* libPods-RUS.a in Frameworks */,
+				903FEA2A1C2C43AAB473E5C7 /* libimageCropPicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +337,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				D80AE5B0BE074526808EA804 /* RNVectorIcons.xcodeproj */,
+				BA227699C2254C8698DEA9F0 /* ImageCropPicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -341,6 +358,8 @@
 				00E356EF1AD99517003FC87E /* RUSTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				D5D7C5459FAB432A90579541 /* Resources */,
+				CEEA7C99E4B52C8D8932CE6D /* Pods */,
+				C6DFB93ED232DC3BC1502B3D /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -355,12 +374,37 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BDB5F5531DDA9C3600FFAD7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BDB5F5571DDA9C3600FFAD7E /* libimageCropPicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BDFC0E771DB5F9710046AB8F /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				BDFC0E851DB5F9720046AB8F /* libRNDeviceInfo.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C6DFB93ED232DC3BC1502B3D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4EB761A064E543C0C0E1860 /* libPods-RUS.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEEA7C99E4B52C8D8932CE6D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D88CD31FBA30F977C320C19D /* Pods-RUS.debug.xcconfig */,
+				34DC9C48B3C22D308A2BD97E /* Pods-RUS.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		D5D7C5459FAB432A90579541 /* Resources */ = {
@@ -403,10 +447,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RUS" */;
 			buildPhases = (
+				BCAFF326108947B747F0D1B4 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				578BAE349196229DD5CE29D2 /* [CP] Embed Pods Frameworks */,
+				431F3D671AFBBD309016A5EE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -448,6 +495,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = BDB5F5531DDA9C3600FFAD7E /* Products */;
+					ProjectRef = BA227699C2254C8698DEA9F0 /* ImageCropPicker.xcodeproj */;
+				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -583,6 +634,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		BDB5F5571DDA9C3600FFAD7E /* libimageCropPicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libimageCropPicker.a;
+			remoteRef = BDB5F5561DDA9C3600FFAD7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BDFC0E851DB5F9720046AB8F /* libRNDeviceInfo.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -633,6 +691,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+		};
+		431F3D671AFBBD309016A5EE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RUS/Pods-RUS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		578BAE349196229DD5CE29D2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RUS/Pods-RUS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCAFF326108947B747F0D1B4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -692,6 +795,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RUS.app/RUS";
@@ -710,6 +814,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RUS.app/RUS";
@@ -718,6 +823,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D88CD31FBA30F977C320C19D /* Pods-RUS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -728,6 +834,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = RUS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -744,6 +851,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34DC9C48B3C22D308A2BD97E /* Pods-RUS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -753,6 +861,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = RUS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -806,6 +915,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -847,6 +957,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

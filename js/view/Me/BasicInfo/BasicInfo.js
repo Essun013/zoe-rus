@@ -15,7 +15,7 @@ import PhotoSetting from './PhotoSetting';
 import ChildbirthSetting from './ChildbirthSetting';
 import {Hospital} from '../../../components/Hospital/Hospital';
 import {connect} from 'react-redux'
-
+import   FirstStep  from '../Password/FirstStep';
 const log = () => console.log('this is an example method')
 
 
@@ -51,6 +51,9 @@ class PersonalCenter extends Component {
         };
 
         navPush.push(this.props, Hospital, '选择产检医院', _param);
+    }
+    onUpdatePassword(){
+        navPush.push(this.props, FirstStep, '修改密码');
     }
     render() {
         let name = this.props.user.nick||false;
@@ -96,6 +99,11 @@ class PersonalCenter extends Component {
                         rightTitle={mobile}
                         rightTitleStyle={{paddingRight:30}}
                         titleStyle={{color: "#bbbbbb"}}
+                    />
+                    <ListItem
+                        title={"修改密码"}
+                        titleStyle={{color: "#bbbbbb"}}
+                        onPress={this.onUpdatePassword.bind(this)}
                     />
                 </List>
             </ScrollView>
