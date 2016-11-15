@@ -38,27 +38,27 @@ class Box extends Component {
                 onPress: this.toExpectantPackage
             },
             {
-                img: require('../img/taijiao.png'),
+                img: require('../../Find/img/box/yqys.png'),
                 text: '每日胎教',
                 onPress: null
             },
             {
-                img: require('../img/tizhongji.png'),
+                img: require('../../Find/img/box/yzc.png'),
                 text: '体重计',
                 onPress: null
             },
             {
-                img: require('../img/taidong.png'),
+                img: require('../../Find/img/box/std.png'),
                 text: '数胎动',
                 onPress: null
             },
             {
-                img: require('../img/taidong.png'),
+                img: require('../../Find/img/box/std.png'),
                 text: '数胎动',
                 onPress: null
             },
             {
-                img: require('../img/taidong.png'),
+                img: require('../../Find/img/box/std.png'),
                 text: '数胎动',
                 onPress: null
             },

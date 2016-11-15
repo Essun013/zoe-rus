@@ -65,9 +65,11 @@ class Top extends Component {
             <View style={[styles.center]}>
                 <Text style={styles.changeText}>{this.state.babyWeek} 再过 <Text
                     style={{fontSize: 16}}>{this.state.bornDistances || '280'}</Text> 天，我就出生了</Text>
-                <Text style={styles.changeText}>{this.state.tag}</Text>
+
             </View>
-            <Image source={require('../img/change2.png')} style={styles.change} resizeMode='stretch'/>
+            <Image source={require('../img/change2.png')} style={styles.change} resizeMode='stretch'>
+                <Text style={[styles.changeText,{flex: 1, textAlign: 'center', marginTop: -0}]}>{this.state.tag}</Text>
+            </Image>
         </Image>
     }
 }

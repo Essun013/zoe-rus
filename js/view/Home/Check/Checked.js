@@ -31,7 +31,7 @@ class Checked extends Component {
                 </View>
             </View>
             <View style={styles.body}>
-                <View style={{marginTop: 5, marginBottom: -8}}>
+                <View style={{marginTop: 8, marginBottom: -8}}>
                     <Image source={require('../img/zouqiyu.png')} resizeMode='stretch' style={{width: device.width() - 30, height: 3}}/>
                     <Image source={require('../img/zhouqi.png')} resizeMode='stretch' style={{width: 16, height: 16, position: 'relative', top: -10, left: 1}}/>
                 </View>
@@ -176,12 +176,15 @@ const styles = StyleSheet.create({
     tipsToolView: {
         flexDirection: 'row',
         marginTop: 5,
-        marginLeft: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+        // marginLeft: 10,
     },
     tipsToolImg: {
         width: 15,
         height: 17,
         marginRight: 5,
+        marginLeft: -12
     },
     tipsToolImgText: {
         fontFamily: 'PingFang SC',

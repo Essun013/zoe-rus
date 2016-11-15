@@ -10,7 +10,7 @@ import {
 
 class CheckedDetail extends Component {
     render() {
-        return <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        return <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff'}}>
             <Text style={{fontSize: 25, color: 'grey'}}>{this.props.text}</Text>
         </View>
     }
