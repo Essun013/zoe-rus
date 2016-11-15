@@ -288,8 +288,6 @@ const styles = StyleSheet.create({
         height: 58
     },
     cacleView: {
-        flex: 1,
-        flexDirection: 'row',
         marginTop: 21,
         marginBottom: 21,
         alignSelf: 'center',

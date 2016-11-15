@@ -9,7 +9,7 @@ import {device, http, rcache, app, gps} from '../../common/util';
 import {Top} from './Top';
 import {Mom} from './Mom';
 import {Box} from './Box';
-import {Check} from './Check';
+import {Check, Checked} from './Check';
 import {Clazz} from './Clazz';
 import {goSearch} from '../../actions/search/actions';
 import Message from '../Me/Message/Message';
@@ -54,8 +54,9 @@ class Home extends Component {
         let scroll = (<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
             <Top navigator={this.props.navigator} week={week} days={days} totalDay={totalDay}/>
             <Mom navigator={this.props.navigator} week={week} days={days}/>
+            <Checked navigator={this.props.navigator} week={week} days={days} totalDay={totalDay}/>
+            {/*<Check navigator={this.props.navigator} week={week} days={days}/>*/}
             <Box navigator={this.props.navigator} week={week} days={days}/>
-            <Check navigator={this.props.navigator} week={week} days={days}/>
             <Clazz navigator={this.props.navigator} week={week} totalDay={totalDay}/>
         </ScrollView>)
         return scroll;

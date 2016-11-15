@@ -3,5 +3,6 @@
  */
 
 const Check = require('./Check');
+const Checked = require('./Checked')
 
-module.exports = {Check};
+module.exports = {Check, Checked};

@@ -64,27 +64,25 @@ class Mom extends Component {
         var list = [
             {
                 source: require('../img/mom_know_1.png'),
-                title: '宝宝发育',
-                // content: '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
-                content: babySummary ? babySummary : '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
+                title: '宝宝成长',
+                content: babySummary || '我的胳膊和手掌地比较和脚趾长得快一点。我的小尾巴马上就要消失了，所有的神经系统开始变得分明。',
                 onPress: this.babyGrow
             },
             {
                 source: require('../img/mom_know_2.png'),
                 title: '孕妈早知道',
-                // content: '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
-                content: momSummary ? momSummary : '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
+                content: momSummary || '孕早期的反应给你带来很多不适，你会感到事事不顺心，还爱动不动就闹脾气。找点开心的事吧。',
                 onPress: this.momKnow
             }
         ];
 
-        return <View>{list.map((ele, index) => {
+        return <View style={{paddingTop: 3,backgroundColor: '#fff'}}>{list.map((ele, index) => {
             return <View key={index}>
-                <TouchableOpacity style={[styles.listItem, index && {marginTop: 1}]} onPress={ele.onPress} activeOpacity={0.6}>
+                <TouchableOpacity style={[styles.listItem, index && {borderTopWidth: 1, borderColor: '#f5f5f5'}]} onPress={ele.onPress} activeOpacity={0.6}>
                     <Image source={ele.source} style={styles.img}/>
                     <View style={[styles.listView]}>
                         <Text style={styles.listTitle}>{ele.title}</Text>
-                        <Text style={styles.listContent} ellipsizeMode='tail' numberOfLines={3}>{ele.content}</Text>
+                        <Text style={styles.listContent} ellipsizeMode='tail' numberOfLines={index > 0 ? 2 : 3}>{ele.content}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
