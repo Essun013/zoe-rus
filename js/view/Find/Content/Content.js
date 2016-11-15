@@ -8,37 +8,209 @@ import {View,
     Text,
     ScrollView,
     WebView,
+    Animated,
     TouchableOpacity,
+    TouchableWithoutFeedback,
+    NativeModules,
+    Platform,
     Alert} from 'react-native';
 import {device, http, app} from '../../../common/util';
 import {navPush} from '../../../components/Nav/Nav';
+import ShareActionButton from './ShareActionButton';
+import Symbol from 'es6-symbol';
+const ShareType = {
+    Wechat: Symbol('Wechat'),
+    WechatFriend: Symbol('WechatFriend'),
+    QQ: Symbol('QQ'),
+    QQZone: Symbol('QQZone'),
+};
+const SelfHeight = 180; //206
+var ShareManager = NativeModules.ShareManager;
 
 //外壳用来展示文章详细内容
 class Content extends Component {
+
+    // 默认属性
+    static defaultProps = {
+        type: ShareType.Weibo,
+    };
+
+    // 属性类型
+    static propTypes = {
+        shareObject: PropTypes.shape({
+            title: PropTypes.string,
+            content: PropTypes.string,
+            url: PropTypes.string,
+        }),
+        type: PropTypes.any,
+        handler: PropTypes.func,
+    };
 
     constructor(props) {
         super(props);
         this.state = {
             topicId: this.props.topicId, //文章Id
+            onShow: false, //展示分享页面
+            maskViewAlpha: new Animated.Value(0),
+            allowShareTypes: [ShareType.Wechat, ShareType.WechatFriend, ShareType.QQ, ShareType.QQZone],
         };
 
         this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
+        this.showAction = this.showAction.bind(this);
+        this.dismissAction = this.dismissAction.bind(this);
+        this.didSelectedType = this.didSelectedType.bind(this);
+        this._getAllowShareTypesFromPlaforms();
 
     }
 
-    //加载WebView
-    loadHtml(){
-        let htmlUri = app.apiUrl + "kb/knowledge/html?id=" + this.state.topicId;
-        //console.log(htmlUri);
-        return (<WebView
-            style={styles.webViewContainer}
-            source={{uri: htmlUri}}
-            onNavigationStateChange={this.onNavigationStateChange}
-            domStorageEnabled={true}
-            javaScriptEnabled={true}
-            //decelerationRate="normal"
-            startInLoadingState={true}
-        />);
+    //以后还要判断根据手机已有按照的应用来分享
+    _getAllowShareTypesFromPlaforms() {
+        if (Platform.OS === 'android') {
+            this.allowShareTypes = [ShareType.Wechat]
+        } else {
+            //暂时移除分享功能
+            this.allowShareTypes = []
+            return;
+            ShareManager.getShareTypesSupport('key').then((allShareTypes) => {
+                console.log('ShareManager.getShareTypesSupport' + allShareTypes);
+                let types = []
+                if (allShareTypes.wechat) {
+                    types.push(ShareType.Wechat, ShareType.WechatFriend)
+                }
+                if (allShareTypes.qq) {
+                    types.push(ShareType.QQ, ShareType.QQZone)
+                }
+                this.setState({allowShareTypes: types})
+            }, ()=> {
+            })
+
+        }
+
+    }
+
+    //加载分享页面
+    _renderShareView(){
+        if (this.state.onShow) {
+            return (
+                <View style={[styles.container,{backgroundColor: 'transparent'}]}>
+                    <TouchableWithoutFeedback onPress={this.dismissAction}>
+                        <Animated.View style={[styles.fullScreenStyle, {
+                            backgroundColor: 'black',  opacity: this.state.maskViewAlpha,
+                        }]}>
+
+                        </Animated.View>
+                    </TouchableWithoutFeedback>
+                    <Animated.View style={[styles.bottomContainer,{
+                        transform: [{
+                            translateY: this.state.maskViewAlpha.interpolate({
+                                inputRange: [0, 0.3],
+                                outputRange: [0, -SelfHeight]
+                            }),
+                        }]
+                    }]}>
+                        <Text style={[styles.topTitle]}>该文章分享到：</Text>
+                        <View style={styles.buttonSubContainer}>
+                            {this._renderShareButtonBy(ShareType.Wechat)}
+                            {this._renderShareButtonBy(ShareType.WechatFriend)}
+                            {this._renderShareButtonBy(ShareType.QQ)}
+                            {this._renderShareButtonBy(ShareType.QQZone)}
+                        </View>
+                    </Animated.View>
+                </View>
+            )
+        } else {
+            return null;
+        }
+    }
+
+    _renderShareButtonBy(shareType){
+        if (this.state.allowShareTypes.some(type => {
+                return type === shareType;
+            })) {
+            let name;
+            let imageSource;
+            switch (shareType) {
+                case ShareType.WechatFriend:
+                    name = '微信朋友圈';
+                    imageSource = require('../../Me/img/wxfriend-icon.png');
+                    break;
+                case ShareType.QQ:
+                    name = 'QQ好友';
+                    imageSource = require('../../Me/img/qq-icon.png');
+                    break;
+                case ShareType.QQZone:
+                    name = 'QQ空间';
+                    imageSource = require('../../Me/img/qqzone-icon.png');
+                    break;
+                default:
+                    name = '微信好友';
+                    imageSource = require('../../Me/img/wx-icon.png');
+                    break;
+            }
+            return <ShareActionButton {...this.props} imageSource={imageSource} name={name} handler={()=> {
+                this.didSelectedType(shareType)
+            }}/>
+        }
+        return null
+    }
+
+    //加载分享
+    showAction() {
+        if (this.state.allowShareTypes.length > 0) {
+            this.setState({
+                onShow: true,
+            });
+            Animated.timing(this.state.maskViewAlpha, {
+                toValue: 0.3,
+                duration: 300,//250
+            }).start();
+
+        } else {
+            console.log('手机没有安装分享应用')
+        }
+    }
+    //取消分享
+    dismissAction() {
+        Animated.timing(this.state.maskViewAlpha, {
+            toValue: 0,
+            duration: 200,
+        }).start(()=>{
+            this.setState({
+                onShow: false,
+            });
+        });
+
+    }
+
+    didSelectedType(shareType) {
+        switch (shareType) {
+            case ShareType.WechatFriend:
+                this.actionShare(ShareManager.WechatFriend);
+                break;
+            case ShareType.QQ:
+                this.actionShare(ShareManager.QQ);
+                break;
+            case ShareType.QQZone:
+                this.actionShare(ShareManager.QQZone);
+                break;
+            default:
+                this.actionShare(ShareManager.Wechat);
+        }
+    }
+
+    actionShare(type){
+        if(Platform.OS === 'android'){
+             ShareManager.shareContent(this.props.shareObject,type);
+        }else{
+             ShareManager.shareContent(this.props.shareObject,type).then(()=> {
+             console.log('分享成功')
+             //this.refs.hudView.showSuccess()
+             }, (errerStateStr)=> {
+             //this.refs.hudView.showError()
+             console.log(errerStateStr)
+             })
+             console.log(ShareManager.Weibo)
+        }
     }
 
     _navRight(route, navigator, index, navState) {
@@ -46,7 +218,7 @@ class Content extends Component {
             <TouchableOpacity style={styles.bottomCenter} onPress={()=>Alert.alert('收藏')}>
                 <Image source={require('../img/favorite.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={()=>Alert.alert('分享')}>
+            <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={this.showAction}>
                 <Image source={require('../img/share.png')} style={{width: 19, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
         </View>
@@ -92,24 +264,43 @@ class Content extends Component {
         }
 
         return <View style={styles.container}>
-            <View>
+            <View style={styles.fullScreenStyle}>
                 <Text style={styles.subject}>
                     {subject}
                 </Text>
+                {renderViewAndStar}
+                <View style={styles.lineStyle}></View>
+                {this.loadHtml()}
             </View>
-            {renderViewAndStar}
-            <View style={styles.lineStyle}></View>
-            {this.loadHtml()}
+            {this._renderShareView()}
         </View>
+    }
+
+    //加载WebView
+    loadHtml(){
+        let htmlUri = app.apiUrl + "kb/knowledge/html?id=" + this.state.topicId;
+        //console.log(htmlUri);
+        return (<WebView
+            style={[styles.webViewContainer,{flex:1}]}
+            source={{uri: htmlUri}}
+            onNavigationStateChange={this.onNavigationStateChange}
+            domStorageEnabled={true}
+            javaScriptEnabled={true}
+            //decelerationRate="normal"
+            startInLoadingState={true}
+        />);
     }
 
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        //flex: 1,
         backgroundColor: '#fff',
-        width: device.width()
+        width: device.width(),
+        height: device.height(),
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     webViewContainer: {
         //flex:5,
@@ -166,6 +357,39 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 
+    //分享界面样式
+    fullScreenStyle:{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: device.width(),
+        height: device.height(),
+        justifyContent: "center",
+    },
+    bottomContainer: {
+        width: device.width(),
+        backgroundColor: 'white',
+        //justifyContent: 'space-between',
+        height: SelfHeight,
+        paddingVertical: 10,
+        marginBottom: -100,
+    },
+    topTitle: {
+        fontSize: 18,
+        paddingLeft: 5,
+        //color: 'rgb(75,75,75)',
+        color: 'rgb(0,0,0)',
+        fontFamily: 'PingFang SC',
+        textAlign: 'left',
+    },
+    buttonSubContainer: {
+        //marginHorizontal: device.width(),
+        //backgroundColor: 'blue',
+        marginTop: 15,
+        marginHorizontal: 13,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
 
 });
 
