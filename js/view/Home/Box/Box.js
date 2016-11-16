@@ -13,6 +13,7 @@ import {View,
     Alert} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
+import Expectant from '../../Box/Expectant/Expectant';
 
 class Box extends Component {
     constructor(props) {
