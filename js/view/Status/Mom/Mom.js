@@ -66,11 +66,18 @@ class Mom extends Component {
     }
 
     createTimeLine() {
+        var _region = cityInfo && cityInfo.county ? cityInfo.county.id : '';
         let params = {
             childbirth: this.state.childbirth,
-            lmp: this.state.lmp
+            lmp: this.state.lmp,
+            region: _region,
+            hospital: this.state.preHospitalName || ''
         }
+
+        Alert.alert('timeline', JSON.stringify(params))
+
         http.apiPost('/uc/timeline/create', params, (data)=> {
+            Alert.alert('apipost', JSON.stringify(data))
             if (data.code == 0) {
                 this.props.dispatch(goHome(true));
             }
@@ -96,6 +103,7 @@ class Mom extends Component {
     push2Hospital() {
         let _param = {
             callback: (c) => {
+                cityInfo = {city: c.city, province: c.province, county: c.county, nation: c.nation}
                 this.setState({preHospitalName: c.hospitalName})
             }
         };
