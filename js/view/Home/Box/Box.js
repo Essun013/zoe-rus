@@ -56,11 +56,6 @@ class Box extends Component {
                 text: '数胎动',
                 onPress: null
             },
-            {
-                img: require('../../Find/img/box/std.png'),
-                text: '数胎动',
-                onPress: null
-            },
         ];
 
         return (

@@ -21,13 +21,7 @@ class More extends Component {
     constructor(props) {
         super(props);
 
-        this.toExpectantPackage = this.toExpectantPackage.bind(this);
-
         this.completed = this.completed.bind(this);
-    }
-
-    toExpectantPackage() {
-        navPush.push(this.props, Expectant, '待产包');
     }
 
     completed() {
@@ -39,7 +33,7 @@ class More extends Component {
             {
                 img: require('../../Find/img/box/dcb.png'),
                 text: '待产包',
-                onPress: this.toExpectantPackage
+                onPress: null
             },
             {
                 img: require('../../Find/img/box/yqys.png'),
@@ -108,17 +102,17 @@ class More extends Component {
 
     render() {
         return <View style={styles.container}>
-            <View style={styles.title}>
-                <View>
-                    <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
+            <View style={{backgroundColor: '#fff', borderRadius: 5,padding: 5}}>
+                <View style={styles.title}>
+                    <View>
+                        <Text style={[styles.titleText, {color: 'rgb(255,122,162)', fontSize: 15}]}>百宝箱</Text>
+                    </View>
+                    <View style={styles.titleBotton}>
+                        <TouchableOpacity onPress={this.completed}>
+                            <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>完成</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.titleBotton}>
-                    <TouchableOpacity onPress={this.completed}>
-                        <Text style={[styles.titleText, {color: 'rgb(146,146,146)', fontSize: 13}]}>完成</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.body}>
                 {this.scrollBottom()}
             </View>
         </View>
@@ -139,15 +133,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0, 0.43)',
     },
     title: {
-        paddingTop: 7,
+        paddingTop: 2,
         paddingBottom: 7,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingLeft: 5,
+        paddingRight: 5,
         flexDirection: 'row',
         backgroundColor: '#fff',
-        width: device.width() - 30,
-        borderTopLeftRadius: 5,
-        borderTopRightRadius: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f5f5f5'
     },
     titleText: {
         fontFamily: 'PingFang SC',
@@ -157,18 +150,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'flex-end'
     },
-    body: {
-        backgroundColor: '#fff',
-        borderTopWidth: 1,
-        borderColor: '#f5f5f5',
-        width: device.width() - 30,
-        borderBottomLeftRadius: 5,
-        borderBottomRightRadius: 5,
-    },
     buttonView: {
         marginTop: 15,
         marginBottom: 15,
-        width: (device.width() - 30) / 4,
+        width: (device.width() - 40) / 4,
     },
     buttonImgSize: {
         width: 50,
