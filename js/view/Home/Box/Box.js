@@ -19,15 +19,10 @@ class Box extends Component {
     constructor(props) {
         super(props);
         this.toExpectantPackage = this.toExpectantPackage.bind(this);
-        this.more = this.more.bind(this);
     }
 
     toExpectantPackage() {
         navPush.push(this.props, Expectant, '待产包');
-    }
-
-    more() {
-        Alert.alert("添加工具待完善！~_~");
     }
 
     scrollBottom() {
