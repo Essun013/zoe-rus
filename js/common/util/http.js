@@ -44,11 +44,18 @@ var http = {
 
 };
 
-
+function getImgType(fileName) {
+    var type = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length);
+    switch(type){
+        case 'jpg':return 'image/jpeg';
+        default: return 'image/'+type;
+    }
+}
 
 function uploadImg(url,imgUri,imgName,callback,err){
     let formData = new FormData();
-    let file = {uri: imgUri, type: 'multipart/form-data', name: imgUri};
+    let fileType = getImgType(imgUri);
+    let file = {uri: imgUri, type: fileType, name: imgUri};
 
     formData.append(imgName,file);
 
