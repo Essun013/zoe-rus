@@ -2,26 +2,46 @@
  * Created by sea35 on 2016/10/21.
  */
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, Image,View} from 'react-native';
+import {ScrollView, StyleSheet, Image,View,Alert} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {ImgButton} from '../../../components'
 import device from '../../../common/util/device';
 import {navPush} from '../../../components/Nav/Nav';
+import { setUser }  from '../../../actions/me/me';
+import {rcache,synccache} from '../../../common/util';
+import {http,app} from '../../../common/util';
 
 class  PhotoSetting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image:require('./img/photo.png')
+            image:this.props.user.portrait?{uri:app.apiUrl + this.props.user.portrait}:require('./img/photo.png')
         }
     }
     onBasicInfoPress() {
-        navPush.pop(this.props);
+        let url = app.apiUrl+'commons/ctrl-http/upload';
+        let imgUri = this.state.image.uri;
+
+        http.uploadImage(url,imgUri,'uc.user.portrait',(uri)=>{
+            if(uri) {
+                var user = {
+                    ...this.props.user,
+                    portrait:uri
+                };
+                rcache.put("user",JSON.stringify(user));
+                this.props.dispatch(setUser(user));
+                navPush.pop(this.props);
+            }else{
+                Alert.alert('上传失败');
+            }
+        },(err)=>{
+            Alert.alert(err);
+        });
     }
     pickSingle() {
         ImagePicker.openPicker({
-            width: 80,
-            height: 80,
+            width: 300,
+            height: 300,
             cropping: true,
             compressVideo: true
         }).then(image => {
@@ -32,7 +52,6 @@ class  PhotoSetting extends Component {
             });
         }).catch(e => {
             console.log(e.code);
-            alert(e);
         });
     }
     renderImage(image) {
@@ -92,5 +111,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
-
-export default PhotoSetting
+const {connect} = require('react-redux');
+module.exports = connect()(PhotoSetting);

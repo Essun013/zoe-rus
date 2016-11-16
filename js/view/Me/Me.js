@@ -13,7 +13,7 @@ import Remind from './Remind/Remind';
 import LoginSys from './LoginSys';
 import Collection from  './Favorite/Favorite';
 import {Provider, connect} from 'react-redux'
-import apiHttp from '../../common/util/http';
+import {http,app} from '../../common/util';
 import Moment from 'moment';
 import {rcache,synccache} from '../../common/util';
 import { loginSys,setUser }  from '../../actions/me/me';
@@ -39,7 +39,7 @@ class Me extends Component {
             this.props.dispatch(loginSys(true));
             this.props.dispatch(setUser(JSON.parse(user)));
         }
-        apiHttp.apiPost('/uc/timeline/get', {}, (data)=> {
+        http.apiPost('/uc/timeline/get', {}, (data)=> {
                 if (data.code == 0) {
                     var days = this.childbirthForme(data.data.day);
                     this.setState(days);
@@ -78,6 +78,7 @@ class Me extends Component {
     render() {
         var loginButton;
         var gestationalAge =this.state.gestationalAge;
+        var photo = this.props.user.portrait?{uri:app.apiUrl +this.props.user.portrait}:require('./img/photo.png');
         if(this.props.childbirth){
             let day = 280+Moment().diff(Moment(this.props.childbirth),'days')-1;
             gestationalAge =this.childbirthForme(day).gestationalAge;
@@ -104,7 +105,7 @@ class Me extends Component {
                             <View style={{alignItems: 'center'}}>
                                 <Image style={styles.photoBackground} source={require('./img/photo-background.png')}
                                        resizeMode='cover'>
-                                    <Image style={styles.photo} source={require('./img/photo.png')}
+                                    <Image style={styles.photo} source={photo}
                                            resizeMode='cover'>
                                     </Image>
                                 </Image>
@@ -174,8 +175,9 @@ const styles = StyleSheet.create({
 
     },
     photo: {
-        width: 72,
-        height: 72,
+        width: 75,
+        height: 75,
+        borderRadius:35
 
     },
     photoBackground: {

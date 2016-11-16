@@ -38,8 +38,42 @@ var http = {
         });
     },
 
+    uploadImage(url,imgUri,imgName,callback,err){
+        uploadImg(url,imgUri,imgName,callback,err);
+    },
+
 };
 
+
+
+function uploadImg(url,imgUri,imgName,callback,err){
+    let formData = new FormData();
+    let file = {uri: imgUri, type: 'multipart/form-data', name: imgUri};
+
+    formData.append(imgName,file);
+
+    fetch(url,{
+        method:'POST',
+        headers:{
+            'Content-Type':'multipart/form-data',
+        },
+        body:formData,
+    })
+        .then((response) => response.text() )
+        .then((responseData)=>{
+            if(callback){
+                callback(responseData);
+            }
+            console.log('responseData',responseData);
+        })
+        .catch((error)=>{
+            if(err){
+                err(error);
+            }
+            console.error('error',error)
+        });
+
+}
 
 function getUrl(uri) {
     if (uri.indexOf("/") === 0)
