@@ -8,7 +8,7 @@ import {ScrollView, View, StyleSheet, Alert, TouchableOpacity, Image, Text} from
 import {device, http, rcache, app, gps} from '../../common/util';
 import {Top} from './Top';
 import {Mom} from './Mom';
-import {Box} from './Box';
+import {Box, BoxMore} from './Box';
 import {Check, Checked} from './Check';
 import {Clazz} from './Clazz';
 import Message from '../Me/Message/Message';
@@ -45,7 +45,8 @@ class Home extends Component {
          });*/
 
         this.state = {
-            content: null
+            content: null,
+            showBoxMore: false
         };
 
         http.apiPost('/uc/timeline/get', {}, (data) => {
@@ -67,17 +68,25 @@ class Home extends Component {
             right: this._navRight.bind(this),
             left: this._navLeft.bind(this),
         })
+
+        this.showBoxMore = this.showBoxMore.bind(this)
+    }
+
+    showBoxMore(show, data) {
+        this.setState({showBoxMore: show})
     }
 
     scroll(week, days, totalDay) {
-        let scroll = (<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-            <Top navigator={this.props.navigator} week={week} days={days} totalDay={totalDay}/>
-            <Mom navigator={this.props.navigator} week={week} days={days}/>
-            <Checked navigator={this.props.navigator} week={week} days={days} totalDay={totalDay}/>
-            {/*<Check navigator={this.props.navigator} week={week} days={days}/>*/}
-            <Box navigator={this.props.navigator} week={week} days={days}/>
-            <Clazz navigator={this.props.navigator} week={week} totalDay={totalDay}/>
-        </ScrollView>)
+        let scroll = (
+            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+                <Top navigator={this.props.navigator} week={week} days={days} totalDay={totalDay}/>
+                <Mom navigator={this.props.navigator} week={week} days={days}/>
+                <Checked navigator={this.props.navigator} week={week} days={days} totalDay={totalDay}/>
+                {/*<Check navigator={this.props.navigator} week={week} days={days}/>*/}
+                <Box navigator={this.props.navigator} week={week} days={days} showMore={this.showBoxMore}/>
+                <Clazz navigator={this.props.navigator} week={week} totalDay={totalDay}/>
+            </ScrollView>
+        )
         return scroll;
 
     }
@@ -101,6 +110,7 @@ class Home extends Component {
         }
         return <View style={{flex: 1}}>
             {content}
+            {this.state.showBoxMore ? <BoxMore show={this.showBoxMore} navigator={this.props.navigator}/> : null }
         </View>
     }
 

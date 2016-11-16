@@ -3,5 +3,6 @@
  */
 
 const Box = require('./Box');
+const BoxMore = require('./More');
 
-module.exports = {Box}
+module.exports = {Box, BoxMore}
