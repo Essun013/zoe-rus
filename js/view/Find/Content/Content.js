@@ -33,7 +33,7 @@ class Content extends Component {
 
     // 默认属性
     static defaultProps = {
-        type: ShareType.Weibo,
+        type: ShareType.Wechat,
     };
 
     // 属性类型
@@ -51,7 +51,7 @@ class Content extends Component {
         super(props);
         this.state = {
             topicId: this.props.topicId, //文章Id
-            isFavorite: this.props.isFavorite?this.props.isFavorite:false,
+            isFavorite: false,
             onShow: false, //展示分享页面
             maskViewAlpha: new Animated.Value(0),
             allowShareTypes: [ShareType.Wechat, ShareType.WechatFriend, ShareType.QQ, ShareType.QQZone],
@@ -64,6 +64,65 @@ class Content extends Component {
         this.switchFavorite = this.switchFavorite.bind(this);
         this._getAllowShareTypesFromPlaforms();
 
+    }
+
+    //组件将要挂载的时候
+    componentWillMount() {
+        let params = {
+            type: 1, //知识
+            goal: this.props.topicId
+        };
+        //查询是否收藏该文章
+        http.apiPost('/uc/favorite/has', params, (result)=> {
+            if (result.code === 0) {
+                this.setState({isFavorite: result.data});
+            } else {
+                Alert.alert("系统提示：获取是否收藏失败！", result.message);
+            }
+
+            //渲染导航栏
+            this.props.iNavBar(this, {
+                right: this._navRight.bind(this)
+            });
+
+        }, (err)=> {
+            //Alert.alert("系统提示", err);
+            console.log('请求/uc/favorite/has||' + err);
+        });
+    }
+
+    //切换收藏
+    switchFavorite(){
+        let params = {
+            type: 1,
+            goal: this.props.topicId
+        };
+        if(this.state.isFavorite){
+            http.apiPost('/uc/favorite/delete', params, (result)=> {
+                if (result.code === 0) {
+                    Alert.alert("取消收藏！");
+                } else {
+                    Alert.alert("系统提示：取消收藏失败！", result.message);
+                }
+            }, (err)=> {
+                //Alert.alert("系统提示", err);
+                console.log('请求/uc/favorite/delete||' + err);
+            });
+        } else {
+            http.apiPost('/uc/favorite/save', params, (result)=> {
+                if (result.code === 0) {
+                    Alert.alert("收藏成功！");
+                } else {
+                    Alert.alert("系统提示：收藏失败！", result.message);
+                }
+            }, (err)=> {
+                //Alert.alert("系统提示", err);
+                console.log('请求/uc/favorite/save||' + err);
+            });
+        }
+        this.setState({
+            isFavorite: !this.state.isFavorite
+        });
     }
 
     componentDidMount() {
@@ -80,7 +139,7 @@ class Content extends Component {
             this.allowShareTypes = [ShareType.Wechat]
         } else {
             //暂时移除分享功能
-            this.allowShareTypes = []
+            this.allowShareTypes = [];
             return;
             ShareManager.getShareTypesSupport('key').then((allShareTypes) => {
                 console.log('ShareManager.getShareTypesSupport' + allShareTypes);
@@ -232,18 +291,11 @@ class Content extends Component {
 
     }
 
-    //切换收藏
-    switchFavorite(){
-        this.setState({
-            isFavorite: !this.state.isFavorite
-        });
-        this.state.isFavorite?Alert.alert("取消收藏！"):Alert.alert("收藏成功！");
-    }
-
     _navRight(route, navigator, index, navState) {
         return <View style={styles.rightContainer}>
             <TouchableOpacity style={styles.bottomCenter} onPress={this.switchFavorite}>
-                <Image source={this.state.isFavorite?require('../img/favorited.png'):require('../img/favorite.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
+                <Image source={this.state.isFavorite?
+                    require('../img/favorited.png'):require('../img/favorite.png')} style={{width: 21, height: 21}} resizeMode='stretch'/>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.bottomCenter, styles.tipsBottom]} onPress={this.showAction}>
                 <Image source={require('../img/share.png')} style={{width: 19, height: 21}} resizeMode='stretch'/>
@@ -283,8 +335,8 @@ class Content extends Component {
         });
 
         var subject = this.props.subject; //标题
-        var read = this.props.read; //阅读
-        var favorite = this.props.favorite; //收藏
+        var read = this.props.read; //阅读量
+        var favorite = this.props.favorite; //收藏量
         var renderViewAndStar = null;
         if(typeof read !=='undefined' && typeof favorite !=='undefined'){
             renderViewAndStar = this._renderViewAndStar(read, favorite);

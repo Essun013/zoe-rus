@@ -12,11 +12,12 @@ import {View,
     TextInput,
     Platform,
     Alert} from 'react-native';
-import device from '../../common/util/device';
-import http from '../../common/util/http';
+import {device, http, app} from '../../common/util';
 import {navPush} from '../../components/Nav/Nav';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 import INav from '../../components/Nav/INav';
+import Content from '../Find/Content/Content';
 import SearchEmpty from './SearchEmpty';
 
 //搜索界面
@@ -27,7 +28,7 @@ class Search extends Component {
 
     // 属性类型
     static propTypes = {
-        textChangeHandler: PropTypes.func
+        textChangeHandler: PropTypes.func,
     };
 
 
@@ -36,25 +37,27 @@ class Search extends Component {
         this.state = {
             textPlaceholder:'',//搜索框默认现实的值
             kw:null,
-            hotWords: ['奶粉','产后塑身','纸尿裤','黄疸','鱼肝油','坐月子','等等等等','啊啊啊啊'],
+            hotWords: ['奶粉','产后塑身','纸尿裤','黄疸','鱼肝油','坐月子','NBA','准妈妈'],
             loading: false,
+            startSearch: false,
+            onTextFocus: false,
             searchRequest: undefined,
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => (row1 != row2),
             }),
-
-
         };
 
         this.toCancel = this.toCancel.bind(this);
         this.toSearchHotWord = this.toSearchHotWord.bind(this);
-        this.didChangeText = this.didChangeText.bind(this);
+        this.onSubmitEditText = this.onSubmitEditText.bind(this);
         this.onEndEditText = this.onEndEditText.bind(this);
+        this._renderDefaultHotWord = this._renderDefaultHotWord.bind(this);
+        this.setTextFocus = this.setTextFocus.bind(this);
 
     }
 
-    //渲染导航栏
-    _renderINav(){
+    componentWillMount(){
+        //先渲染导航栏(隐藏)
         this.props.iNavBar(this, {
             hide:true,
         });
@@ -67,7 +70,24 @@ class Search extends Component {
 
     //跳传热词搜索
     toSearchHotWord(hotWord){
-        this.didChangeText("#"+hotWord+"#");
+        this.setState({kw: hotWord, onTextFocus: false , loading: true});
+        //检索热词
+        var promise = http.apiFetch('kb/knowledge/search?', {kw: hotWord}, (result, error) => {
+            console.log('搜索完毕！结果：' + JSON.stringify(result));
+            if (result && result.code === 0) {
+                var data = result.data; //返回数据
+
+                setTimeout(() => {//延迟1秒显示
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows(data.list),
+                        loading: false,
+                    });
+                }, 1000);
+            } else {
+                Alert.alert("错误!message："+result.message+"|code:"+result.code);
+            }
+        });
+        dismissKeyboard();
     }
 
     //获取输入框的值
@@ -75,16 +95,10 @@ class Search extends Component {
         return this.refs._textInput.value;
     }
 
-    //文本改变时
-    didChangeText(text) {
-        //console.log('didChangeText...' + this.refs._textInput);
-        this.setState({ kw: text});
-    }
-
     //结束输入搜索
-    onEndEditText(){
-        console.log('onEndEditText...'+ typeof this.state.kw);
-        if(this.state.kw.trim() === ''){
+    onSubmitEditText(){
+        if(this.state.kw === null || this.state.kw.trim() === ''){
+            //Alert.alert('请输入关键词！');
             this.setState({
                 kw: '',
             });
@@ -98,35 +112,23 @@ class Search extends Component {
             console.log('搜索完毕！结果：' + JSON.stringify(result));
             if (result && result.code === 0) {
                 var data = result.data; //返回数据
-                    if(data.count === 0){ //查询结果条数
 
-                    } else {
+                setTimeout(() => {//延迟1秒显示
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows(data.list),
+                        loading: false,
+                    });
+                }, 1000);
 
-                    }
-            } else if(result.code === 2103){
-                Alert.alert(result.message);
             } else {
-
+                Alert.alert("错误!message："+result.message+"|code:"+result.code);
             }
-
-            setTimeout(() => {//延迟0.5秒显示
-                this.setState({
-                    loading: false,
-                });
-            }, 1000);
-
         });
         this.setState({
             loading: true,
+            onTextFocus: false,
             searchRequest: promise,
         });
-    }
-
-    //导航栏搜索
-    _navTitle(){
-        //Alert.alert('title', JSON.stringify(this.state))
-        //console.log('render..._navTitle');
-        //return null;
     }
 
     //首次进来默认渲染关键热词
@@ -148,25 +150,55 @@ class Search extends Component {
     //渲染结果列表
     _renderSearchResult(){
         return (
-            <View>
-                <Text>这是搜索结果！</Text>
-            </View>
+            <ListView
+                dataSource={this.state.dataSource}
+                renderRow={(row, sectionId, index) => this._renderSearchResultList(row, sectionId, index)}
+            />
         );
+    }
+    _renderSearchResultList(row, sectionId, index){
+        return (
+        <TouchableOpacity style={styles.listView}
+                onPress={()=>this.toTopicDetail({topicId:row.id,subject:row.subject,read:row.read,favorite:row.favorite})}>
+            <Image source={row.thumbnail?{uri: app.apiUrl+row.thumbnail}:require('./img/default-search-result.jpg')} style={styles.listViewImg}/>
+            <View style={{flex: 1}}>
+                <Text style={styles.listViewContentTitle}>{row.subject}</Text>
+            </View>
+        </TouchableOpacity>)
+    }
+
+
+    //搜索框失去焦点
+    onEndEditText(){
+        this.setState({
+            onTextFocus: false,
+        });
+    }
+    //搜索框获取焦点
+    setTextFocus(){
+        //console.log('setTextFocus......' + this.state.onTextFocus);
+        this.setState({
+            onTextFocus: true,
+        });
     }
 
     render() {
-
-        //先渲染导航栏
-        this._renderINav();
+        console.log('render......' + this.state.dataSource.getRowCount());
 
         var contentPage;
         if(this.state.loading){
-            contentPage = <LoadingComponent text="" />;
+            contentPage = <LoadingComponent text="搜索中..." />;
         } else {
             if (this.state.dataSource.getRowCount()>0) {
-                contentPage = this._renderSearchResult();
+                if(this.state.onTextFocus){
+                    contentPage = <SearchEmpty {...this.props} kw={this.state.kw} onTextFocus={this.state.onTextFocus} defaultRender={()=>this._renderDefaultHotWord()}/>;
+                } else{
+                    contentPage = this._renderSearchResult();
+                }
+            } else if(this.state.dataSource.getRowCount() === 0) {
+                contentPage = <SearchEmpty {...this.props} kw={this.state.kw} onTextFocus={this.state.onTextFocus} defaultRender={()=>this._renderDefaultHotWord()}/>;
             } else {
-                contentPage = <SearchEmpty {...this.props} kw={this.state.kw} defaultRender={()=>this._renderDefaultHotWord()}/>;
+                contentPage = this._renderDefaultHotWord();
             }
         }
 
@@ -186,8 +218,10 @@ class Search extends Component {
                         keyboardType = "default"
                         underlineColorAndroid='white'
                         value={this.state.kw}
-                        onChangeText={(newText)=>this.didChangeText(newText)}
-                        onEndEditing={()=>this.onEndEditText()}
+                        onChangeText={(newText)=>this.setState({ kw: newText})}
+                        onEndEditing={this.onEndEditText}
+                        onSubmitEditing={this.onSubmitEditText}
+                        onFocus={this.setTextFocus}
                     />
 
                     <TouchableOpacity style={{flex:1,justifyContent:'center'}} onPress={()=>{this.toCancel()}} >
@@ -198,6 +232,12 @@ class Search extends Component {
                 {contentPage}
             </View>
         );
+    }
+
+
+    //跳转文章详细信息
+    toTopicDetail(topicDetailInfo){
+        navPush.push(this.props, Content, "内容详情", topicDetailInfo);
     }
 
 }
@@ -265,6 +305,28 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         height: 35,
         width: device.width(),
+    },
+    listView: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 4,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 8,
+        //backgroundColor: 'blue'
+    },
+    listViewImg: {
+        width: device.width()/6,
+        height: 50,
+        marginRight: 10,
+        borderRadius: 3,
+    },
+    listViewContentTitle: {
+        paddingTop: 2,
+        //paddingBottom: 5,
+        fontSize: 15,
+        fontFamily: 'PingFang SC',
+        color: 'rgb(0,0,0)'
     },
 
 });

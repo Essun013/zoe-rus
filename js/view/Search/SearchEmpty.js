@@ -45,7 +45,7 @@ class SearchEmpty extends Component {
         return <TouchableWithoutFeedback onPress={this.onTapPage}>
             <View style={styles.emptypageContainer}>
                 <Image source={require('./img/icon-search-gray.png')} style={styles.icon}/>
-                <Text style={styles.text}>暂无相关搜索结果</Text>
+                <Text style={styles.text}>抱歉，暂无相关搜索结果</Text>
             </View>
         </TouchableWithoutFeedback>
     }
@@ -56,9 +56,12 @@ class SearchEmpty extends Component {
         if(this.props.kw === null || this.props.kw === ''){
             empty = this.props.defaultRender();
         } else {
-            empty = this.renderEmpty();
+            if(this.props.onTextFocus){
+                empty = this.props.defaultRender();
+            } else {
+                empty = this.renderEmpty();
+            }
         }
-
         return (
             <View>
                 {empty}
@@ -77,13 +80,15 @@ const styles = StyleSheet.create({
         flexWrap: 'nowrap',
     },
     icon:{
-        marginTop: 200,
+        marginTop: 250,
+        marginBottom: 250,
         width: 19,
         height: 19,
         marginRight: 19,
     },
     text:{
-        marginTop: 200,
+        marginTop: 250,
+        marginBottom: 250,
         fontSize: 19,
         color: 'rgb(143,143,143)'
     }

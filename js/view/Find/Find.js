@@ -98,6 +98,10 @@ class Find extends Component {
         this.loadTopImageAndTopics();//回掉的时候再调用this.onRefresh();
     }
 
+    componentWillUnMount(){
+        console.log('---componentWillUnMount---');
+    }
+
     _navRight(route, navigator, index) {
         return <View style={styles.rightContainer}>
             <TouchableOpacity style={styles.bottomCenter} onPress={this.toSearchKb}>
@@ -138,7 +142,7 @@ class Find extends Component {
                     http.apiPost('/kb/knowledge/query', params, (result)=> {
                             if (result.code == 0) {
                                 this.count = result.data.count;
-                                this.topics = [-1].concat(result.data.list); //第一个坑预留给ViewPager
+                                this.topics = [0].concat(result.data.list); //第一个坑预留给ViewPager
                                 //console.log("loadTopImageAndTopics获取文章成功！" + this.topics.length);
                                 this.loadedCount = result.data.list.length;
                                 //设置获取推荐文章列表
@@ -248,7 +252,7 @@ class Find extends Component {
                     console.log('请求/kb/knowledge/query出错||' + err);
                 }
             );
-        }, 3000);
+        }, 500);
     }
 
     //渲染文章列表
@@ -297,9 +301,9 @@ class Find extends Component {
     }
 
     _readerViewPager(){
-        if(this.state.topTopicInfo.length === 0) {
-            return null;
-        }
+        //if(this.state.topTopicInfo.length === 0) {
+        //    return null;
+        //}
         console.log('_readerViewPager.......');
         //let topSubject = this.state.topTopicInfo[this.state.topImgPageNow+1].topSubject;
 
@@ -307,7 +311,7 @@ class Find extends Component {
             <ViewPager
                 ref={(viewpager) => {this.viewpager = viewpager}}
                 dataSource={this.state.topImgList}
-                renderPage={this._renderImagePage}
+                renderPage={this._renderImagePage.bind(this)}
                 onChangePage={this.onChangeViewPager}
                 isLoop={true}
                 autoPlay={true}
@@ -330,8 +334,8 @@ class Find extends Component {
          </View>);
     }
     onChangeViewPager(){
-        console.log('改变大图了！' + this.topics[0]);
-        console.log('this.state.topImgPageNow=' + this.state.topImgPageNow);
+        //console.log('改变大图了！' + this.topics[0]);
+        //console.log('this.state.topImgPageNow=' + this.state.topImgPageNow);
         if(this.state.topImgPageNow === this.state.topImgPageSum - 1){
             this.state.topImgPageNow = 0;
         } else {
@@ -349,6 +353,7 @@ class Find extends Component {
             topRead: this.state.topTopicInfo[this.state.topImgPageNow].topRead,
             topFavorite: this.state.topTopicInfo[this.state.topImgPageNow].topFavorite,
             topicList: this.state.topicList.cloneWithRows(JSON.parse(JSON.stringify(this.topics))),
+            //topicList: this.state.topicList.cloneWithRows(this.topics),
         });
     }
 
@@ -391,7 +396,18 @@ class Find extends Component {
 
     _renderImagePage(imgUri) {
         return (
-            <Image source={{uri: imgUri}} style={styles.scrollPages} />
+            <TouchableOpacity onPress={()=>{
+                //跳转文章详情的基本信息
+                let topicDetailInfo = {
+                    topicId:this.state.topTopicInfo[this.state.topImgPageNow].topTopicId,
+                    subject:this.state.topTopicInfo[this.state.topImgPageNow].topSubject,
+                    read:this.state.topTopicInfo[this.state.topImgPageNow].topRead,
+                    favorite:this.state.topTopicInfo[this.state.topImgPageNow].topFavorite,
+                }
+                this.toTopicDetail(topicDetailInfo);
+            }}>
+                <Image source={{uri: imgUri}} style={styles.scrollPages} />
+            </TouchableOpacity>
         );
     }
 
