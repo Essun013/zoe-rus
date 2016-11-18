@@ -112,7 +112,6 @@ class Search extends Component {
             console.log('搜索完毕！结果：' + JSON.stringify(result));
             if (result && result.code === 0) {
                 var data = result.data; //返回数据
-
                 setTimeout(() => {//延迟1秒显示
                     this.setState({
                         dataSource: this.state.dataSource.cloneWithRows(data.list),
@@ -216,7 +215,7 @@ class Search extends Component {
                         placeholderTextColor='rgb(200,200,200)'
                         returnKeyType='search'
                         keyboardType = "default"
-                        underlineColorAndroid='white'
+                        //underlineColorAndroid='white'
                         value={this.state.kw}
                         onChangeText={(newText)=>this.setState({ kw: newText})}
                         onEndEditing={this.onEndEditText}
@@ -268,6 +267,7 @@ const styles = StyleSheet.create({
         height: 24,
         marginTop: 30,
         marginLeft: 10,
+        padding: 0,
         paddingLeft: 5,
         fontFamily: 'PingFang SC',
         fontSize: 14,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
         width:device.width()/6*5,
     },
     searchRow: {
-        backgroundColor: 'rgb(255,85,127)',
+        backgroundColor: 'rgb(255,80,120)',
         flexDirection: 'row',
         //marginLeft: 10,
         //marginTop: 27,
