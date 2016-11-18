@@ -13,8 +13,8 @@ class Favorite extends Component {
         this._openContent = this._openContent.bind(this);
     }
 
-    _openContent(id) {
-        navPush.push(this.props,Content,'内容',{topicId:id})
+    _openContent(id,subject,read,favorite) {
+        navPush.push(this.props,Content,'详细内容',{topicId:id,subject:subject,read:read,favorite:favorite})
         //Alert.alert(id);
     }
 
@@ -32,7 +32,7 @@ class Favorite extends Component {
                         height: 60
                     }}
                     titleContainerStyle={{width: 300}}
-                    onPress={()=>this._openContent(rowData.id)}
+                    onPress={()=>this._openContent(rowData.id,rowData.subject,rowData.read,rowData.favorite)}
                 />
         )
     }
