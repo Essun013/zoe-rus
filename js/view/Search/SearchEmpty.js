@@ -73,7 +73,7 @@ class SearchEmpty extends Component {
 const styles = StyleSheet.create({
     emptypageContainer: {
         flex: 1,
-        //backgroundColor: 'rgb(238,238,238)',
+        //backgroundColor: 'red',
         backgroundColor: '#fff',
         justifyContent: 'center',
         flexDirection: 'row',

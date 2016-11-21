@@ -53,10 +53,9 @@ class Content extends Component {
             topicId: this.props.topicId, //文章Id
             isFavorite: false,
             onShow: false, //展示分享页面
-            translateValue:new Animated.Value(device.width() * 0.15),
+            translateValue:new Animated.Value(device.width() * 0.59),
             maskViewAlpha: new Animated.Value(0),
             allowShareTypes: [ShareType.Wechat, ShareType.WechatFriend, ShareType.QQ, ShareType.QQZone],
-            animScrollY:0,
         };
 
         this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
@@ -346,17 +345,10 @@ class Content extends Component {
 
         return <View style={styles.container}>
             <View style={styles.fullScreenStyle}>
-                <Animated.View
-                    style={{
-                        width: device.width(),
-                        height: this.state.translateValue,
-                        backgroundColor: 'transparent',
-                    }}>
-                    <Text style={styles.subject}>
-                        {subject}
-                    </Text>
-                    {renderViewAndStar}
-                </Animated.View>
+                <Text style={styles.subject}>
+                    {subject}
+                </Text>
+                {renderViewAndStar}
                 <View style={styles.lineStyle}></View>
                 {this.loadHtml()}
             </View>
@@ -367,21 +359,16 @@ class Content extends Component {
     //加载WebView
     loadHtml(){
         let htmlUri = app.apiUrl + "kb/knowledge/html?id=" + this.state.topicId;
-        return (
-            <WebView style={[styles.webViewContainer,{flex:1}]}
+        //console.log(htmlUri);
+        return (<WebView
+            style={[styles.webViewContainer,{flex:1}]}
             source={{uri: htmlUri}}
             onNavigationStateChange={this.onNavigationStateChange}
             domStorageEnabled={true}
             javaScriptEnabled={true}
             //decelerationRate="normal"
             startInLoadingState={true}
-            onLoad={()=>console.log('onload!')}
-            onLoadEnd={()=>console.log('onLoadEnd !')}
-            onLoadStart={()=>console.log('onLoadStart!')}
-            onScroll={()=>console.log('onScroll!')}
-            onResponderGrant={(event)=>console.log('onResponderGrant!!!')}
-            onResponderMove={(event)=>console.log('onResponderMove !!!')}
-            />);
+        />);
     }
 
 }
