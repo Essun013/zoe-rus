@@ -10,6 +10,7 @@ import {
     Alert
 } from 'react-native';
 import {Tabs, Tab} from 'react-native-elements';
+// import JPush , {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush';
 import HomeNav from '../Home/HomeNav';
 import MeNav from '../Me/MeNav';
 import FindNav from '../Find/FindNav';
@@ -115,6 +116,24 @@ class Main extends Component {
         return <Image source={imageSource} style={styles.menuIcon}/>
     }
 
+    // componentDidMount() {
+    //     JPush.requestPermissions()
+    //     this.pushlisteners = [
+    //         JPush.addEventListener(JpushEventReceiveMessage, this.onReceiveMessage.bind(this)),
+    //         JPush.addEventListener(JpushEventOpenMessage, this.onOpenMessage.bind(this)),
+    //     ]
+    // }
+    // componentWillUnmount() {
+    //     this.pushlisteners.forEach(listener=> {
+    //         JPush.removeEventListener(listener);
+    //     });
+    // }
+    // onReceiveMessage(message) {
+    // }
+    // onOpenMessage(message) {
+    //
+    // }
+
     render() {
         this.renderOther();
         const {component} = this.state;
@@ -138,6 +157,7 @@ class Main extends Component {
     renderStatus() {
         return <StatusNav/>
     }
+
 
     renderMain() {
         var {selectedTab} = this.state;

@@ -11,7 +11,6 @@ class Setup extends Component {
     constructor() {
         super();
     }
-
     render() {
         return (
             <Main />

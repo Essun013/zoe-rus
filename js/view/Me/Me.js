@@ -4,7 +4,6 @@
 
 import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
-
 import {ListItem, List, Text} from '../../components';
 import BasicInfo from './BasicInfo/BasicInfo';
 import {navPush} from '../../components/Nav/Nav';
@@ -85,7 +84,7 @@ class Me extends Component {
         }
         let state = this.props.loginState;//this.state.loginState || this.props.loginState;
         let user = this.props.user;//this.state.user || this.props.user;
-        if (state) {
+        if (state && user.mobile) {
             loginButton = <Text style={styles.headerTxt}>{user.nick || user.mobile}</Text>;
         } else {
             loginButton = <TouchableOpacity onPress={this.onLoginSys.bind(this)}>

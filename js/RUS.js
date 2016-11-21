@@ -9,6 +9,7 @@ import Setup from './setup';
 import createStore from './createStore';
 
 export default class RUS extends Component {
+
     render() {
         return (
             <Provider store={createStore()}>
