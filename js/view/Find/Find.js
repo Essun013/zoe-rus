@@ -44,15 +44,21 @@ class Find extends Component {
     constructor(props) {
         super(props);
 
-        let days = 60; //怀孕天数可变的
+        //let days = 100;
+        let self = this;
+        //从首页获取怀孕天数
         homeUtil.getInfo((d) => {
             if (d) {
-                days = d.totalDays;
+                setTimeout(() => {
+                    self.setState({days: d.totalDays});//怀孕天数可变的
+                    console.log("---" + d.totalDays);
+                    self.loadTopImageAndTopics();//回掉的时候再调用怀孕天数数据渲染
+                }, 10);
             }
-        })
+        });
 
         this.state = {
-            days:days,
+            //days:10,
             topicList: new ListView.DataSource({ //现实的数据源，一个是ListView
                 rowHasChanged: (r1, r2) => r1 !== r2,
             }), //推荐文章列表
@@ -76,6 +82,7 @@ class Find extends Component {
             isLoadMore: false,   //上拉
 
         };
+
         this.toSearchKb = this.toSearchKb.bind(this);
         this.onRefresh = this.onRefresh.bind(this);
         this.renderFooter = this.renderFooter.bind(this);
@@ -94,8 +101,11 @@ class Find extends Component {
     }
 
     componentWillMount() {
-        //console.log('---componentWillMount---');
-        this.loadTopImageAndTopics();//回掉的时候再调用this.onRefresh();
+    }
+
+    componentDidMount(){
+        //console.log(this.state.days);
+        //this.loadTopImageAndTopics();//回掉的时候再调用this.onRefresh();
     }
 
     componentWillUnMount(){
@@ -127,6 +137,7 @@ class Find extends Component {
                     let topTopicInfo = [];
                     result.data.list.map((val, index)=>{
                         if(typeof val.image !== 'undefined'){
+                            console.log(val);
                             IMGS.push(app.apiUrl + val.image);
                             topTopicInfo.push({
                                 topTopicId:val.id,
@@ -146,20 +157,36 @@ class Find extends Component {
                                 //console.log("loadTopImageAndTopics获取文章成功！" + this.topics.length);
                                 this.loadedCount = result.data.list.length;
                                 //设置获取推荐文章列表
-                                this.setState({
-                                    topImgList: this.state.topImgList.cloneWithPages(IMGS),
-                                    topImgPageSum: IMGS.length,
-                                    topicList: this.state.topicList.cloneWithRows(this.topics),
-                                    pageNum: 2,
-                                    isLoad: true,
-                                    isRefreshing: false,
-                                    topTopicInfo: topTopicInfo,
-                                    topSubject: topTopicInfo[this.state.topImgPageNow].topSubject,
-                                    topSummary: topTopicInfo[this.state.topImgPageNow].topSummary.length>28?
+                                if(IMGS.length === 0){
+                                    this.setState({
+                                        topImgList: this.state.topImgList.cloneWithPages(IMGS),
+                                        topImgPageSum: IMGS.length,
+                                        topicList: this.state.topicList.cloneWithRows(this.topics),
+                                        pageNum: 2,
+                                        isLoad: true,
+                                        isRefreshing: false,
+                                        topTopicInfo: [],
+                                        topSubject: '',
+                                        topSummary: '',
+                                        topRead: 0,
+                                        topFavorite: 0,
+                                    });
+                                } else {
+                                    this.setState({
+                                        topImgList: this.state.topImgList.cloneWithPages(IMGS),
+                                        topImgPageSum: IMGS.length,
+                                        topicList: this.state.topicList.cloneWithRows(this.topics),
+                                        pageNum: 2,
+                                        isLoad: true,
+                                        isRefreshing: false,
+                                        topTopicInfo: topTopicInfo,
+                                        topSubject: topTopicInfo[this.state.topImgPageNow].topSubject,
+                                        topSummary: topTopicInfo[this.state.topImgPageNow].topSummary.length>28?
                                         topTopicInfo[this.state.topImgPageNow].topSummary.substr(1, 25)+'...':topTopicInfo[this.state.topImgPageNow].topSummary,
-                                    topRead: topTopicInfo[this.state.topImgPageNow].topRead,
-                                    topFavorite: topTopicInfo[this.state.topImgPageNow].topFavorite,
-                                });
+                                        topRead: topTopicInfo[this.state.topImgPageNow].topRead,
+                                        topFavorite: topTopicInfo[this.state.topImgPageNow].topFavorite,
+                                    });
+                                }
                             } else {
                                 Alert.alert("系统提示", result.message);
                             }
@@ -184,35 +211,7 @@ class Find extends Component {
         this.setState({
             isRefreshing: true,
         });
-        setTimeout(() => {this.loadTopImageAndTopics()}, 1000);
-        /*setTimeout(() => {
-            let paramsContent = {
-                day: this.state.days,
-                pageNum: 1,
-                pageSize: this.props.pageSize,
-            };
-            //根据孕期请求文章推荐
-            http.apiPost('/kb/knowledge/query', paramsContent, (result)=> {
-                    if (result.code == 0) {
-                        console.log("下拉刷新重新获取文章成功！" + result.data.list);
-                        this.count = result.data.count;
-                        this.topics = [this.state.topImgPageNow].concat(result.data.list);
-                        this.loadedCount = result.data.list.length;
-                        //设置获取推荐文章列表
-                        this.setState({
-                            topicList: this.state.topicList.cloneWithRows(this.topics),
-                            pageNum: 1,
-                            isRefreshing: false,
-                        });
-                    } else {
-                        Alert.alert("系统提示", result.message);
-                    }
-                }, (err)=> {
-                    //Alert.alert("系统提示", err);
-                    console.log('请求/kb/knowledge/query出错||' + err);
-                }
-            );
-        }, 1000);*/
+        setTimeout(() => {this.loadTopImageAndTopics()}, 500);
     }
 
     //加载更多文章
@@ -301,9 +300,9 @@ class Find extends Component {
     }
 
     _readerViewPager(){
-        //if(this.state.topTopicInfo.length === 0) {
-        //    return null;
-        //}
+        if(this.state.topTopicInfo.length === 0) {
+            return null;
+        }
         console.log('_readerViewPager.......');
         //let topSubject = this.state.topTopicInfo[this.state.topImgPageNow+1].topSubject;
 
