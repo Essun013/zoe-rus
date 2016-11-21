@@ -51,6 +51,10 @@ class ListScroll extends Component {
         let list = data.list;
         let  currentCount = list.length;
 
+        if(data.number==1){
+            totalList = new Array()
+        }
+
         for (var i=0; i < list.length; i++) {
             totalList.push( list[i] );
         }
