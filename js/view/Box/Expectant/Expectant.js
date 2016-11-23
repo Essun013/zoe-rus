@@ -81,8 +81,6 @@ class Expectant extends Component {
         );
     }
 
-    componentWillUnmount() {
-    }
 
     //切换检查对象
     switchCheckObj(obj){

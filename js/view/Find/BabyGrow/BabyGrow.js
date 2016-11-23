@@ -15,8 +15,7 @@ import device from '../../../common/util/device';
 import TouchAble from './Content/TouchAble'
 import WeekTab from '../WeekTab/WeekTab'
 import {home, find} from '../../../actions';
-import apiHttp from '../../../common/util/http';
-import app from '../../../common/util/app';
+import {app, http} from '../../../common/util';
 
 class BabyGrow extends Component {
     constructor(props) {
@@ -49,7 +48,7 @@ class BabyGrow extends Component {
             subject: "宝宝成长"+week+"周",
             html:true,
         };
-        apiHttp.apiPost('/kb/knowledge/find', params, (result)=>  {
+        http.apiPost('/kb/knowledge/find', params, (result)=>  {
                 if (result.code === 0) {
                     let uri = app.apiUrl + "kb/knowledge/html?id=" + result.data.id+"&&css=glossary";;
                     //渲染WebView

@@ -11,9 +11,8 @@ import {StyleSheet,
     Alert} from 'react-native';
 import device from '../../../common/util/device';
 import WeekTab from '../WeekTab/WeekTab';
-import apiHttp from '../../../common/util/http';
 import {home, find} from '../../../actions';
-import app from '../../../common/util/app';
+import {app, http} from '../../../common/util';
 
 class MomKnow extends Component {
     constructor(props) {
@@ -44,7 +43,7 @@ class MomKnow extends Component {
             subject: "孕妈早知道"+week+"周",
             html:true,
         };
-        apiHttp.apiPost('/kb/knowledge/find', params, (result)=>  {
+        http.apiPost('/kb/knowledge/find', params, (result)=>  {
                 if (result.code === 0) {
                     let uri = app.apiUrl + "kb/knowledge/html?id=" + result.data.id+"&&css=glossary";
                     //渲染WebView

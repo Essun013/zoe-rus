@@ -14,15 +14,21 @@ import {View,
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
 import Expectant from '../../Box/Expectant/Expectant';
+import Fetalmove from '../../Box/Fetalmove/Fetalmove';
 
 class Box extends Component {
     constructor(props) {
         super(props);
         this.toExpectantPackage = this.toExpectantPackage.bind(this);
+        this.toFetalMovement = this.toFetalMovement.bind(this);
     }
 
     toExpectantPackage() {
         navPush.push(this.props, Expectant, '待产包');
+    }
+
+    toFetalMovement() {
+        navPush.push(this.props, Fetalmove, '数胎动');
     }
 
     scrollBottom() {
@@ -31,6 +37,11 @@ class Box extends Component {
                 img: require('../../Find/img/box/dcb.png'),
                 text: '待产包',
                 onPress: this.toExpectantPackage
+            },
+            {
+                img: require('../../Find/img/box/std.png'),
+                text: '数胎动',
+                onPress: this.toFetalMovement
             },
             {
                 img: require('../../Find/img/box/yqys.png'),
@@ -43,13 +54,8 @@ class Box extends Component {
                 onPress: null
             },
             {
-                img: require('../../Find/img/box/std.png'),
-                text: '数胎动',
-                onPress: null
-            },
-            {
-                img: require('../../Find/img/box/std.png'),
-                text: '数胎动',
+                img: require('../../Find/img/box/nbnc.png'),
+                text: '能不能吃',
                 onPress: null
             },
         ];
