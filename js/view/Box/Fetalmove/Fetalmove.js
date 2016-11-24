@@ -18,9 +18,13 @@ import Calculation from './Calculation';
 import {connect} from 'react-redux';
 
 
-var total = 3599;
+var total;
 var timerRef;
 var tmpValidCounter;
+var startDatetime; //记录开始时间
+var endDatetime; //记录结束时间
+var tmpDatetime;
+var isTmpTimeStart = true;
 
 class Fetalmove extends Component {
 
@@ -70,11 +74,28 @@ class Fetalmove extends Component {
 
     //计时器
     timeCounter(){
+        var nowDatetime = new Date();
+        this.total = Math.floor((endDatetime.getTime()-nowDatetime.getTime())/1000);
         let s = (this.total % 60) < 10 ? ('0' + this.total % 60) : this.total % 60;
         let h = this.total / 3600 < 10 ? ('0' + parseInt(this.total / 3600)) : parseInt(this.total / 3600);
         let m = (this.total - h * 3600) / 60 < 10 ? ('0' + parseInt((this.total - h * 3600) / 60)) : parseInt((this.total - h * 3600) / 60);
         let surplusTime = m + ':' + s;
-        if(this.total % 300 === 0 && tmpValidCounter < this.state.clickTimes){ //5分钟之内自动校验一次胎动，在有点击胎动的情况下
+
+        //5分钟之内自动校验一次胎动，在有点击胎动的情况下
+        if(typeof tmpDatetime != 'undefined'
+            && tmpDatetime.getTime() < (nowDatetime.getTime()-(5*60*1000))
+            && !isTmpTimeStart){
+            this.state.autoCounts++;
+            isTmpTimeStart = true;
+        }
+
+        //剩余时间
+        this.setState({
+            surplusTime: surplusTime,
+            autoCounts: this.state.autoCounts,
+        });
+
+       /* if(this.total % 300 === 0 && tmpValidCounter < this.state.clickTimes){
             tmpValidCounter = this.state.clickTimes;
             this.setState({
                 surplusTime: surplusTime,
@@ -84,17 +105,15 @@ class Fetalmove extends Component {
             this.setState({
                 surplusTime: surplusTime,
             });
-        }
-        this.total--;
+        }*/
+        //this.total--;
         if (this.total < 0){
             clearInterval(this.timerRef);
             this.setState({
                 isStart:false,
             });
 
-
             //请求计数
-
 
 
         }
@@ -106,11 +125,21 @@ class Fetalmove extends Component {
         if(this.state.isStart){
             //点击次数
             let clickCount = this.state.clickTimes + 1;
+
+            if(isTmpTimeStart){
+                tmpDatetime = new Date(); //连续5分钟之内点击只算1次胎动
+                isTmpTimeStart = false;
+            }
+
             //记录点击时间
             this.setState({
                 clickTimes: clickCount,
+                //autoCounts: this.state.autoCounts,
             });
+
         } else {
+            startDatetime = new Date();
+            endDatetime = new Date(startDatetime.getTime()+(60*60*1000)+1000);//1小时1秒后计数
             this.timerRef = setInterval(()=>this.timeCounter(), 1000);
             //记录点击时间
             this.setState({
@@ -125,7 +154,7 @@ class Fetalmove extends Component {
     }
 
     render(){
-        console.log('---Fetalmove---render------');
+        //console.log('---Fetalmove---render------');
 
         return (
             <Image source={require('../img/fetalmove/bg.png')} resizeMode='stretch' style={styles.bg}>
