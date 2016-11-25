@@ -11,6 +11,7 @@ const converter = require('./converter');
 const device = require('./device');
 const gps = require('./gps');
 const constant = require('./constant');
+const notifaction = require('./notifaction');
 
 module.exports = {
     http,
@@ -21,5 +22,6 @@ module.exports = {
     converter,
     constant,
     device,
-    gps
+    gps,
+    notifaction
 };
