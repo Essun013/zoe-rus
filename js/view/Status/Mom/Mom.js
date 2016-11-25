@@ -74,10 +74,7 @@ class Mom extends Component {
             hospital: this.state.preHospitalName || ''
         }
 
-        Alert.alert('timeline', JSON.stringify(params))
-
         http.apiPost('/uc/timeline/create', params, (data)=> {
-            Alert.alert('apipost', JSON.stringify(data))
             if (data.code == 0) {
                 this.props.dispatch(goHome(true));
             }
