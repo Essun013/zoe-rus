@@ -27,7 +27,11 @@ const cityUtil = {
     gps(callback) {
         gps.getLocation((d) => {
             // lat: 24.489114503076085,  lng: 118.18957659957918
-            http.apiPost('/geocoder/address', {lat: '24.489114503076085',  lng: '118.18957659957918'}, (data) => {
+            var postParams = {lat: d.lat, lng: d.lng};
+            if (parseInt(d.lng) < 0)
+                postParams = {lat: '24.489114503076085',  lng: '118.18957659957918'}
+
+            http.apiPost('/geocoder/address', postParams, (data) => {
                 if (data.code == 0) {
                     var _region = data.data.region;
                     var _data = {
@@ -49,6 +53,7 @@ const cityUtil = {
 };
 
 var _tmpProvinces, _tmpCity, returnBack;
+
 class CityPicker extends Component {
     static propTypes = {
         hide: PropTypes.func.isRequired,
@@ -103,6 +108,8 @@ class CityPicker extends Component {
         }, (e) => {
             Alert.alert('错误', '城市信息获取失败' + e.message);
         });
+
+        this.changeProvince = this.changeProvince.bind(this);
     }
 
     _childSum(array) {
@@ -122,15 +129,13 @@ class CityPicker extends Component {
             _tmpCity = row.children || [];
         }
 
-        return <TouchableOpacity style={[styles.provinceBottom]} onPress={() => {
-            this.changeProvince(row)
-        }} activeOpacity={0.9}>
+        return <TouchableOpacity style={[styles.provinceBottom]} onPress={() => this.changeProvince(row)} activeOpacity={0.9}>
             <Text style={[styles.provinceTx, selected && {color: 'rgb(1,1,1)'}]}>{row.name}</Text>
         </TouchableOpacity>
     }
 
     changeProvince(row) {
-        let _tmpProvinces = JSON.parse(JSON.stringify(_tmpProvinces || []));
+        _tmpProvinces = JSON.parse(JSON.stringify(_tmpProvinces || []));
         returnBack.province = row;
         this.setState({
             provinceList: this.state.provinceList.cloneWithRows(_tmpProvinces),
@@ -143,7 +148,7 @@ class CityPicker extends Component {
             returnBack.city = row;
         }
 
-        return <TouchableOpacity style={styles.cityBottom} onPress={() => {this.changeCity(row)}}>
+        return <TouchableOpacity style={styles.cityBottom} onPress={() => this.changeCity(row)}>
             <Text style={[styles.cityTx, selected && {color: '#ff7aa2'}]}>{row.name}</Text>
         </TouchableOpacity>
     }

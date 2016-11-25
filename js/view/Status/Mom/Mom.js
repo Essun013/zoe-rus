@@ -27,9 +27,23 @@ class Mom extends Component {
 
         cityUtil.gps((d) => {
             if (d) {
-                Alert.alert('当前城市', d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name);
                 cityInfo = d;
                 cityUtil.save(d.nation, d.province, d.city, d.county);
+                Alert.alert(
+                    '当前城市',
+                    (d.nation.name + ' ' + d.province.name + ' ' + d.city.name + ' ' + d.county.name) + '\n是否定位到该城市？',
+                    [
+                        {
+                            text: '确定',
+                            onPress: () => {}
+                        },
+                        {
+                            text: '取消',
+                            onPress: () => {
+                                this.push2Hospital();
+                            }
+                        }
+                    ]);
             } else {
                 Alert.alert('Error', '定位失败');
             }
@@ -48,7 +62,7 @@ class Mom extends Component {
             username: DeviceInfo.getUniqueID(),
             gender: 2
         }
-        http.apiPost('/uc/user/macid', params, (data)=> {
+        http.apiPost('/uc/user/macid', params, (data) => {
                 if (data.code == 0) {
                     rcache.put("user", JSON.stringify(data.data));
                     this.createTimeLine();
@@ -59,7 +73,7 @@ class Mom extends Component {
                         Alert.alert("系统提示", data.message);
                     }
                 }
-            }, (err)=> {
+            }, (err) => {
                 Alert.alert("系统提示", err);
             }
         )
@@ -74,7 +88,7 @@ class Mom extends Component {
             hospital: this.state.preHospitalName || ''
         }
 
-        http.apiPost('/uc/timeline/create', params, (data)=> {
+        http.apiPost('/uc/timeline/create', params, (data) => {
             if (data.code == 0) {
                 this.props.dispatch(goHome(true));
             }
@@ -83,7 +97,7 @@ class Mom extends Component {
                     username: DeviceInfo.getUniqueID(),
                     password: 1
                 }
-                http.apiPost('/uc/user/sign-in', params, (data)=> {
+                http.apiPost('/uc/user/sign-in', params, (data) => {
                     rcache.put("user", JSON.stringify(data.data));
                     this.createTimeLine();
                 })
