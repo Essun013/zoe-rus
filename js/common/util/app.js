@@ -3,9 +3,11 @@
  */
 'use strict';
 
+var exitAppCountFlag = 0;
+
 var app = {
     version: 0,
-    apiUrl: 'http://172.16.34.41:8080/'
+    apiUrl: 'http://172.16.34.41:8080/',
 };
 
 module.exports = app;

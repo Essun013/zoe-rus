@@ -135,15 +135,15 @@ function handleHttp(method, uri, params, callback, err?: (err: Error) => void) {
         });
 }
 
-function fetchSearchWithKeyword(text,fetchCallback){
+function fetchSearchWithKeyword(text, fetchCallback) {
 
     var url = localApp.apiUrl + '/kb/knowledge/search?kw=' + text;
     url = encodeURI(url);
     return request.get(url).then(res => {
-            fetchCallback(res.body,null)
-        },error =>{
-            fetchCallback(null,error)
-        });
+        fetchCallback(res.body, null)
+    }, error => {
+        fetchCallback(null, error)
+    });
 
 }
 

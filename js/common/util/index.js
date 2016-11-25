@@ -12,6 +12,7 @@ const device = require('./device');
 const gps = require('./gps');
 const constant = require('./constant');
 const notifaction = require('./notifaction');
+const anbacklsn = require('./anbacklsn');
 
 module.exports = {
     http,
@@ -23,5 +24,6 @@ module.exports = {
     constant,
     device,
     gps,
-    notifaction
+    notifaction,
+    anbacklsn
 };

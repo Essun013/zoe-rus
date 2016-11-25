@@ -7,6 +7,7 @@
 var ColorPropType = require('ColorPropType');
 import React, {Component, PropTypes} from 'react'
 import {StatusBar, View, StyleSheet, Platform} from 'react-native';
+import {anbacklsn} from '../../common/util'
 
 export default class INavBar extends Component {
     static propTypes = {
@@ -25,7 +26,6 @@ export default class INavBar extends Component {
 
     constructor(props) {
         super(props);
-
         this.iNavBar = this.iNavBar.bind(this);
 
         this.state = {
@@ -36,18 +36,19 @@ export default class INavBar extends Component {
 
     init(hide, left, title, right) {
         if (!hide) {
-            let index = 0;
+            let idx = 0;
 
             for(var i = 0; i < this.props.iNavigator.state.routeStack.length; i++) {
                 if (this.props.iNavigator.state.routeStack[i] == this.props.iRoute) {
-                    index = i;
+                    idx = i;
                     break;
                 }
             }
+            anbacklsn.setNvg(this.props.iNavigator);
 
-            let _left = left && left(this.props.iRoute, this.props.iNavigator, index, this.props.iNavigator.state);
-            let _title = title && title(this.props.iRoute, this.props.iNavigator, index, this.props.iNavigator.state);
-            let _right = right && right(this.props.iRoute, this.props.iNavigator, index, this.props.iNavigator.state);
+            let _left = left && left(this.props.iRoute, this.props.iNavigator, idx, this.props.iNavigator.state);
+            let _title = title && title(this.props.iRoute, this.props.iNavigator, idx, this.props.iNavigator.state);
+            let _right = right && right(this.props.iRoute, this.props.iNavigator, idx, this.props.iNavigator.state);
 
             return this.navBar(_left, _title, _right)
         }

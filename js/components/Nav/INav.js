@@ -3,7 +3,7 @@
  */
 
 import React, {Component, PropTypes} from 'react'
-import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert, Platform} from 'react-native';
+import {Navigator, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import INavBar from './INavBar';
 var ColorPropType = require('ColorPropType');

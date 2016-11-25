@@ -3,7 +3,7 @@
  */
 
 import React, {Component, PropTypes} from 'react'
-import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import {Navigator, Text, StatusBar, View, TouchableOpacity, StyleSheet, Alert, BackAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class Nav extends Component {
@@ -109,21 +109,23 @@ export default class Nav extends Component {
     }
 }
 
+function getNavigator(props) {
+    return currentNavigator = props.navigator;
+}
+
 export var navPush = {
-    push(props, component, title, other?: Object)
-    {
-        props.navigator.push({component: component, title: title, passProps: other});
+    /** 前往指定组件 */
+    push(props, component, title, other?: Object) {
+        getNavigator(props).push({component: component, title: title, passProps: other});
     },
-    pop(props, n?: number)
-    {
-        if (n)
-            props.navigator.popN(n);
-        else
-            props.navigator.pop();
+
+    pop(props, n?: number) {
+        n ? getNavigator(props).popN(n) : getNavigator(props).pop();
     },
-    popToTop(props)
-    {
-        props.navigator.popToTop();
+
+    /** 返回导航器的首个组件 */
+    popToTop(props) {
+        getNavigator(props).popToTop();
     },
 };
 
