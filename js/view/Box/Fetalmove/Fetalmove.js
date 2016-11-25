@@ -81,18 +81,18 @@ class Fetalmove extends Component {
         let m = (this.total - h * 3600) / 60 < 10 ? ('0' + parseInt((this.total - h * 3600) / 60)) : parseInt((this.total - h * 3600) / 60);
         let surplusTime = m + ':' + s;
 
-        //5分钟之内自动校验一次胎动，在有点击胎动的情况下
+        //连续5分钟之内点击只算1次胎动
         if(typeof tmpDatetime != 'undefined'
             && tmpDatetime.getTime() < (nowDatetime.getTime()-(5*60*1000))
             && !isTmpTimeStart){
-            this.state.autoCounts++;
+            //this.state.autoCounts++;
             isTmpTimeStart = true;
         }
 
         //剩余时间
         this.setState({
             surplusTime: surplusTime,
-            autoCounts: this.state.autoCounts,
+            //autoCounts: this.state.autoCounts,
         });
 
        /* if(this.total % 300 === 0 && tmpValidCounter < this.state.clickTimes){
@@ -127,14 +127,16 @@ class Fetalmove extends Component {
             let clickCount = this.state.clickTimes + 1;
 
             if(isTmpTimeStart){
-                tmpDatetime = new Date(); //连续5分钟之内点击只算1次胎动
                 isTmpTimeStart = false;
+                //连续5分钟之内点击只算1次胎动
+                tmpDatetime = new Date();
+                this.state.autoCounts++;
             }
 
             //记录点击时间
             this.setState({
                 clickTimes: clickCount,
-                //autoCounts: this.state.autoCounts,
+                autoCounts: this.state.autoCounts,
             });
 
         } else {
@@ -176,6 +178,7 @@ class Fetalmove extends Component {
                     <Text style={styles.fontHints}> 次</Text>
                 </View>
                 <Image source={require('../img/fetalmove/bottom.png')} style={styles.bottomImg} ></Image>
+                <View><Text style={styles.fontHints}>提示：一般孕20周末，孕妇可感到胎动，数胎动时，孕妇可取舒适的体位，手摸腹部，正常胎动3-5次／每小时。孕28周后，每天早，中，晚各数1个小时，3次胎动计数相加*4=12小时的胎动数（大于等于30次），若每小时小于3次或12小时胎动数小于30次均为异常，或胎动突然频繁，继续再数1小时仍未好转应立即去医院。</Text></View>
             </Image>
         );
 
