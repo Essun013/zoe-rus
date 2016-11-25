@@ -11,8 +11,8 @@ const PushNotification = require('react-native-push-notification');
 if (Platform.OS === 'ios') {
     PushNotification.configure({
         // (required) Called when a remote or local notification is opened or received
-        onNotification: function(notification) {
-            console.log( 'NOTIFICATION:', notification );
+        onNotification: function (notification) {
+            // console.log('NOTIFICATION:', notification);
         },
 
         // IOS ONLY (optional): default: all - Permissions to register.
@@ -36,8 +36,8 @@ if (Platform.OS === 'ios') {
 } else {
     PushNotification.configure({
         // (required) Called when a remote or local notification is opened or received
-        onNotification: function(notification) {
-            console.log( 'NOTIFICATION:', notification );
+        onNotification: function (notification) {
+            console.log('NOTIFICATION:', notification);
         },
 
         // Should the initial notification be popped automatically
