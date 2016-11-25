@@ -5,11 +5,11 @@
 
 import React, {Component} from 'react'
 import {ScrollView, View, StyleSheet, Alert, TouchableOpacity, Image, Text} from 'react-native'
-import {device, http, rcache, app, gps} from '../../common/util';
+import {http, rcache} from '../../common/util';
 import {Top} from './Top';
 import {Mom} from './Mom';
 import {Box, BoxMore} from './Box';
-import {Check, Checked} from './Check';
+import {Checked} from './Check';
 import {Clazz} from './Clazz';
 import Message from '../Me/Message/Message';
 import Search from '../Search/Search';
@@ -38,12 +38,6 @@ class Home extends Component {
     constructor(props) {
         super(props);
 
-        /*gps.getLocation((d) => {
-         Alert.alert('location', JSON.stringify(d))
-         }, (e) => {
-         Alert.alert('error', e.message)
-         });*/
-
         this.state = {
             content: null,
             showBoxMore: false
@@ -52,10 +46,8 @@ class Home extends Component {
         http.apiPost('/uc/timeline/get', {}, (data) => {
             if (data.code === 0) {
                 var preDays = data.data.day;
-
                 var week = Math.floor(preDays / 7);
                 var days = preDays - (week * 7);
-
                 var scroll = this.scroll(week + '', days + '', preDays + '');
 
                 homeUtil.saveInfo({week: week, days: days, totalDays: preDays})

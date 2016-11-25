@@ -12,32 +12,34 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.xiaobu.amap.AMapLocationReactPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-    @Override
-    protected boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        protected boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                    new RNDeviceInfo(),
+                    new MainReactPackage(),
+                    new PickerPackage(),
+                    new VectorIconsPackage(),
+                    new AMapLocationReactPackage(),
+                    new ReactNativePushNotificationPackage()
+            );
+        }
+    };
 
     @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-            new RNDeviceInfo(),
-            new MainReactPackage(),
-            new PickerPackage(),
-            new VectorIconsPackage(),
-            new AMapLocationReactPackage()
-      );
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
     }
-  };
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-      return mReactNativeHost;
-  }
 }
