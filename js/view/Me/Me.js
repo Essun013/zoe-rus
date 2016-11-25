@@ -16,6 +16,7 @@ import {http,app} from '../../common/util';
 import Moment from 'moment';
 import {rcache,synccache} from '../../common/util';
 import { loginSys,setUser }  from '../../actions/me/me';
+import Demand  from './Demand/Demand';
 
 
 
@@ -67,7 +68,9 @@ class Me extends Component {
     onCollectionPress(){
         navPush.push(this.props,Collection,'收藏');
     }
-
+    onDemandPress(){
+        navPush.push(this.props,Demand,'吐槽产品');
+    }
     childbirthForme(days){
         let week = parseInt(days/7);
         let day = days%7;
@@ -140,6 +143,11 @@ class Me extends Component {
                             imgSource={require('./img/reminder-settings.png')}
                             title={"我的提醒"}
                             onPress={this.onMessagePress.bind(this)}
+                        />
+                        <ListItem
+                            imgSource={require('./img/reminder-settings.png')}
+                            title={"吐槽产品"}
+                            onPress={this.onDemandPress.bind(this)}
                         />
                     </List>
                 </ScrollView>
