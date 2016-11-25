@@ -30,7 +30,7 @@ var http = {
     apiFetch(uri, params, fetchCallback){
         var url = localApp.apiUrl + uri + procArgs(params);
         url = encodeURI(url);
-        console.log("url----" + url);
+        //console.log("url----" + url);
         return request.get(url).then(res => {
             fetchCallback(JSON.parse(res.text), null);
         },error =>{

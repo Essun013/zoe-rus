@@ -116,7 +116,7 @@ class WeekTab extends Component {
         //一共只有40周内容
         for (let j = 1; j <= 40; listView.push(j), j++);
         return (
-            <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}
+            <ScrollView horizontal={true} border
                         ref='_scrollView' >
             {listView.map((week, index) => {
                 return <View style={styles.scrollViewTab} key={index}>

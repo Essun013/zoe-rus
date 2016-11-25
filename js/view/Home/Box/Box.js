@@ -14,15 +14,33 @@ import {View,
 import {navPush} from '../../../components/Nav/Nav';
 import device from '../../../common/util/device';
 import Expectant from '../../Box/Expectant/Expectant';
+import Fetalmove from '../../Box/Fetalmove/Fetalmove';
+import Named from '../../Box/Named/Named';
+import Eatorno from '../../Box/Eatorno/Eatorno';
 
 class Box extends Component {
     constructor(props) {
         super(props);
         this.toExpectantPackage = this.toExpectantPackage.bind(this);
+        this.toFetalMovement = this.toFetalMovement.bind(this);
+        this.toNamed = this.toNamed.bind(this);
+        this.toEatorno = this.toEatorno.bind(this);
     }
 
     toExpectantPackage() {
         navPush.push(this.props, Expectant, '待产包');
+    }
+
+    toFetalMovement() {
+        navPush.push(this.props, Fetalmove, '数胎动');
+    }
+
+    toNamed(){
+        navPush.push(this.props, Named, '起名字');
+    }
+
+    toEatorno(){
+        navPush.push(this.props, Eatorno, '能不能吃');
     }
 
     scrollBottom() {
@@ -33,23 +51,23 @@ class Box extends Component {
                 onPress: this.toExpectantPackage
             },
             {
-                img: require('../../Find/img/box/yqys.png'),
-                text: '每日胎教',
-                onPress: null
+                img: require('../../Find/img/box/std.png'),
+                text: '数胎动',
+                onPress: this.toFetalMovement
+            },
+            {
+                img: require('../../Find/img/box/qmz.png'),
+                text: '起名字',
+                onPress: this.toNamed
+            },
+            {
+                img: require('../../Find/img/box/nbnc.png'),
+                text: '能不能吃',
+                onPress: this.toEatorno
             },
             {
                 img: require('../../Find/img/box/yzc.png'),
                 text: '体重计',
-                onPress: null
-            },
-            {
-                img: require('../../Find/img/box/std.png'),
-                text: '数胎动',
-                onPress: null
-            },
-            {
-                img: require('../../Find/img/box/std.png'),
-                text: '数胎动',
                 onPress: null
             },
         ];

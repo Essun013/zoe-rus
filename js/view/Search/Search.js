@@ -97,10 +97,14 @@ class Search extends Component {
 
     //结束输入搜索
     onSubmitEditText(){
+        console.log("开始搜索：" + this.state.kw);
         if(this.state.kw === null || this.state.kw.trim() === ''){
             //Alert.alert('请输入关键词！');
             this.setState({
                 kw: '',
+                dataSource: new ListView.DataSource({
+                    rowHasChanged: (row1, row2) => (row1 != row2),
+                }),
             });
             return;
         }
