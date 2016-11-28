@@ -17,6 +17,7 @@ import Expectant from '../../Box/Expectant/Expectant';
 import Fetalmove from '../../Box/Fetalmove/Fetalmove';
 import Named from '../../Box/Named/Named';
 import Eatorno from '../../Box/Eatorno/Eatorno';
+import WeightSacle from '../../Box/WeightSacle/WeightSacle';
 
 class Box extends Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class Box extends Component {
         this.toFetalMovement = this.toFetalMovement.bind(this);
         this.toNamed = this.toNamed.bind(this);
         this.toEatorno = this.toEatorno.bind(this);
+        this.toWeightSacle = this.toWeightSacle.bind(this);
     }
 
     toExpectantPackage() {
@@ -43,6 +45,10 @@ class Box extends Component {
         navPush.push(this.props, Eatorno, '能不能吃');
     }
 
+    toWeightSacle(){
+        navPush.push(this.props, WeightSacle, '能不能吃');
+    }
+
     scrollBottom() {
         let list = [
             {
@@ -56,6 +62,11 @@ class Box extends Component {
                 onPress: this.toFetalMovement
             },
             {
+                img: require('../../Find/img/box/yzc.png'),
+                text: '体重计',
+                onPress: this.toWeightSacle
+            },
+            {
                 img: require('../../Find/img/box/qmz.png'),
                 text: '起名字',
                 onPress: this.toNamed
@@ -66,8 +77,8 @@ class Box extends Component {
                 onPress: this.toEatorno
             },
             {
-                img: require('../../Find/img/box/yzc.png'),
-                text: '体重计',
+                img: require('../../Find/img/box/bbfs.png'),
+                text: '宝宝辅食',
                 onPress: null
             },
         ];
