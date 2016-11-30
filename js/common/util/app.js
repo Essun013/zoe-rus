@@ -6,6 +6,7 @@
 var app = {
     version: 0,
     apiUrl: 'http://172.16.34.41:8080/',
+    sqlDbName: 'test6.db',
 };
 
 module.exports = app;

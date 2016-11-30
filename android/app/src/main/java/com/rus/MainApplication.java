@@ -13,6 +13,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.xiaobu.amap.AMapLocationReactPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import org.pgsqlite.SQLitePluginPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new PickerPackage(),
                     new VectorIconsPackage(),
                     new AMapLocationReactPackage(),
-                    new ReactNativePushNotificationPackage()
+                    new ReactNativePushNotificationPackage(),
+                    new SQLitePluginPackage()
             );
         }
     };

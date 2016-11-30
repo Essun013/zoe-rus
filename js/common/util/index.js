@@ -14,4 +14,6 @@ module.exports = {
     gps: require('./gps'),                              // GPS 定位
     notifaction: require('./notifaction'),              // 本地推送
     anbacklsn: require('./anbacklsn'),                  // 监听 Android 物理返回键
+    sqlite: require('./sqlite'),                        // sqlite
+    generator: require('./generator')                   // 生成器工具
 };
