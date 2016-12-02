@@ -4,17 +4,13 @@
 
 import React, {Component} from 'react';
 import {StyleSheet,
-    ScrollView,
     View,
-    Text,
     TouchableOpacity,
     Image,
     WebView,
     Alert} from 'react-native';
 import device from '../../../common/util/device';
-import TouchAble from './Content/TouchAble'
 import WeekTab from '../WeekTab/WeekTab'
-import {home, find} from '../../../actions';
 import {app, http} from '../../../common/util';
 
 class BabyGrow extends Component {
@@ -32,14 +28,6 @@ class BabyGrow extends Component {
     componentWillMount() {
         //初始化加载
         this.loadBabyHtml(this.state.initWeek);
-    }
-
-    componentDidMount() {
-        this.props.dispatch(home.hideMenu(true));
-    }
-
-    componentWillUnmount() {
-        this.props.dispatch(home.hideMenu(false));
     }
 
     //加载文章
@@ -109,5 +97,4 @@ const styles = StyleSheet.create({
     },
 })
 
-const {connect} = require('react-redux');
-module.exports = connect()(BabyGrow);
+module.exports = BabyGrow;
