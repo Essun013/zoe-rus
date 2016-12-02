@@ -97,7 +97,7 @@ class Main extends Component {
     let _reduxArgs = this.props.reduxArgs;
     let _goHome = _reduxArgs && _reduxArgs.goHome;
     let _component = this.state.component;
-    if (_goHome && _component && _component.name.indexOf('renderMain') < 0) {
+    if (_goHome && _component && _component.name.indexOf('renderHome') < 0 && _component.name.indexOf('comp') < 0) {
       setTimeout(() => {
         this.setState({component: this.renderHome});
         rcache.put('firstChoose', 'no');
