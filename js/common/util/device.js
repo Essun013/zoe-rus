@@ -3,15 +3,15 @@
  */
 'use strict';
 
-let Dimensions = require('Dimensions');// 宽高
+var Dimensions = require('Dimensions');// 宽高
 
 var device = {
     width() {
-        return Dimensions.get('window').width;
+        return this.window().width;
     },
 
     height() {
-        return Dimensions.get('window').height;
+        return this.window().height;
     },
 
     window() {
