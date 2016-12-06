@@ -3,14 +3,14 @@
  */
 
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {View,
+    StyleSheet,
+    Image,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    Picker,
+    Alert} from 'react-native';
 import {navPush} from '../../../components/Nav/Nav';
 import {device, jsons} from '../../../common/util';
 import Expectant from '../../Box/Expectant/Expectant';

@@ -44,7 +44,7 @@ class SearchEmpty extends Component {
     renderEmpty(){
         return <TouchableWithoutFeedback onPress={this.onTapPage}>
             <View style={styles.emptypageContainer}>
-                <Image source={require('./img/icon-search-gray.png')} style={styles.icon}/>
+                <Image style={styles.icon} source={require('./img/icon-search-gray.png')} />
                 <Text style={styles.text}>抱歉，暂无相关搜索结果</Text>
             </View>
         </TouchableWithoutFeedback>
@@ -72,7 +72,7 @@ class SearchEmpty extends Component {
 
 const styles = StyleSheet.create({
     emptypageContainer: {
-        flex: 1,
+        //flex: 1,
         //backgroundColor: 'red',
         backgroundColor: '#fff',
         justifyContent: 'center',

@@ -16,5 +16,6 @@ module.exports = {
   anbacklsn: require('./anbacklsn'),                  // 监听 Android 物理返回键
   sqlite: require('./sqlite'),                        // sqlite
   generator: require('./generator'),                  // 生成器工具
-  jsons: require('./jsons'),                          // json工具
+  jsons: require('./jsons'), // json工具
+  px2dp: require('./px2dp')
 };
