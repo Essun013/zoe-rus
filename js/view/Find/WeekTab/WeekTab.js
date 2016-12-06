@@ -31,7 +31,7 @@ class WeekTab extends Component {
 
 
     constructor(props) {
-        console.log('---WeekTab---0.constructor------');
+        //console.log('---WeekTab---0.constructor------');
         super(props);
         this.state = {
             currentTab: this.props.week,
@@ -44,11 +44,11 @@ class WeekTab extends Component {
     }
 
     componentWillMount() {
-        console.log('---WeekTab---1.componentWillMount------');
+        //console.log('---WeekTab---1.componentWillMount------');
     }
 
     componentDidMount() {
-        console.log('---WeekTab---3.componentDidMount------');
+        //console.log('---WeekTab---3.componentDidMount------');
         //this.weekTabRender();
         //this.getBabyGrowDataByWeek(this.state.initTab);
         let scrollToX = this.state.currentTab<3?0:this.state.currentTab-3;
@@ -66,12 +66,12 @@ class WeekTab extends Component {
     }
 
     componentWillUnMount() {
-        console.log('---WeekTab---4.componentWillUnMount------');
+        //console.log('---WeekTab---4.componentWillUnMount------');
     }
 
     componentWillReceiveProps() {
         //父组件更新时候，触发
-        console.log('---WeekTab---5.componentWillReceiveProps------');
+        //console.log('---WeekTab---5.componentWillReceiveProps------');
     }
 
     _onPressIn() {
@@ -116,8 +116,8 @@ class WeekTab extends Component {
         //一共只有40周内容
         for (let j = 1; j <= 40; listView.push(j), j++);
         return (
-            <ScrollView horizontal={true} border
-                        ref='_scrollView' >
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false} ref='_scrollView' >
             {listView.map((week, index) => {
                 return <View style={styles.scrollViewTab} key={index}>
                     <TouchableOpacity style={styles.tabTextCenter} onPress={()=>this.switchTab(week)} >

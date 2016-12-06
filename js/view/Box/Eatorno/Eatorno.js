@@ -74,46 +74,45 @@ class Eatorno extends Component {
                     />
                     <Image source={require('../img/eatornot/search.png')} style={styles.searchImg}  />
                 </View>
-                <ScrollView horizontal={false} scrollEnabled={false} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                     <View style={{backgroundColor:'#fff', width:device.width(), flexWrap:'wrap', flexDirection:'row'}}>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('111')}>
-                             <Image source={require('../img/eatornot/zs.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('222')}>
-                             <Image source={require('../img/eatornot/jg.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('333')}>
-                             <Image source={require('../img/eatornot/ls.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('444')}>
-                             <Image source={require('../img/eatornot/yl.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('555')}>
-                             <Image source={require('../img/eatornot/dnzp.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('6')}>
-                             <Image source={require('../img/eatornot/twl.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('7')}>
-                             <Image source={require('../img/eatornot/rdl.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('8')}>
-                             <Image source={require('../img/eatornot/sg.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('9')}>
-                             <Image source={require('../img/eatornot/scp.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('10')}>
-                             <Image source={require('../img/eatornot/sc.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('11')}>
-                             <Image source={require('../img/eatornot/bpcy.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                         <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('12')}>
-                             <Image source={require('../img/eatornot/jgsp.png')} style={styles.img} />
-                         </TouchableWithoutFeedback>
-                     </View>
-                </ScrollView>
+                 <View style={{flex:1, backgroundColor:'#fff', flexWrap:'wrap', flexDirection:'row'}}>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('111')}>
+                         <Image source={require('../img/eatornot/zs.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('222')}>
+                         <Image source={require('../img/eatornot/jg.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('333')}>
+                         <Image source={require('../img/eatornot/ls.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('444')}>
+                         <Image source={require('../img/eatornot/yl.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('555')}>
+                         <Image source={require('../img/eatornot/dnzp.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('6')}>
+                         <Image source={require('../img/eatornot/twl.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('7')}>
+                         <Image source={require('../img/eatornot/rdl.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('8')}>
+                         <Image source={require('../img/eatornot/sg.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('9')}>
+                         <Image source={require('../img/eatornot/scp.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('10')}>
+                         <Image source={require('../img/eatornot/sc.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('11')}>
+                         <Image source={require('../img/eatornot/bpcy.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                     <TouchableWithoutFeedback style={styles.touch} onPress={()=>console.log('12')}>
+                         <Image source={require('../img/eatornot/jgsp.png')} style={styles.img} />
+                     </TouchableWithoutFeedback>
+                 </View>
+
             </View>
         );
 
@@ -128,7 +127,8 @@ const styles = StyleSheet.create({
     },
     touch:{
         width:device.width()/3,
-        height:device.width()/3
+        height:device.width()/3,
+        //backgroundColor:'red',
     },
     img:{
         width:device.width()/3,
