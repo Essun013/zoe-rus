@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     },
     scrollViewTab: {
         width: device.width() / 5,
-        //backgroundColor: 'green',
+        backgroundColor: 'transparent',
     },
     tabTextCenter: {
         alignItems: 'center',
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         fontSize: 18,
         color: '#ffffff'
+        //color: 'blue'
     }
 
 });

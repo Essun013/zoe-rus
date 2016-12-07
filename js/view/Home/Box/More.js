@@ -18,7 +18,7 @@ import Expectant from '../../Box/Expectant/Expectant';
 import Fetalmove from '../../Box/Fetalmove/Fetalmove';
 import Named from '../../Box/Named/Named';
 import Eatorno from '../../Box/Eatorno/Eatorno';
-import WeightSacle from '../../Box/WeightSacle/WeightSacle';
+import WeightSacle from '../../Box/WeightSacle/WeightSacle.bak';
 
 var list = [
   {

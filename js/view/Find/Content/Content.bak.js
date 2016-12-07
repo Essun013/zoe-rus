@@ -14,7 +14,7 @@ import {View,
     Platform,
     Alert} from 'react-native';
 import {device, http, app} from '../../../common/util';
-import ShareActionButton from './ShareActionButton';
+import ShareActionButton from '../../../components/Button/ShareActionButton';
 import Symbol from 'es6-symbol';
 const ShareType = {
     Wechat: Symbol('Wechat'),

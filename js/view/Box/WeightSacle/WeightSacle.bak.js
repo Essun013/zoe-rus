@@ -14,15 +14,12 @@ import {StyleSheet,
     Animated,
     Image,
     Easing,
+    PanResponder,
     Alert} from 'react-native';
-import device from '../../../common/util/device';
+import {device} from '../../../common/util';
+import px2dp from '../../../common/util/px2dp';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {navPush} from '../../../components/Nav/Nav';
-
-
-const arr = []
-for (var i = 0; i < 10000; i++) {
-    arr.push(i)
-}
 
 
 class WeightSacle extends Component {
@@ -38,16 +35,10 @@ class WeightSacle extends Component {
     constructor(props) {
         super(props);
 
-        this.animatedValue = [];
-        arr.forEach((value) => {
-            this.animatedValue[value] = new Animated.Value(0)
-        });
-
     }
 
     componentDidMount() {
         console.log('---WeightSacle---componentDidMount------');
-        this.animate();
     }
     componentWillMount() {
         console.log('---WeightSacle---componentWillMount------');
@@ -56,37 +47,29 @@ class WeightSacle extends Component {
         console.log('---WeightSacle---componentWillUnmount------');
     }
 
-    animate () {
-        const animations = arr.map((item) => {
-            return Animated.timing(
-                this.animatedValue[item],{
-                    toValue: 1,
-                    duration: 50
-                }
-            )
-        });
+    btnCount(){
+        let s1 = "2015-7-25";
+        let s2 = "2016-12-6";
+        return "日期；"+s1+" 日期："+s2+" 相差 "+this.DateDiff(s1,s2)+"天";
+    }
 
-        Animated.sequence(animations).start();
-
+    //计算天数差的函数，通用
+    DateDiff(sDate1,  sDate2){
+        var  aDate,  oDate1,  oDate2,  iDays;
+        aDate  =  sDate1.split("-");
+        oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]) ; //转换为12-18-2006格式
+        aDate  =  sDate2.split("-");
+        oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);
+        iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24) ;   //把相差的毫秒数转换为天数
+        return  iDays;
     }
 
 
-
-
     render(){
-        console.log('---WeightSacle---render------');
-
-        const animations = arr.map((a, i) => {
-            return <Animated.View key={i} style={{opacity: this.animatedValue[a], height: 20, width: 20, backgroundColor: 'red', marginLeft: 3, marginTop: 3}} />
-        });
-
 
         return (
             <View style={[styles.container, {flex: 1}]}>
-                <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                    {animations}
-                </ScrollView>
-
+                <Text> {this.btnCount()} </Text>
             </View>
         );
 
@@ -102,6 +85,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
+    item: {
+        flexDirection: 'row',
+        height: px2dp(49),
+        width: device.width(),
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        paddingLeft: px2dp(20),
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
+        position: 'absolute',
+    },
+    itemTitle: {
+        fontSize: px2dp(15),
+        color: '#000',
+        marginLeft: px2dp(20)
+    }
 
 });
 
